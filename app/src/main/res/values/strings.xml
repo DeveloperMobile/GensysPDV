@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">GensysPDV</string>
+
+    <!-- H -->
+    <string name="hint_usuario">Usuário</string>
+    <string name="hint_senha">Senha</string>
+    <!-- M -->
+    <string name="menu_sync">Sincronizar</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_info">Informações</string>
+    <string name="menu_exit">Sair</string>
+    <string name="menu_home">Home</string>
+    <string name="msg_alerta_permissao">Para utilizar este aplicativo, você precisa aceitar as permissões.</string>
+    <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
+    <string name="msg_error_usuario">Informe o usuário!</string>
+    <string name="msg_error_senha">Informe a senha!</string>
 </resources>

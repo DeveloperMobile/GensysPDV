@@ -15,6 +15,7 @@ public class BaseDAO {
     // Tabelas
     public static final String TABLE_CFBLOB = "CFBLOB";
     public static final String TABLE_CLIENTE = "CLIENTE";
+    public static final String TABLE_EMPRESA = "EMPRESA";
     public static final String TABLE_ESTOQUE = "ESTOQUE";
     public static final String TABLE_ESTOQUE_PRECO = "ESTOQUE_PRECO";
     public static final String TABLE_FORMA_PAGAMENTO = "FORMA_PAGAMENTO";
@@ -30,20 +31,20 @@ public class BaseDAO {
     private static final int DB_VERSION = 1;
     // Scripts de criação
     private static final String[] CREATE_SCRIPT = new String[] {
-            "CREATE TABLE IF NOT EXISTS TIPO_USUARIO (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS USUARIO (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + "(_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_TIPO_USUARIO INTEGER, "
                     + "NOME TEXT, "
                     + "APELIDO TEXT, "
                     + "SENHA TEXT, "
                     + "EMAIL TEXT, "
                     + "TIPO TEXT, "
-                    + "ID_VENDEDOR, "
+                    + "ID_VENDEDOR INTEGER, "
                     + "OREIGN KEY (ID_TIPO_USUARIO) REFERENCES TIPO_USUARIO (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS CLIENTE (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_CLIENTE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NOME TEXT, "
                     + "FANTASIA TEXT, "
                     + "CPF TEXT, "
@@ -52,12 +53,12 @@ public class BaseDAO {
                     + "ID_CLIENTE INTEGER, "
                     + "TABELA_PRECO INTEGER);",
 
-            "CREATE TABLE IF NOT EXISTS EMPRESA (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_EMPRESA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT, "
                     + "NFCE_TOKEN TEXT, "
                     + "NFCE_CSC TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS ESTOQUE (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "RECNO INTEGER, "
                     + "ID_EMPRESA INTEGER, "
                     + "CODIGO TEXT, "
@@ -94,7 +95,7 @@ public class BaseDAO {
                     + "PRECO_MINIMO REAL, "
                     + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS ESTOQUE_PRECO (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE_PRECO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "TABELA_CODIGO INTEGER, "
                     + "ID_EMPRESA INTEGER, "
                     + "CODIGO TEXT, "
@@ -106,7 +107,7 @@ public class BaseDAO {
                     + "ATUALIZADO TEXT, "
                     + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS PYVENDA (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PYVENDA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "IDENTIFICADOR TEXT, "
                     + "TIPO TEXT, "
                     + "DATA_EMISSAO TEXT, "
@@ -124,7 +125,7 @@ public class BaseDAO {
                     + "FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO (_ID), "
                     + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS PYDETALHE (_ID INTEGER PRIMARY KEY NOT NULL, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PYDETALHE + " (_ID INTEGER PRIMARY KEY NOT NULL, "
                     + "ID_PYVENDA INTEGER, "
                     + "ID_ESTOQUE INTEGER, "
                     + "QTDE REAL, "
@@ -134,26 +135,26 @@ public class BaseDAO {
                     + "TOTAL REAL, "
                     + "FOREIGN KEY (ID_ESTOQUE) REFERENCES ESTOQUE (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS TIPO_PAGAMENTO (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_PAGAMENTO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT, "
                     + "TIPOPAGAMENTO TEXT, "
                     + "ID_FORMAPAG INTEGER);",
 
-            "CREATE TABLE IF NOT EXISTS FORMA_PAGAMENTO (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_FORMA_PAGAMENTO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_TIPO_PAGAMENTO INTEGER,  "
                     + "VALOR REAL, "
                     + "PARCELA INTEGER, "
                     + "NUM_AUTORIZACAO TEXT, "
                     + "FOREIGN KEY (ID_TIPO_PAGAMENTO) REFERENCES TIPO_PAGAMENTO (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS PYRECPAG (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PYRECPAG + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_PYVENDA INTEGER, "
                     + "ID_TIPO_PAGAMENTO INTEGER, "
                     + "VALOR REAL, "
                     + "FOREIGN KEY (ID_PYVENDA) REFERENCES PYVENDA (_ID), "
                     + "FOREIGN KEY (ID_TIPO_PAGAMENTO) REFERENCES TIPO_PAGAMENTO (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS PRECO_HORA (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PRECO_HORA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_ESTOQUE INTEGER, "
                     + "DIA_SEMANA TEXT, "
                     + "HORA_INICIO TEXT, "
@@ -161,7 +162,7 @@ public class BaseDAO {
                     + "VALOR REAL, "
                     + "FOREIGN KEY (ID_ESTOQUE) REFERENCES ESTOQUE (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS PROMOCOES (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PROMOCOES + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_EMPRESA INTEGER, "
                     + "ID_ESTOQUE INTEGER,  "
                     + "DATA_INICIO TEXT, "
@@ -177,7 +178,7 @@ public class BaseDAO {
                     + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID), "
                     + "FOREIGN KEY (ID_ESTOQUE) REFERENCES ESTOQUE (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS CFBLOB (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_CFBLOB + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_CFBLOB INTEGER, "
                     + "CONFIGURACAO TEXT, "
                     + "PRINCIPAL TEXT, "
