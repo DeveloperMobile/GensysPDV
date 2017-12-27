@@ -45,4 +45,19 @@
     <string name="pref_print_nfce">Imprimir NFC-e</string>
     <string name="pref_print_nfce_resume">Imprimir NFC-e resumido</string>
     <string name="pref_print_note">Imprimir Cupom</string>
+    <!-- S -->
+    <string name="search_item_salesman">Vendedor</string>
+    <string name="search_item_client">Cliente</string>
+    <string name="sincronizando_dados">Aguarde, sincronizando dados...</string>
+    <string name="sobre">Sobre Genius Poynt 2017</string>
+    <string name="sobre_email_value">suporte@geniusnt.com</string>
+    <string name="sobre_versao">Versão:</string>
+    <string name="sobre_serial">Número de Serie:</string>
+    <string name="sobre_email">E-mail do Suporte:</string>
+    <string name="sobre_site">Site:</string>
+    <string name="sobre_politica_privacidade">Política de Privacidade:</string>
+    <string name="sobre_fone">Fone:</string>
+    <string name="sobre_site_value">http://www.geniusbrasil.com.br</string>
+    <string name="sobre_politica_privacidade_value">http://www.geniusbrasil.com.br/politica-de-privacidade-genius-poynt/</string>
+    <string name="sobre_fone_value">(71)3503-1999</string>
 </resources>

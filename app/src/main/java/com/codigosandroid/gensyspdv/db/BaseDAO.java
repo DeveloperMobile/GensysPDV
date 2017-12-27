@@ -31,6 +31,8 @@ public class BaseDAO {
     private static final int DB_VERSION = 1;
     // Scripts de criação
     private static final String[] CREATE_SCRIPT = new String[] {
+            "PRAGMA foreing_keys = ON",
+
             "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT);",
 
@@ -42,7 +44,7 @@ public class BaseDAO {
                     + "EMAIL TEXT, "
                     + "TIPO TEXT, "
                     + "ID_VENDEDOR INTEGER, "
-                    + "OREIGN KEY (ID_TIPO_USUARIO) REFERENCES TIPO_USUARIO (_ID));",
+                    + "FOREIGN KEY (ID_TIPO_USUARIO) REFERENCES TIPO_USUARIO (_ID));",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_CLIENTE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NOME TEXT, "
@@ -56,7 +58,8 @@ public class BaseDAO {
             "CREATE TABLE IF NOT EXISTS " + TABLE_EMPRESA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT, "
                     + "NFCE_TOKEN TEXT, "
-                    + "NFCE_CSC TEXT);",
+                    + "NFCE_CSC TEXT, "
+                    + "ID_EMPRESA INTEGER);",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "RECNO INTEGER, "
@@ -194,9 +197,9 @@ public class BaseDAO {
     // Instancia DBHelper
     private DBHelper dbHelper;
     // Instancia SQLite
-    private SQLiteDatabase db;
+    protected SQLiteDatabase db;
     // Context
-    private Context context;
+    protected Context context;
     // Contador
     private static int contador;
 

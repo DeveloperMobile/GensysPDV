@@ -48,23 +48,31 @@ public class ConfigFragment extends PreferenceFragment implements Preference.OnP
             // Host
             host = (EditTextPreference) findPreference(getString(R.string.pref_host_key));
             host_summary = host != null ? host.getText() : host_summary;
-            host.setSummary(host_summary);
-            host.setOnPreferenceChangeListener(this);
+            if (host != null) {
+                host.setSummary(host_summary);
+                host.setOnPreferenceChangeListener(this);
+            }
             // Company
-            company = (EditTextPreference) findPreference(getString(R.string.pref_default_company_summary));
+            company = (EditTextPreference) findPreference(getString(R.string.pref_company_key));
             company_summary = company != null ? company.getText() : company_summary;
-            company.setSummary(company_summary);
-            company.setOnPreferenceChangeListener(this);
+            if (company != null) {
+                company.setSummary(company_summary);
+                company.setOnPreferenceChangeListener(this);
+            }
             // Db
             db = (EditTextPreference) findPreference(getString(R.string.pref_db_key));
             db_summary = db != null ? db.getText() : db_summary;
-            db.setSummary(host_summary);
-            db.setOnPreferenceChangeListener(this);
+            if (db != null) {
+                db.setSummary(db_summary);
+                db.setOnPreferenceChangeListener(this);
+            }
             // User
             user = (EditTextPreference) findPreference(getString(R.string.pref_user_key));
             user_summary = user != null ? user.getText() : user_summary;
-            user.setSummary(user_summary);
-            user.setOnPreferenceChangeListener(this);
+            if (user != null) {
+                user.setSummary(user_summary);
+                user.setOnPreferenceChangeListener(this);
+            }
         } catch (NullPointerException e) {
             LogUtil.error(TAG, e.getMessage(), e);
         }
