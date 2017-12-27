@@ -16,6 +16,7 @@ import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.usuario.GetUserAsync;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.AsyncCallback;
+import com.codigosandroid.gensyspdv.utils.KeyboardUtil;
 import com.codigosandroid.utils.fragment.BaseFragment;
 import com.codigosandroid.utils.utils.AlertUtil;
 import com.codigosandroid.utils.utils.AndroidUtil;
@@ -45,6 +46,7 @@ public class MainFragment extends BaseFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     login();
+                    KeyboardUtil.hideKeyboard(getActivity(), etSenha);
                     return true;
                 }
                 return false;
@@ -83,8 +85,7 @@ public class MainFragment extends BaseFragment {
     private void login() {
         if (validaCampos()) {
             if (AndroidUtil.isNetworkAvaliable(getActivity())) {
-                startTask("usuario", new GetUserAsync(getActivity(), actUsuario.getText().toString(),
-                        etSenha.getText().toString(), new AsyncCallback<Usuario>() {
+                startTask("usuario", new GetUserAsync(getActivity(), actUsuario.getText().toString(), new AsyncCallback<Usuario>() {
                     @Override
                     public void asyncReturn(Usuario usuario) {
                         try {

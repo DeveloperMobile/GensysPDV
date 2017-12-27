@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">GensysPDV</string>
-
+    <!-- C -->
+    <string name="category_host_key">servidor</string>
+    <string name="category_print_key">impressao</string>
+    <string name="category_host">Configurações do Servidor</string>
+    <string name="category_print">Configurações de Impressão</string>
     <!-- H -->
     <string name="hint_usuario">Usuário</string>
     <string name="hint_senha">Senha</string>
@@ -14,4 +18,31 @@
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
     <string name="msg_error_usuario">Informe o usuário!</string>
     <string name="msg_error_senha">Informe a senha!</string>
+    <!-- P -->
+    <string name="pref_host_key">host</string>
+    <string name="pref_default_host_title">Host</string>
+    <string name="pref_default_host_message">Informe o Ip do Servidor</string>
+    <string name="pref_default_host_summary">Informe o Ip do Servidor</string>
+    <string name="pref_company_key">company</string>
+    <string name="pref_default_company_title">Empresa</string>
+    <string name="pref_default_company_message">Informe a Empresa</string>
+    <string name="pref_default_company_summary">Informe a Empresa</string>
+    <string name="pref_user_key">user</string>
+    <string name="pref_default_user_title">Usuário</string>
+    <string name="pref_default_user_message">Informe o Usuário</string>
+    <string name="pref_default_user_summary">Informe o Usuário da Base de Dados</string>
+    <string name="pref_pass_key">pass</string>
+    <string name="pref_default_pass_title">Senha</string>
+    <string name="pref_default_pass_message">Informe a Senha da Base de Dados</string>
+    <string name="pref_default_pass_summary">"Informe a Senha (Opcional)"</string>
+    <string name="pref_db_key">db</string>
+    <string name="pref_default_db_title">Base de Dados</string>
+    <string name="pref_default_db_message">Informe a Base de Dados</string>
+    <string name="pref_default_db_summary">"Informe a Base de Dados"</string>
+    <string name="pref_print_nfce_key">nfce</string>
+    <string name="pref_print_nfce_resume_key">nfce_resume</string>
+    <string name="pref_print_note_key">cupom</string>
+    <string name="pref_print_nfce">Imprimir NFC-e</string>
+    <string name="pref_print_nfce_resume">Imprimir NFC-e resumido</string>
+    <string name="pref_print_note">Imprimir Cupom</string>
 </resources>

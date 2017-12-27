@@ -16,21 +16,20 @@ public class UsuarioExtDAO {
 
     private static final String TAG = UsuarioExtDAO.class.getSimpleName();
 
-    private static final String GET_USER = "SELECT * FROM vendedor WHERE UPPER(apelido)=? AND tabletsenha=?;";
+    private static final String GET_USER = "SELECT * FROM vendedor WHERE UPPER(apelido)=?;";
 
     private Connection conn;
     private PreparedStatement stmt;
     private ResultSet rs;
     AcessoDB acessoDB = new AcessoDB();
 
-    public Usuario getByName(String ip, String db, String user, String pass, String name, String tabletSenha) {
+    public Usuario getByName(String ip, String db, String user, String pass, String name) {
 
         try {
 
             conn = acessoDB.getConnection(ip, db, user, pass);
             stmt = conn.prepareStatement(GET_USER);
             stmt.setString(1, name.toUpperCase());
-            stmt.setString(2, tabletSenha);
             rs = stmt.executeQuery();
 
             while (rs.next()) {

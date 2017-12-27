@@ -29,4 +29,8 @@ public class BaseActivity extends com.codigosandroid.utils.activity.BaseActivity
         getSupportFragmentManager().beginTransaction().replace(container, fragment).commit();
     }
 
+    protected void replaceFragment(int container, android.app.Fragment fragment) {
+        getFragmentManager().beginTransaction().replace(container, fragment).commit();
+    }
+
 }

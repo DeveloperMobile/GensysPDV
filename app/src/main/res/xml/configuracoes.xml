@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/category_host_key"
+        android:title="@string/category_host">
+
+        <EditTextPreference
+            android:id="@+id/etp_host"
+            android:dialogMessage="@string/pref_default_host_message"
+            android:dialogTitle="@string/pref_default_host_title"
+            android:digits="1234567890."
+            android:inputType="numberDecimal"
+            android:key="@string/pref_host_key"
+            android:summary="@string/pref_default_host_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_host_title"
+            android:textColor="@color/colorAccent"/>
+
+        <EditTextPreference
+            android:id="@+id/etp_db"
+            android:dialogMessage="@string/pref_default_db_message"
+            android:dialogTitle="@string/pref_default_db_title"
+            android:inputType="textAutoComplete"
+            android:key="@string/pref_db_key"
+            android:summary="@string/pref_default_db_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_db_title"
+            android:textColor="@color/colorAccent"
+            app:theme="@style/AlertDialog.AppCompat"/>
+
+        <EditTextPreference
+            android:id="@+id/etp_company"
+            android:dialogMessage="@string/pref_default_company_message"
+            android:dialogTitle="@string/pref_default_company_title"
+            android:inputType="textAutoComplete"
+            android:key="@string/pref_company_key"
+            android:summary="@string/pref_default_company_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_company_title"
+            android:textColor="@color/colorAccent"
+            app:theme="@style/AlertDialog.AppCompat"/>
+
+        <EditTextPreference
+            android:id="@+id/etp_user_db"
+            android:dialogMessage="@string/pref_default_user_message"
+            android:dialogTitle="@string/pref_default_user_title"
+            android:inputType="textAutoComplete"
+            android:key="@string/pref_user_key"
+            android:summary="@string/pref_default_user_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_user_title"
+            android:textColor="@color/colorAccent"
+            app:theme="@style/AlertDialog.AppCompat"/>
+
+        <EditTextPreference
+            android:id="@+id/etp_passdb"
+            android:dialogMessage="@string/pref_default_pass_message"
+            android:dialogTitle="@string/pref_default_pass_title"
+            android:inputType="textPassword"
+            android:key="@string/pref_pass_key"
+            android:summary="@string/pref_default_pass_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_pass_title"
+            android:textColor="@color/colorAccent"
+            app:theme="@style/AlertDialog.AppCompat"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/category_print_key"
+        android:title="@string/category_print">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_nfce_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_nfce"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_nfce_resume_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_nfce_resume"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_note_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_note"/>
+    </PreferenceCategory>
+</PreferenceScreen>

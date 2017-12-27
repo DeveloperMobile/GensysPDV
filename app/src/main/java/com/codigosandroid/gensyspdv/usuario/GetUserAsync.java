@@ -13,21 +13,19 @@ import com.codigosandroid.utils.utils.LogUtil;
 public class GetUserAsync implements TaskListener<Usuario> {
 
     private String apelido;
-    private String tabletSenha;
     private Context context;
     private AsyncCallback<Usuario> asyncCallback;
 
-    public GetUserAsync(Context context, String apelido, String tabletSenha, AsyncCallback<Usuario> asyncCallback) {
+    public GetUserAsync(Context context, String apelido, AsyncCallback<Usuario> asyncCallback) {
         this.context = context;
         this.apelido = apelido;
-        this.tabletSenha = tabletSenha;
         this.asyncCallback = asyncCallback;
     }
 
 
     @Override
     public Usuario execute() throws Exception {
-        return ServiceUsuario.getByNameExt(apelido, tabletSenha);
+        return ServiceUsuario.getByNameExt(context, apelido);
     }
 
     @Override
