@@ -9,6 +9,16 @@ public class TipoUsuario {
     private long id;
     private String descricao;
 
+    public TipoUsuario() {}
+
+    public TipoUsuario(long id) {
+        this.id = id;
+    }
+
+    public TipoUsuario(String descricao) {
+        this.descricao = descricao;
+    }
+
     public long getId() {
         return id;
     }

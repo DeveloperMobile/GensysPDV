@@ -12,6 +12,7 @@ import com.codigosandroid.utils.utils.LogUtil;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    private static final String TAG = DBHelper.class.getSimpleName();
     private static String[] CREATE_SCRIPT;
 
     public DBHelper(Context context, String name, String[] CREATE_SCRIPT, int version) {
@@ -24,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         for (int i = 0; i < CREATE_SCRIPT.length; i++) {
             db.execSQL(CREATE_SCRIPT[i]);
-            LogUtil.debug("onCreate():", CREATE_SCRIPT[i]);
+            LogUtil.debug(TAG, "onCreate(): " + CREATE_SCRIPT[i]);
         }
 
     }
@@ -36,15 +37,15 @@ public class DBHelper extends SQLiteOpenHelper {
             switch (oldVersion) {
                 case 1:
                     db.execSQL(CREATE_SCRIPT[i]);
-                    LogUtil.debug("onUpgrade():", CREATE_SCRIPT[i]);
+                    LogUtil.debug(TAG, "onUpgrade():" + CREATE_SCRIPT[i]);
                     break;
                 case 2:
                     db.execSQL(CREATE_SCRIPT[i]);
-                    LogUtil.debug("onUpgrade():", CREATE_SCRIPT[i]);
+                    LogUtil.debug(TAG, "onUpgrade():" + CREATE_SCRIPT[i]);
                     break;
                 case 3:
                     db.execSQL(CREATE_SCRIPT[i]);
-                    LogUtil.debug("onUpgrade():", CREATE_SCRIPT[i]);
+                    LogUtil.debug(TAG, "onUpgrade():" + CREATE_SCRIPT[i]);
                     break;
             }
         }

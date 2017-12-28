@@ -24,4 +24,21 @@ public class ServiceConfiguracoes {
         return configuracoes;
     }
 
+    public static boolean isPreferences(Context context) {
+
+        try {
+            String home = SharedUtils.getString(context, context.getString(R.string.pref_host_key));
+            String company = SharedUtils.getString(context, context.getString(R.string.pref_company_key));
+            String user = SharedUtils.getString(context, context.getString(R.string.pref_user_key));
+            String db = SharedUtils.getString(context, context.getString(R.string.pref_db_key));
+            if (!home.equals("") && !company.equals("") && !user.equals("") && !db.equals("")) {
+                return true;
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
 }

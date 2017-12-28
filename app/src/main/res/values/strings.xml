@@ -1,5 +1,21 @@
 <resources>
+    <!-- A -->
     <string name="app_name">GensysPDV</string>
+    <string name="activity_label_venda">Venda</string>
+    <string name="activity_label_cliente">Cliente</string>
+    <string name="activity_label_Estoque">Estoque</string>
+    <string name="activity_label_vendas">Vendas</string>
+    <string name="activity_label_configuracoes">Configurações</string>
+    <string name="about_dialog_text"><![CDATA[
+<b>Aplicativo Venda Poynt 2017</b><br><br>
+<b>Versão:</b><br> %1$s<br><br>
+<b>Número de Serie:</b><br> %2$s<br><br>
+<b>E-mail do Suporte:</b><br>suporte@geniusnt.com<br><br>
+<b>Site:</b><br><a href="http://www.geniusbrasil.com.br">http://geniusbrasil.com.br</a><br><br>
+<b>Política de Privacidade:</b><br><a href="http://geniusbrasil.com.br/politica-de-privacidade-genius-poynt/">http://geniusbrasil.com.br/politica-de-privacidade-genius-poynt/</a><br><br>
+<b>Fone:</b><br>(71)3503-1999
+	]]></string>
+    <string name="about_dialog_title">Sobre</string>
     <!-- C -->
     <string name="category_host_key">servidor</string>
     <string name="category_print_key">impressao</string>
@@ -18,6 +34,8 @@
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
     <string name="msg_error_usuario">Informe o usuário!</string>
     <string name="msg_error_senha">Informe a senha!</string>
+    <!-- O -->
+    <string name="ok">OK</string>
     <!-- P -->
     <string name="pref_host_key">host</string>
     <string name="pref_default_host_title">Host</string>

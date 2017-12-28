@@ -34,7 +34,7 @@
     </style>
 
     <!-- Tema base + NoActionBar -->
-    <style name="AppTheme.NoActionBar.NavDrawer">
+    <style name="AppTheme.NoActionBar.NavDrawer" parent="AppTheme.NoActionBar">
 
     </style>
 

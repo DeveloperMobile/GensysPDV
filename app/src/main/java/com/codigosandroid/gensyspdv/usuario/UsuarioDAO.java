@@ -26,8 +26,8 @@ public class UsuarioDAO extends BaseDAO {
     private static final String NOME = "NOME";
     private static final String APELIDO = "APELIDO";
     private static final String SENHA = "SENHA";
-    private static final String EMAIL = "_ID";
-    private static final String TIPO = "_ID";
+    private static final String EMAIL = "EMAIL";
+    private static final String TIPO = "TIPO";
     private static final String ID_VENDEDOR = "ID_VENDEDOR";
 
     public UsuarioDAO(Context context) {
@@ -47,17 +47,24 @@ public class UsuarioDAO extends BaseDAO {
         }
     }
 
-    public long insert(TipoUsuario tipoUsuario) {
+    public long insert(TipoUsuario tipoUsuario) {long id = 0;
         try {
             open();
             ContentValues values = tipoUsuarioToValues(tipoUsuario);
-            return db.insert(TABLE_TIPO_USUARIO, null, values);
+            db.insert(TABLE_TIPO_USUARIO, null, values);
+            Cursor cursor = db.rawQuery("SELECT last_insert_rowid() AS _ID;", null);
+            if (cursor.moveToFirst()) {
+                id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
+            }
+            cursor.close();
+            return id;
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
-            return 0;
+            return id;
         } finally {
             close();
         }
+
     }
 
     public List<Usuario> getAll() {
@@ -82,6 +89,28 @@ public class UsuarioDAO extends BaseDAO {
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
             return new ArrayList<Usuario>();
+        } finally {
+            close();
+        }
+    }
+
+    public void deleteTabUsuario() {
+        try {
+            open();
+            db.execSQL("DELETE FROM " + TABLE_USUARIO);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void deleteTabTipoUsuario() {
+        try {
+            open();
+            db.execSQL("DELETE FROM " + TABLE_TIPO_USUARIO);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
         } finally {
             close();
         }

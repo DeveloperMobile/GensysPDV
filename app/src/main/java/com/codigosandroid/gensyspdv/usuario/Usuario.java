@@ -79,4 +79,8 @@ public class Usuario {
         this.idVendedor = idVendedor;
     }
 
+    @Override
+    public String toString() {
+        return apelido;
+    }
 }

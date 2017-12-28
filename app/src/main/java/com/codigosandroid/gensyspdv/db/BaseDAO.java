@@ -2,6 +2,17 @@ package com.codigosandroid.gensyspdv.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.widget.Toast;
+
+import com.codigosandroid.utils.utils.LogUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Tiago on 22/12/2017.
@@ -34,9 +45,9 @@ public class BaseDAO {
             "PRAGMA foreing_keys = ON",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "DESCRICAO TEXT);",
+                    + "DESCRICAO TEXT UNIQUE);",
 
-            "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + "(_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_TIPO_USUARIO INTEGER, "
                     + "NOME TEXT, "
                     + "APELIDO TEXT, "
@@ -207,7 +218,7 @@ public class BaseDAO {
         this.context = context;
     }
 
-    public synchronized void open() {
+    protected synchronized void open() {
         if (db == null || (db != null && !db.isOpen())) {
             dbHelper = new DBHelper(context, DB_NAME, CREATE_SCRIPT, DB_VERSION);
             db = dbHelper.getWritableDatabase();
@@ -215,7 +226,7 @@ public class BaseDAO {
         }
     }
 
-    public synchronized void close() {
+    protected synchronized void close() {
         if (db != null && db.isOpen() && (numeroConexoes(0) == 1)) {
             dbHelper.close();
             db.close();
@@ -226,6 +237,57 @@ public class BaseDAO {
     private synchronized static int numeroConexoes(int i) {
         contador = contador + i;
         return contador;
+    }
+
+    public static void exportDB(Context context) {
+
+        try {
+
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+
+                String currentDBPath = "//data//com.codigosandroid.gensyspdv//databases//" + DB_NAME;
+                String backupDBPath = "/Download/" + DB_NAME;
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+                LogUtil.debug(TAG, currentDB.getAbsolutePath());
+                LogUtil.debug(TAG, backupDB.getAbsolutePath());
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+
+                FileInputStream fis = new FileInputStream(backupDB);
+                FileOutputStream fos = new FileOutputStream(Environment.getExternalStorageDirectory() + "/Download/backup.zip");
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+                zipOut.putNextEntry(new ZipEntry(DB_NAME));
+
+                int content;
+
+                while ((content = fis.read()) != -1) {
+
+                    zipOut.write(content);
+
+                }
+
+                zipOut.closeEntry();
+                zipOut.close();
+
+                Toast.makeText(context, "Backup Successfull!", Toast.LENGTH_SHORT).show();
+
+            }
+
+        } catch (Exception e) {
+
+            LogUtil.error(TAG, e.getMessage(), e);
+            Toast.makeText(context, "Backup Failed!", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
 }

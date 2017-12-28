@@ -88,6 +88,13 @@ public class UsuarioExtDAO {
             LogUtil.error(TAG, e.getMessage(), e);
             return null;
             
+        } finally {
+            try {
+                if (stmt != null) { stmt.close(); }
+                if (conn != null) { conn.close(); }
+            } catch (SQLException e) {
+                LogUtil.error(TAG, e.getMessage(), e);
+            }
         }
 
         return null;

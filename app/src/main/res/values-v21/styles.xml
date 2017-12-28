@@ -8,6 +8,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <!-- Tema base + NoActionBar -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.Material" parent="android:Theme.Material.Light.DarkActionBar">
         <!-- Cores -->
         <item name="android:colorPrimary">@color/colorPrimary</item>

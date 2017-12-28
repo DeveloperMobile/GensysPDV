@@ -20,21 +20,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_sync: break;
-            case R.id.menu_settings: startActivity(new Intent(this, ConfigActivity.class)); break;
-            case R.id.menu_info: break;
-            case R.id.menu_exit: finish(); break;
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
 }
