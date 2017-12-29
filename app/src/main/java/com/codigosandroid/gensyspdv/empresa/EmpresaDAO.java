@@ -7,6 +7,8 @@ import android.database.Cursor;
 import com.codigosandroid.gensyspdv.db.BaseDAO;
 import com.codigosandroid.utils.utils.LogUtil;
 
+import java.util.List;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
@@ -20,6 +22,12 @@ public class EmpresaDAO extends BaseDAO {
     private static final String NFCE_TOKEN = "NFCE_TOKEN";
     private static final String NFCE_CSC = "NFCE_CSC";
     private static final String ID_EMPRESA = "ID_EMPRESA";
+
+    private static final String CREATE =  "CREATE TABLE IF NOT EXISTS " + TABLE_EMPRESA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "DESCRICAO TEXT, "
+            + "NFCE_TOKEN TEXT, "
+            + "NFCE_CSC TEXT, "
+            + "ID_EMPRESA INTEGER);";
 
     public EmpresaDAO(Context context) {
         super(context);
@@ -49,6 +57,53 @@ public class EmpresaDAO extends BaseDAO {
         }
     }
 
+    public void dropTab() {
+        try {
+            open();
+            db.execSQL("DROP TABLE " + TABLE_EMPRESA);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void createTab() {
+        try {
+            open();
+            db.execSQL(CREATE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public Empresa getByName(String descricao) {
+
+        Empresa empresa = new Empresa();
+
+        try {
+
+            open();
+            Cursor cursor = db.query(TABLE_EMPRESA, null, DESCRICAO + "=?", new String[]{ descricao },
+                    null, null, null);
+            if (cursor.moveToFirst()) {
+                empresa = cursorToEmpresa(cursor);
+            }
+
+            cursor.close();
+            return empresa;
+
+        } catch (Exception e){
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new Empresa();
+        } finally {
+            close();
+        }
+
+    }
+
     private ContentValues empresaToValues(Empresa empresa) {
         ContentValues values = new ContentValues();
         values.put(DESCRICAO, empresa.getDescricao());
@@ -58,7 +113,7 @@ public class EmpresaDAO extends BaseDAO {
         return values;
     }
 
-    private Empresa cursotToEmpresa(Cursor cursor) {
+    private Empresa cursorToEmpresa(Cursor cursor) {
         Empresa empresa = new Empresa();
         empresa.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID)));
         empresa.setDescricao(cursor.getString(cursor.getColumnIndexOrThrow(DESCRICAO)));

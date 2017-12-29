@@ -14,9 +14,9 @@ import java.util.List;
  * Created by Tiago on 28/12/2017.
  */
 
-public class EmpresaExcDAO {
+public class EmpresaExtDAO {
 
-    private static final String TAG = EmpresaExcDAO.class.getSimpleName();
+    private static final String TAG = EmpresaExtDAO.class.getSimpleName();
 
     private Connection conn;
     private PreparedStatement stmt;

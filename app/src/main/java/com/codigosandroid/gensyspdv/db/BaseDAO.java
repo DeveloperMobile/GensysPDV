@@ -77,6 +77,7 @@ public class BaseDAO {
                     + "ID_EMPRESA INTEGER, "
                     + "CODIGO TEXT, "
                     + "CODIGO_FORNECEDOR TEXT, "
+                    + "EMPRESA TEXT, "
                     + "UNIDADE TEXT, "
                     + "DESCRICAO TEXT, "
                     + "SALDO REAL, "
@@ -115,6 +116,7 @@ public class BaseDAO {
                     + "CODIGO TEXT, "
                     + "DESCRICAO TEXT, "
                     + "PRECO REAL, "
+                    + "EMPRESA TEXT, "
                     + "MENOR_PRECO REAL, "
                     + "AJUSTE_PERCENTUAL REAL, "
                     + "MARGEM_LUCRO REAL, "
@@ -151,7 +153,7 @@ public class BaseDAO {
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_PAGAMENTO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT, "
-                    + "TIPOPAGAMENTO TEXT, "
+                    + "TIPO_PAGAMENTO TEXT, "
                     + "ID_FORMAPAG INTEGER);",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_FORMA_PAGAMENTO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "

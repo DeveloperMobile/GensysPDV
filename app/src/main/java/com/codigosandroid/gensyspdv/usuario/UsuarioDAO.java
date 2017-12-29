@@ -18,8 +18,6 @@ public class UsuarioDAO extends BaseDAO {
 
     private static final String TAG = UsuarioDAO.class.getSimpleName();
 
-    // TIPO_USUARIO
-    private static final String DESCRICAO = "DESCRICAO";
     // USUARIO
     private static final String ID = "_ID";
     private static final String ID_TIPO_USUARIO = "ID_TIPO_USUARIO";
@@ -30,10 +28,22 @@ public class UsuarioDAO extends BaseDAO {
     private static final String TIPO = "TIPO";
     private static final String ID_VENDEDOR = "ID_VENDEDOR";
 
+    private static final String CREATE_USUARIO =  "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "ID_TIPO_USUARIO INTEGER, "
+            + "NOME TEXT, "
+            + "APELIDO TEXT, "
+            + "SENHA TEXT, "
+            + "EMAIL TEXT, "
+            + "TIPO TEXT, "
+            + "ID_VENDEDOR INTEGER, "
+            + "FOREIGN KEY (ID_TIPO_USUARIO) REFERENCES TIPO_USUARIO (_ID));";
+
     public UsuarioDAO(Context context) {
         super(context);
     }
 
+    /** Insere dados na tabela usuario
+     * @param usuario objeto a ser inserido na tabela usuario */
     public long insert(Usuario usuario) {
         try {
             open();
@@ -47,26 +57,9 @@ public class UsuarioDAO extends BaseDAO {
         }
     }
 
-    public long insert(TipoUsuario tipoUsuario) {long id = 0;
-        try {
-            open();
-            ContentValues values = tipoUsuarioToValues(tipoUsuario);
-            db.insert(TABLE_TIPO_USUARIO, null, values);
-            Cursor cursor = db.rawQuery("SELECT last_insert_rowid() AS _ID;", null);
-            if (cursor.moveToFirst()) {
-                id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
-            }
-            cursor.close();
-            return id;
-        } catch (Exception e) {
-            LogUtil.error(TAG, e.getMessage(), e);
-            return id;
-        } finally {
-            close();
-        }
 
-    }
 
+    /** Busca dados na tabela usuario */
     public List<Usuario> getAll() {
 
         List<Usuario> usuarioList = new ArrayList<>();
@@ -94,6 +87,7 @@ public class UsuarioDAO extends BaseDAO {
         }
     }
 
+    /** Deleta todos dados na tabela usuario */
     public void deleteTabUsuario() {
         try {
             open();
@@ -105,10 +99,23 @@ public class UsuarioDAO extends BaseDAO {
         }
     }
 
-    public void deleteTabTipoUsuario() {
+    /** Deleta a tabela usuario */
+    public void dropTabUsuario() {
         try {
             open();
-            db.execSQL("DELETE FROM " + TABLE_TIPO_USUARIO);
+            db.execSQL("DROP TABLE " + TABLE_USUARIO);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    /** Cria a tabela usuario */
+    public void createTabUsuario() {
+        try {
+            open();
+            db.execSQL(CREATE_USUARIO);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
         } finally {
@@ -128,11 +135,7 @@ public class UsuarioDAO extends BaseDAO {
         return values;
     }
 
-    private ContentValues tipoUsuarioToValues(TipoUsuario tipoUsuario) {
-        ContentValues values = new ContentValues();
-        values.put(DESCRICAO, tipoUsuario.getDescricao());
-        return values;
-    }
+
 
     private Usuario cursorToUsuario(Cursor cursor) {
         Usuario usuario = new Usuario();
@@ -144,13 +147,6 @@ public class UsuarioDAO extends BaseDAO {
         usuario.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(TIPO)));
         usuario.setIdVendedor(cursor.getInt(cursor.getColumnIndexOrThrow(ID_VENDEDOR)));
         return usuario;
-    }
-
-    private TipoUsuario cursorToTipoUsuario(Cursor cursor) {
-        TipoUsuario tipoUsuario = new TipoUsuario();
-        tipoUsuario.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID)));
-        tipoUsuario.setDescricao(cursor.getString(cursor.getColumnIndexOrThrow(DESCRICAO)));
-        return tipoUsuario;
     }
 
 }

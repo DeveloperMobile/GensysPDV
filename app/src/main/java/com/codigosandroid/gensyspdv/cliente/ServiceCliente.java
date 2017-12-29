@@ -34,6 +34,22 @@ public class ServiceCliente {
     }
 
     /**
+     * Deleta a tabela cliente
+     * @param context contexto da classe que utiliza o método */
+    public static void dropTab(Context context) {
+        clienteDAO = new ClienteDAO(context);
+        clienteDAO.dropTab();
+    }
+
+    /**
+     * Cria a tabela cliente
+     * @param context contexto da classe que utiliza o método */
+    public static void createTab(Context context) {
+        clienteDAO = new ClienteDAO(context);
+        clienteDAO.createTab();
+    }
+
+    /**
      * Busca todos os registros na tabela cliente externa
      * @param context contexto da classe que utiliza o método */
     public static List<Cliente> getAllExt(Context context) {

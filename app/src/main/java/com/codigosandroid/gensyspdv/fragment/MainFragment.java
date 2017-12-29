@@ -25,7 +25,15 @@ import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 import com.codigosandroid.gensyspdv.empresa.ServiceEmpresa;
+import com.codigosandroid.gensyspdv.estoque.Estoque;
+import com.codigosandroid.gensyspdv.estoque.EstoquePreco;
+import com.codigosandroid.gensyspdv.estoque.ServiceEstoque;
+import com.codigosandroid.gensyspdv.estoque.ServiceEstoquePreco;
 import com.codigosandroid.gensyspdv.fragment.dialog.AboutDialog;
+import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
+import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
+import com.codigosandroid.gensyspdv.precohora.PrecoHora;
+import com.codigosandroid.gensyspdv.precohora.ServicePrecoHora;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.TipoUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
@@ -55,6 +63,10 @@ public class MainFragment extends BaseFragment {
     List<Usuario> usuarios = new ArrayList<>();
     List<Cliente> clientes = new ArrayList<>();
     List<Empresa> empresas = new ArrayList<>();
+    List<Estoque> estoques = new ArrayList<>();
+    List<EstoquePreco> estoquePrecos = new ArrayList<>();
+    List<TipoPagamento> tipoPagamentos = new ArrayList<>();
+    List<PrecoHora> precoHoras = new ArrayList<>();
     Usuario usuario = null;
 
     @Override
@@ -220,56 +232,13 @@ public class MainFragment extends BaseFragment {
 
             if (ServiceConfiguracoes.isPreferences(getActivity()) && usuarioList.isEmpty()) {
 
-                new SyncUserTask(new AsyncListener() {
-                    @Override
-                    public void syncBackground() {
-                        for (int i = 0; i < syncList.length; i++) {
-
-                            if (syncList[i].equals("cliente")) {
-                                clientes = syncClient("Sincronizando clientes...");
-                            } else if (syncList[i].equals("empresa")){
-                                empresas = syncEmpresa("Sincronizando empresas...");
-                            } else if (syncList[i].equals("usuario")) {
-                                usuarios = syncUser("Sincronizando usuarios...");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void syncPostExecute() {
-
-                        cacheClient(clientes);
-                        cacheCompany(empresas);
-                        cacheUser(usuarios);
-                    }
-
-                }).execute(syncList);
+               sync();
 
             } else if (!usuarioList.isEmpty()) {
                 if (flag.equals(Constantes.SYNC)) {
                     if (ServiceConfiguracoes.isPreferences(getActivity())) {
 
-                        new SyncUserTask(new AsyncListener() {
-                            @Override
-                            public void syncBackground() {
-                                for (int i = 0; i < syncList.length; i++) {
-
-                                    if (syncList[i].equals("cliente")) {
-                                        clientes = syncClient("Sincronizando clientes...");
-                                    } else if (syncList[i].equals("usuario")) {
-                                        usuarios = syncUser("Sincronizando usuarios...");
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void syncPostExecute() {
-
-                                cacheClient(clientes);
-                                cacheUser(usuarios);
-                            }
-
-                        }).execute(syncList);
+                        sync();
 
                     }
                 }
@@ -291,7 +260,48 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    /* Inicializa a lista no combo */
+    // Sincroniza dados
+    private void sync() {
+        new SyncUserTask(new AsyncListener() {
+            @Override
+            public void syncBackground() {
+                for (int i = 0; i < syncList.length; i++) {
+
+                    if (syncList[i].equals("cliente")) {
+                        clientes = syncClient("Sincronizando clientes...");
+                    } else if (syncList[i].equals("empresa")) {
+                        empresas = syncEmpresa("Sincronizando empresas...");
+                    } else if (syncList[i].equals("estoque")) {
+                        estoques = syncEstoque("Sincronizando estoque...");
+                    } else if (syncList[i].equals("estoque_preco")){
+                        estoquePrecos = syncEstoquePreco("Sincronizando EstoquePreco...");
+                    } else if (syncList[i].equals("formapag")){
+                        tipoPagamentos = syncTypePay("Sincronizando Formas de Pagamento...");
+                    } else if(syncList[i].equals("preco_hora")){
+                        precoHoras = syncPayHour("Sincronizando Preço Hora...");
+                    } else if (syncList[i].equals("usuario")) {
+                        usuarios = syncUser("Sincronizando usuarios...");
+                    }
+                }
+            }
+
+            @Override
+            public void syncPostExecute() {
+
+                cacheClient(clientes);
+                cacheCompany(empresas);
+                cacheProduts(estoques);
+                cacheProdutPrices(estoquePrecos);
+                cacheTypePay(tipoPagamentos);
+                cachePayHour(precoHoras);
+                cacheUser(usuarios);
+            }
+
+        }).execute(syncList);
+    }
+
+
+    /* Inicializa a lista no AutoCompletTextView */
     private void actUp(List<Usuario> usuarios) {
 
         ArrayAdapter<Usuario> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, usuarios);
@@ -302,8 +312,9 @@ public class MainFragment extends BaseFragment {
 
     private void cacheUser(List<Usuario> usuarios) {
 
-        boolean flag = true;
         long id = 0;
+        long v = 0;
+        long f = 0;
         if (usuarios.isEmpty()) {
 
             snack(getView(), "Usuários não encontrados!");
@@ -311,16 +322,28 @@ public class MainFragment extends BaseFragment {
         } else {
 
             actUp(usuarios);
-            ServiceUsuario.deleteTabTipoUsuario(getActivity());
-            ServiceUsuario.deleteTab(getActivity());
+            ServiceUsuario.dropTabTipoUsuario(getActivity());
+            ServiceUsuario.createTabTipoUsuario(getActivity());
+            ServiceUsuario.dropTabUsuario(getActivity());
+            ServiceUsuario.createTabUsuario(getActivity());
 
             for (Usuario usuario : usuarios) {
 
-                if (flag) {
-                    id = ServiceUsuario.insert(getContext(), new TipoUsuario(usuario.getTipo()));
-                    flag = false;
+                id = ServiceUsuario.insert(getContext(), new TipoUsuario(usuario.getTipo()));
+
+                if (usuario.getTipo().equals(Constantes.VENDEDOR)) {
+                    if (id > 0) {
+                        v = id;
+                    }
+                    usuario.setTipoUsuario(new TipoUsuario(v));
+                } else if (usuario.getTipo().equals(Constantes.FUNCIONARIO)) {
+                    if (id > 0) {
+                        f = id;
+                    }
+                    usuario.setTipoUsuario(new TipoUsuario(f));
                 }
-                usuario.setTipoUsuario(new TipoUsuario(id));
+
+
                 ServiceUsuario.insert(getActivity(), usuario);
 
             }
@@ -337,7 +360,8 @@ public class MainFragment extends BaseFragment {
 
         } else {
 
-            ServiceCliente.deleteTab(getActivity());
+            ServiceCliente.dropTab(getActivity());
+            ServiceCliente.createTab(getActivity());
 
             for (Cliente cliente : clientes) {
 
@@ -357,11 +381,99 @@ public class MainFragment extends BaseFragment {
 
         } else {
 
-            ServiceEmpresa.deleteTab(getActivity());
+            ServiceEmpresa.dropTab(getActivity());
+            ServiceEmpresa.createTab(getActivity());
 
             for (Empresa empresa : empresas) {
 
                 ServiceEmpresa.insert(getActivity(), empresa);
+
+            }
+
+        }
+
+    }
+
+    private void cacheProduts(List<Estoque> estoques) {
+
+        if (estoques.isEmpty()) {
+
+            snack(getView(), "Estoque não encontrado!");
+
+        } else {
+
+            ServiceEstoque.dropTab(getActivity());
+            ServiceEstoque.createTab(getActivity());
+
+            for (Estoque estoque : estoques) {
+
+                estoque.setEmp(ServiceEmpresa.getByName(getActivity()));
+                ServiceEstoque.insert(getActivity(), estoque);
+
+            }
+
+        }
+
+    }
+
+    private void cacheProdutPrices(List<EstoquePreco> estoquePrecos) {
+
+        if (estoquePrecos.isEmpty()) {
+
+            snack(getView(), "Estoque Preços não encontrados!");
+
+        } else {
+
+            ServiceEstoquePreco.dropTab(getActivity());
+            ServiceEstoquePreco.createTab(getActivity());
+
+            for (EstoquePreco estoquePreco : estoquePrecos) {
+
+                estoquePreco.setEmp(ServiceEmpresa.getByName(getActivity()));
+                ServiceEstoquePreco.insert(getActivity(), estoquePreco);
+
+            }
+
+        }
+
+    }
+
+    private void cacheTypePay(List<TipoPagamento> tipoPagamentos) {
+
+        if (tipoPagamentos.isEmpty()) {
+
+            snack(getView(), "Formas de pagamento não encontradas!");
+
+        } else {
+
+            ServiceTipoPagamento.dropTab(getActivity());
+            ServiceTipoPagamento.createTab(getActivity());
+
+            for (TipoPagamento tipoPagamento : tipoPagamentos) {
+
+                ServiceTipoPagamento.insert(getActivity(), tipoPagamento);
+
+            }
+
+        }
+
+    }
+
+    private void cachePayHour(List<PrecoHora> precoHoras) {
+
+        if (precoHoras.isEmpty()) {
+
+            snack(getView(), "Preço Hora não encontrado!");
+
+        } else {
+
+            ServicePrecoHora.dropTab(getActivity());
+            ServicePrecoHora.createTab(getActivity());
+
+            for (PrecoHora precoHora : precoHoras) {
+
+                precoHora.setEstoque(ServiceEstoque.getByRecno(getActivity(), precoHora.getIdEstoque()));
+                ServicePrecoHora.insert(getActivity(), precoHora);
 
             }
 

@@ -12,7 +12,14 @@ import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 import com.codigosandroid.gensyspdv.empresa.ServiceEmpresa;
 import com.codigosandroid.gensyspdv.estoque.Estoque;
+import com.codigosandroid.gensyspdv.estoque.EstoquePreco;
+import com.codigosandroid.gensyspdv.estoque.ServiceEstoque;
+import com.codigosandroid.gensyspdv.estoque.ServiceEstoquePreco;
 import com.codigosandroid.gensyspdv.fragment.dialog.DialogSyncFragment;
+import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
+import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
+import com.codigosandroid.gensyspdv.precohora.PrecoHora;
+import com.codigosandroid.gensyspdv.precohora.ServicePrecoHora;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
@@ -31,6 +38,10 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
     protected String[] syncList = new String[] {
             "cliente",
             "empresa",
+            "estoque",
+            "estoque_preco",
+            "formapag",
+            "preco_hora",
             "usuario"
     };
 
@@ -99,10 +110,34 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
         return ServiceCliente.getAllExt(getActivity());
     }
 
-    /* Busca esoque */
+    /* Busca empresa */
     protected List<Empresa> syncEmpresa(String msg) {
         status(msg);
         return ServiceEmpresa.getAllExt(getActivity());
+    }
+
+    /* Busca estoque*/
+    protected List<Estoque> syncEstoque(String msg) {
+        status(msg);
+        return ServiceEstoque.getAllExt(getActivity());
+    }
+
+    /* Busca estoque_preco */
+    protected List<EstoquePreco> syncEstoquePreco(String msg) {
+        status(msg);
+        return ServiceEstoquePreco.getAllExt(getActivity());
+    }
+
+    /* Busca formas de pagamento */
+    protected List<TipoPagamento> syncTypePay(String msg) {
+        status(msg);
+        return ServiceTipoPagamento.getAllExt(getActivity());
+    }
+
+    /* Busca preco hora */
+    protected List<PrecoHora> syncPayHour(String msg) {
+        status(msg);
+        return ServicePrecoHora.getAllExt(getActivity());
     }
 
     /* Valida usuário */

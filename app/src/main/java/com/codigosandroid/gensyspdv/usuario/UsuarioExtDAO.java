@@ -19,7 +19,7 @@ public class UsuarioExtDAO {
     private static final String TAG = UsuarioExtDAO.class.getSimpleName();
 
     private static final String GET_ALL_BY_EMPRESA = "SELECT * FROM vendedor " +
-            "WHERE UPPER(empresa)=? AND (tipo='FUNCIONÁRIO' OR tipo='VENDEDOR')";
+            "WHERE UPPER(empresa)=? AND (tipo='FUNCIONÁRIO' OR tipo='VENDEDOR');";
 
     private static final String GET_USER_BY_EMPRESA = "SELECT * FROM vendedor WHERE UPPER(apelido)=? AND UPPER(empresa)=?;";
 

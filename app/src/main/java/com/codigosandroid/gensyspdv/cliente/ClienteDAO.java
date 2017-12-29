@@ -24,6 +24,15 @@ public class ClienteDAO extends BaseDAO {
     private static final String ID_CLIENTE = "ID_CLIENTE";
     private static final String TABELA_PRECO = "TABELA_PRECO";
 
+    private static final String CREATE_CLIENTE = "CREATE TABLE IF NOT EXISTS " + TABLE_CLIENTE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "NOME TEXT, "
+            + "FANTASIA TEXT, "
+            + "CPF TEXT, "
+            + "CGC TEXT, "
+            + "PRECO TEXT, "
+            + "ID_CLIENTE INTEGER, "
+            + "TABELA_PRECO INTEGER);";
+
     public ClienteDAO(Context context) {
         super(context);
     }
@@ -45,6 +54,28 @@ public class ClienteDAO extends BaseDAO {
         try {
             open();
             db.execSQL("DELETE FROM "+ TABLE_CLIENTE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void dropTab() {
+        try {
+            open();
+            db.execSQL("DROP TABLE "+ TABLE_CLIENTE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void createTab() {
+        try {
+            open();
+            db.execSQL(CREATE_CLIENTE);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
         } finally {

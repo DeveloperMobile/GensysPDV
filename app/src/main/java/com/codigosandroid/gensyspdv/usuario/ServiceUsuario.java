@@ -16,6 +16,7 @@ public class ServiceUsuario {
 
     private static UsuarioExtDAO usuarioExtDAO;
     private static UsuarioDAO usuarioDAO;
+    private static TipoUsuarioDAO tipoUsuarioDAO;
 
     /**
      * Insere um registro na tabela usuário
@@ -31,8 +32,8 @@ public class ServiceUsuario {
      * @param context contexto da classe que utiliza o método
      * @param tipoUsuario objeto tipo_usuario a ser inserido no db */
     public static long insert(Context context, TipoUsuario tipoUsuario) {
-        usuarioDAO = new UsuarioDAO(context);
-        return usuarioDAO.insert(tipoUsuario);
+        tipoUsuarioDAO = new TipoUsuarioDAO(context);
+        return tipoUsuarioDAO.insert(tipoUsuario);
     }
 
     /**
@@ -46,17 +47,59 @@ public class ServiceUsuario {
     /**
      * Deleta todos os registros na tabela usuário
      * @param context contexto da classe que utiliza o método */
-    public static void deleteTab(Context context) {
+    public static void deleteTabUsuario(Context context) {
         usuarioDAO = new UsuarioDAO(context);
         usuarioDAO.deleteTabUsuario();
+    }
+
+    /**
+     * Deleta a tabela usuario
+     * @param context contexto da classe que utiliza o método */
+    public static void dropTabUsuario(Context context) {
+        usuarioDAO = new UsuarioDAO(context);
+        usuarioDAO.dropTabUsuario();
+    }
+
+    /**
+     * Cria a tabela usuario
+     * @param context contexto da classe que utiliza o método */
+    public static void createTabUsuario(Context context) {
+        usuarioDAO = new UsuarioDAO(context);
+        usuarioDAO.createTabUsuario();
     }
 
     /**
      * Deleta todos os registros na tabela tipo_usuario
      * @param context contexto da classe que utiliza o método */
     public static void deleteTabTipoUsuario(Context context) {
-        usuarioDAO = new UsuarioDAO(context);
-        usuarioDAO.deleteTabTipoUsuario();
+        tipoUsuarioDAO = new TipoUsuarioDAO(context);
+        tipoUsuarioDAO.deleteTabTipoUsuario();
+    }
+
+    /**
+     * Deleta a tabela tipo_usuario
+     * @param context contexto da classe que utiliza o método */
+    public static void dropTabTipoUsuario(Context context) {
+        tipoUsuarioDAO = new TipoUsuarioDAO(context);
+        tipoUsuarioDAO.dropTabTipoUsuario();
+    }
+
+    /**
+     * Cria a tabela tipo_usuario
+     * @param context contexto da classe que utiliza o método */
+    public static void createTabTipoUsuario(Context context) {
+        tipoUsuarioDAO = new TipoUsuarioDAO(context);
+        tipoUsuarioDAO.createTabTipoUsuario();
+    }
+
+    /**
+     * Busca um registro na tabela tipo_usuario  pela descricao
+     * @param context contexto da classe que utiliza o método
+     * @param nome nome do usuario a ser pesquisado no db */
+    public static TipoUsuario getByName(Context context, String nome) {
+        tipoUsuarioDAO = new TipoUsuarioDAO(context);
+        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+        return tipoUsuarioDAO.getByName(configuracoes.getCompany().toUpperCase());
     }
 
     /**

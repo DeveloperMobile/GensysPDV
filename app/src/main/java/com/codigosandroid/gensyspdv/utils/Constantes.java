@@ -15,5 +15,7 @@ public class Constantes {
 
     public static final String SYNC = "sync";
     public static final String RESUME = "resume";
+    public static final String VENDEDOR = "VENDEDOR";
+    public static final String FUNCIONARIO = "FUNCIONÁRIO";
 
 }

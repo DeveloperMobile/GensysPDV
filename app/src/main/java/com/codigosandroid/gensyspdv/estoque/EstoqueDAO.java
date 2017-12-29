@@ -8,6 +8,8 @@ import com.codigosandroid.gensyspdv.db.BaseDAO;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 import com.codigosandroid.utils.utils.LogUtil;
 
+import java.util.List;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
@@ -54,6 +56,44 @@ public class EstoqueDAO extends BaseDAO {
     private static final String PROMOCAO_FIM = "PROMOCAO_FIM";
     private static final String PRECO_MINIMO = "PRECO_MINIMO";
 
+    private static final String CREATE =  "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "RECNO INTEGER, "
+            + "ID_EMPRESA INTEGER, "
+            + "CODIGO TEXT, "
+            + "CODIGO_FORNECEDOR TEXT, "
+            + "EMPRESA TEXT, "
+            + "UNIDADE TEXT, "
+            + "DESCRICAO TEXT, "
+            + "SALDO REAL, "
+            + "RESERVADO REAL, "
+            + "PRECO_CUSTO REAL, "
+            + "PRECO_VENDA REAL, "
+            + "MINIMO REAL, "
+            + "PRECO_COMPRA REAL, "
+            + "COBRAR_ICMS TEXT, "
+            + "TRIBUTARIA TEXT, "
+            + "DETALHADA TEXT, "
+            + "ATUALIZADO TEXT, "
+            + "SUBGRUPO TEXT, "
+            + "GRUPO TEXT, "
+            + "LOCALIZACAO TEXT, "
+            + "COMISSAO_PRODUTO REAL, "
+            + "OBSERVACAO TEXT, "
+            + "ESTOQUE_EXTRA_1 TEXT, "
+            + "PRECO_PROMOCAO REAL, "
+            + "PRECO_PROMOCAO_REVENDA REAL, "
+            + "PRECO_REVENDA REAL, "
+            + "PESAVEL TEXT, "
+            + "FORNECEDOR TEXT, "
+            + "COBRAR_ICMS_SUBSTITUICAO TEXT, "
+            + "EMBALAGEM TEXT, "
+            + "INDIC_ARREDONDAMENTO TEXT, "
+            + "INDIC_PRODUCAO TEXT, "
+            + "PROMOCAO_INICIO TEXT, "
+            + "PROMOCAO_FIM TEXT, "
+            + "PRECO_MINIMO REAL, "
+            + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));";
+
     public EstoqueDAO(Context context) {
         super(context);
     }
@@ -66,6 +106,58 @@ public class EstoqueDAO extends BaseDAO {
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
             return 0;
+        } finally {
+            close();
+        }
+    }
+
+    public void deleteTab() {
+        try {
+            open();
+            db.execSQL("DELETE FROM " + TABLE_ESTOQUE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void dropTab() {
+        try {
+            open();
+            db.execSQL("DROP TABLE " + TABLE_ESTOQUE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public void createTab() {
+        try {
+            open();
+            db.execSQL(CREATE);
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public Estoque getByRecno(int recno) {
+        Estoque estoque = new Estoque();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_ESTOQUE, null, RECNO + "=?", new String[]{ String.valueOf(recno) },
+                    null, null, null);
+            if (cursor.moveToFirst()) {
+                estoque = cursorToEstoque(cursor);
+            }
+            cursor.close();
+            return estoque;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new Estoque();
         } finally {
             close();
         }
