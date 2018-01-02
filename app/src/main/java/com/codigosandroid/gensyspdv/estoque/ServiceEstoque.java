@@ -42,7 +42,7 @@ public class ServiceEstoque {
     }
 
     /**
-     * Cria a tabela empresa
+     * Cria a tabela estoque
      * @param context contexto da classe que utiliza o método */
     public static void createTab(Context context) {
         estoqueDAO = new EstoqueDAO(context);
@@ -57,6 +57,13 @@ public class ServiceEstoque {
         return estoqueDAO.getByRecno(recno);
     }
 
+    /**
+     * Busca registro na tabela estoque pelo codigo do produto
+     * @param context contexto da classe que utiliza o método */
+    public static Estoque getByCode(Context context, String codigo) {
+        estoqueDAO = new EstoqueDAO(context);
+        return estoqueDAO.getByCode(codigo);
+    }
 
     /**
      * Busca todos os registros na tabela estoque externa

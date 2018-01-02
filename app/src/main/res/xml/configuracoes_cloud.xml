@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/category_host_key"
+        android:title="@string/category_host">
+
+        <EditTextPreference
+            android:id="@+id/etp_email_cloud"
+            android:dialogMessage="@string/pref_default_email_message"
+            android:dialogTitle="@string/pref_default_email_title"
+            android:inputType="textEmailAddress"
+            android:key="@string/pref_email_key"
+            android:summary="@string/pref_default_email_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_email_title"
+            android:textColor="@color/colorAccent"/>
+
+        <EditTextPreference
+            android:id="@+id/etp_company_cloud"
+            android:dialogMessage="@string/pref_default_company_cloud_message"
+            android:dialogTitle="@string/pref_default_company_cloud_title"
+            android:inputType="textAutoComplete"
+            android:key="@string/pref_company_cloud_key"
+            android:summary="@string/pref_default_company_cloud_summary"
+            android:textStyle="bold"
+            android:title="@string/pref_default_company_cloud_title"
+            android:textColor="@color/colorAccent"
+            app:theme="@style/AlertDialog.AppCompat"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/category_print_key"
+        android:title="@string/category_print">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_nfce_cloud_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_nfce_cloud"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_nfce_resume_cloud_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_nfce_resume_cloud"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_print_note_cloud_key"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:title="@string/pref_print_note_cloud"/>
+    </PreferenceCategory>
+</PreferenceScreen>

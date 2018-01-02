@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.activity.ConfigActivity;
 import com.codigosandroid.gensyspdv.activity.SobreActivity;
+import com.codigosandroid.gensyspdv.cfblob.CfBlob;
+import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlob;
 import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
@@ -34,6 +36,8 @@ import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
 import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
 import com.codigosandroid.gensyspdv.precohora.PrecoHora;
 import com.codigosandroid.gensyspdv.precohora.ServicePrecoHora;
+import com.codigosandroid.gensyspdv.precohora.ServicePromocoes;
+import com.codigosandroid.gensyspdv.promocoes.Promocoes;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.TipoUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
@@ -67,6 +71,8 @@ public class MainFragment extends BaseFragment {
     List<EstoquePreco> estoquePrecos = new ArrayList<>();
     List<TipoPagamento> tipoPagamentos = new ArrayList<>();
     List<PrecoHora> precoHoras = new ArrayList<>();
+    List<Promocoes> promocoes = new ArrayList<>();
+    List<CfBlob> cfBlobs = new ArrayList<>();
     Usuario usuario = null;
 
     @Override
@@ -226,7 +232,7 @@ public class MainFragment extends BaseFragment {
 
     private void sincronizar(String flag) {
 
-        final List<Usuario> usuarioList = ServiceUsuario.getAll(getActivity());
+        final List<Usuario> usuarioList = ServiceUsuario.getAllInner(getActivity());
 
         if (AndroidUtil.isNetworkAvaliable(getActivity())) {
 
@@ -239,10 +245,12 @@ public class MainFragment extends BaseFragment {
                     if (ServiceConfiguracoes.isPreferences(getActivity())) {
 
                         sync();
+                        actUp(usuarioList);
 
                     }
+                } else {
+                    actUp(usuarioList);
                 }
-                actUp(usuarioList);
             } else {
                 AlertUtil.alert(getActivity(), "Informativo", "É necessário efetuar as configurações para sincronizar os dados!", 0, new Runnable() {
                     @Override
@@ -267,19 +275,23 @@ public class MainFragment extends BaseFragment {
             public void syncBackground() {
                 for (int i = 0; i < syncList.length; i++) {
 
-                    if (syncList[i].equals("cliente")) {
+                    if (syncList[i].equals(Constantes.CLIENTE)) {
                         clientes = syncClient("Sincronizando clientes...");
-                    } else if (syncList[i].equals("empresa")) {
+                    } else if (syncList[i].equals(Constantes.EMPRESA)) {
                         empresas = syncEmpresa("Sincronizando empresas...");
-                    } else if (syncList[i].equals("estoque")) {
+                    } else if (syncList[i].equals(Constantes.ESTOQUE)) {
                         estoques = syncEstoque("Sincronizando estoque...");
-                    } else if (syncList[i].equals("estoque_preco")){
+                    } else if (syncList[i].equals(Constantes.ESTOQUE_PRECO)){
                         estoquePrecos = syncEstoquePreco("Sincronizando EstoquePreco...");
-                    } else if (syncList[i].equals("formapag")){
+                    } else if (syncList[i].equals(Constantes.FORMAPAG)){
                         tipoPagamentos = syncTypePay("Sincronizando Formas de Pagamento...");
-                    } else if(syncList[i].equals("preco_hora")){
+                    } else if(syncList[i].equals(Constantes.PRECO_HORA)){
                         precoHoras = syncPayHour("Sincronizando Preço Hora...");
-                    } else if (syncList[i].equals("usuario")) {
+                    } else if (syncList[i].equals(Constantes.PROMOCOES)){
+                        promocoes = syncPromotions("Sincronizando Promoções...");
+                    } else if(syncList[i].equals(Constantes.CFBLOB)){
+                        cfBlobs = syncCfBlobs("Sincronizando CfBlobo...");
+                    } else if (syncList[i].equals(Constantes.USUARIO)) {
                         usuarios = syncUser("Sincronizando usuarios...");
                     }
                 }
@@ -287,13 +299,14 @@ public class MainFragment extends BaseFragment {
 
             @Override
             public void syncPostExecute() {
-
                 cacheClient(clientes);
                 cacheCompany(empresas);
                 cacheProduts(estoques);
                 cacheProdutPrices(estoquePrecos);
                 cacheTypePay(tipoPagamentos);
                 cachePayHour(precoHoras);
+                cachePromotions(promocoes);
+                cacheCfBlobs(cfBlobs);
                 cacheUser(usuarios);
             }
 
@@ -474,6 +487,50 @@ public class MainFragment extends BaseFragment {
 
                 precoHora.setEstoque(ServiceEstoque.getByRecno(getActivity(), precoHora.getIdEstoque()));
                 ServicePrecoHora.insert(getActivity(), precoHora);
+
+            }
+
+        }
+
+    }
+
+    private void cachePromotions(List<Promocoes> promocoes) {
+
+        if (promocoes.isEmpty()) {
+
+            snack(getView(), "Promoções não encontradas!");
+
+        } else {
+
+            ServicePromocoes.dropTab(getActivity());
+            ServicePromocoes.createTab(getActivity());
+
+            for (Promocoes promocao : promocoes) {
+
+                promocao.setEstoque(ServiceEstoque.getByCode(getActivity(), promocao.getCodigoEstoque()));
+                promocao.setEmpresa(ServiceEmpresa.getByName(getActivity()));
+                ServicePromocoes.insert(getActivity(), promocao);
+
+            }
+
+        }
+
+    }
+
+    private void cacheCfBlobs(List<CfBlob> cfBlobs) {
+
+        if (cfBlobs.isEmpty()) {
+
+            snack(getView(), "Promoções não encontradas!");
+
+        } else {
+
+            ServiceCfBlob.dropTab(getActivity());
+            ServiceCfBlob.createTab(getActivity());
+
+            for (CfBlob cfBlob : cfBlobs) {
+
+                ServiceCfBlob.insert(getActivity(), cfBlob);
 
             }
 

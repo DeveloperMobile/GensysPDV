@@ -6,6 +6,8 @@
     <string name="activity_label_Estoque">Estoque</string>
     <string name="activity_label_vendas">Vendas</string>
     <string name="activity_label_configuracoes">Configurações</string>
+    <string name="activity_label_configuracoes_desktop">Configurações Desktop</string>
+    <string name="activity_label_configuracoes_cloud">Configurações Nuvem</string>
     <string name="about_dialog_text"><![CDATA[
 <b>Aplicativo Venda Poynt 2017</b><br><br>
 <b>Versão:</b><br> %1$s<br><br>
@@ -21,6 +23,8 @@
     <string name="category_print_key">impressao</string>
     <string name="category_host">Configurações do Servidor</string>
     <string name="category_print">Configurações de Impressão</string>
+    <string name="config_desktop">DESKTOP</string>
+    <string name="config_cloud">CLOUD</string>
     <!-- H -->
     <string name="hint_usuario">Usuário</string>
     <string name="hint_senha">Senha</string>
@@ -63,6 +67,21 @@
     <string name="pref_print_nfce">Imprimir NFC-e</string>
     <string name="pref_print_nfce_resume">Imprimir NFC-e resumido</string>
     <string name="pref_print_note">Imprimir Cupom</string>
+    <!-- PREF CLOUD -->
+    <string name="pref_email_key">email</string>
+    <string name="pref_default_email_title">E-mail</string>
+    <string name="pref_default_email_message">Informe o E-mail de Usuário</string>
+    <string name="pref_default_email_summary">Informe o E-mail de Usuário</string>
+    <string name="pref_company_cloud_key">company_cloud</string>
+    <string name="pref_default_company_cloud_title">Empresa</string>
+    <string name="pref_default_company_cloud_message">Informe a Empresa</string>
+    <string name="pref_default_company_cloud_summary">Informe a Empresa</string>
+    <string name="pref_print_nfce_cloud_key">nfce</string>
+    <string name="pref_print_nfce_resume_cloud_key">nfce_resume</string>
+    <string name="pref_print_note_cloud_key">cupom</string>
+    <string name="pref_print_nfce_cloud">Imprimir NFC-e</string>
+    <string name="pref_print_nfce_resume_cloud">Imprimir NFC-e resumido</string>
+    <string name="pref_print_note_cloud">Imprimir Cupom</string>
     <!-- S -->
     <string name="search_item_salesman">Vendedor</string>
     <string name="search_item_client">Cliente</string>

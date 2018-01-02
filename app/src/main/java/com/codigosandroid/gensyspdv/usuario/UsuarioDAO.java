@@ -28,6 +28,9 @@ public class UsuarioDAO extends BaseDAO {
     private static final String TIPO = "TIPO";
     private static final String ID_VENDEDOR = "ID_VENDEDOR";
 
+    private static final String INNER_USUARIO = "SELECT U.*, TU.* FROM USUARIO U " +
+            "INNER JOIN TIPO_USUARIO TU ON U.ID_TIPO_USUARIO = TU._ID";
+
     private static final String CREATE_USUARIO =  "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "ID_TIPO_USUARIO INTEGER, "
             + "NOME TEXT, "
@@ -72,6 +75,34 @@ public class UsuarioDAO extends BaseDAO {
 
             while (!cursor.isAfterLast()) {
                 Usuario usuario = cursorToUsuario(cursor);
+                usuarioList.add(usuario);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+            return usuarioList;
+
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new ArrayList<Usuario>();
+        } finally {
+            close();
+        }
+    }
+
+    /** Busca dados na tabela usuario */
+    public List<Usuario> getAllInner() {
+
+        List<Usuario> usuarioList = new ArrayList<>();
+
+        try {
+
+            open();
+            Cursor cursor = db.rawQuery(INNER_USUARIO, null);
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                Usuario usuario = cursorToInnerUsuario(cursor);
                 usuarioList.add(usuario);
                 cursor.moveToNext();
             }
@@ -147,6 +178,25 @@ public class UsuarioDAO extends BaseDAO {
         usuario.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(TIPO)));
         usuario.setIdVendedor(cursor.getInt(cursor.getColumnIndexOrThrow(ID_VENDEDOR)));
         return usuario;
+    }
+
+    private Usuario cursorToInnerUsuario(Cursor cursor) {
+        Usuario usuario = new Usuario();
+        usuario.setId(cursor.getLong(cursor.getColumnIndexOrThrow("U." + ID)));
+        usuario.setTipoUsuario(cursorToTipoUsuario(cursor));
+        usuario.setNome(cursor.getString(cursor.getColumnIndexOrThrow("U." + NOME)));
+        usuario.setApelido(cursor.getString(cursor.getColumnIndexOrThrow("U." + APELIDO)));
+        usuario.setSenha(cursor.getString(cursor.getColumnIndexOrThrow("U." + SENHA)));
+        usuario.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("U." + EMAIL)));
+        usuario.setTipo(cursor.getString(cursor.getColumnIndexOrThrow("U." + TIPO)));
+        return usuario;
+    }
+
+    private TipoUsuario cursorToTipoUsuario(Cursor cursor) {
+        TipoUsuario tipoUsuario = new TipoUsuario();
+        tipoUsuario.setId(cursor.getLong(cursor.getColumnIndexOrThrow("TU." + ID)));
+        tipoUsuario.setDescricao(cursor.getString(cursor.getColumnIndexOrThrow("TU.DESCRICAO")));
+        return tipoUsuario;
     }
 
 }

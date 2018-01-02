@@ -1,12 +1,16 @@
 package com.codigosandroid.gensyspdv.fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cfblob.CfBlob;
+import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlob;
 import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
@@ -20,9 +24,12 @@ import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
 import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
 import com.codigosandroid.gensyspdv.precohora.PrecoHora;
 import com.codigosandroid.gensyspdv.precohora.ServicePrecoHora;
+import com.codigosandroid.gensyspdv.precohora.ServicePromocoes;
+import com.codigosandroid.gensyspdv.promocoes.Promocoes;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
+import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.utils.utils.AlertUtil;
 
 import java.sql.SQLException;
@@ -36,13 +43,15 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
 
     protected Handler handler = new Handler();
     protected String[] syncList = new String[] {
-            "cliente",
-            "empresa",
-            "estoque",
-            "estoque_preco",
-            "formapag",
-            "preco_hora",
-            "usuario"
+            Constantes.CLIENTE,
+            Constantes.EMPRESA,
+            Constantes.ESTOQUE,
+            Constantes.ESTOQUE_PRECO,
+            Constantes.FORMAPAG,
+            Constantes.PRECO_HORA,
+            Constantes.PROMOCOES,
+            Constantes.CFBLOB,
+            Constantes.USUARIO
     };
 
     public class SyncUserTask extends AsyncTask<String, Void, Void> {
@@ -140,6 +149,18 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
         return ServicePrecoHora.getAllExt(getActivity());
     }
 
+    /* Busca promocoes */
+    protected List<Promocoes> syncPromotions(String msg) {
+        status(msg);
+        return ServicePromocoes.getAllExt(getActivity());
+    }
+
+    /* Busca CfBlobo */
+    protected List<CfBlob> syncCfBlobs(String msg) {
+        status(msg);
+        return ServiceCfBlob.getAllExt(getActivity());
+    }
+
     /* Valida usuário */
     protected Usuario syncValidate(String apelido, String msg) {
 
@@ -171,6 +192,12 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
             }
 
         }
+    }
+
+    protected void startMainScreen(Context context, Class c) {
+        Intent intent = new Intent(context, c);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 }

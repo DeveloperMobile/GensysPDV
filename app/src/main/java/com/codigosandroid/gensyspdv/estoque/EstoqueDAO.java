@@ -163,6 +163,25 @@ public class EstoqueDAO extends BaseDAO {
         }
     }
 
+    public Estoque getByCode(String codigo) {
+        Estoque estoque = new Estoque();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_ESTOQUE, null, CODIGO + "=?", new String[]{ codigo },
+                    null, null, null);
+            if (cursor.moveToFirst()) {
+                estoque = cursorToEstoque(cursor);
+            }
+            cursor.close();
+            return estoque;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new Estoque();
+        } finally {
+            close();
+        }
+    }
+
     private ContentValues estoqueToValues(Estoque estoque) {
 
         ContentValues values = new ContentValues();

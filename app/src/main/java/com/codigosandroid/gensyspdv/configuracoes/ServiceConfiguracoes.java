@@ -3,13 +3,25 @@ package com.codigosandroid.gensyspdv.configuracoes;
 import android.content.Context;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cloud.GeniusWeb;
+import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.gensyspdv.utils.SharedUtils;
+import com.codigosandroid.utils.utils.FileUtil;
+import com.codigosandroid.utils.utils.IOUtil;
+import com.codigosandroid.utils.utils.LogUtil;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Tiago on 27/12/2017.
  */
 
 public class ServiceConfiguracoes {
+
+    private static final String TAG = ServiceConfiguracoes.class.getSimpleName();
 
     public static Configuracoes getConfiguracoes(Context context) {
         Configuracoes configuracoes = new Configuracoes();
@@ -24,7 +36,7 @@ public class ServiceConfiguracoes {
         return configuracoes;
     }
 
-    public static boolean isPreferences(Context context) {
+    public static boolean isPreferencesDesktop(Context context) {
 
         try {
             String home = SharedUtils.getString(context, context.getString(R.string.pref_host_key));
@@ -39,6 +51,54 @@ public class ServiceConfiguracoes {
             return false;
         }
         return false;
+    }
+
+    public static boolean isPreferencesGw(Context context) {
+
+        File file = FileUtil.getFile(context, Constantes.FILE_GW_JSON);
+
+        if (file.exists()) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public static boolean isPreferencesCloud(Context context) {
+
+        File file = FileUtil.getFile(context, Constantes.FILE_CLOUD_JSON);
+
+        if (file.exists()) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    /* Carrega o arquivo .json de configurações */
+    public static GeniusWeb getJsonToGeniusWeb(Context context) {
+
+        try {
+
+            File file = FileUtil.getFile(context, Constantes.FILE_GW_JSON);
+
+            if (file.exists()) {
+
+                Gson gson = new Gson();
+
+                BufferedReader br = IOUtil.readJson(file);
+                GeniusWeb geniusWeb = gson.fromJson(br, GeniusWeb.class);
+                return geniusWeb;
+
+            }
+
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+
+        return null;
     }
 
 }

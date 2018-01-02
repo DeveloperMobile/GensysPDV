@@ -45,6 +45,14 @@ public class ServiceUsuario {
     }
 
     /**
+     * Busca todos os registros na tabela usuário vinculados a tipo_usuario
+     * @param context contexto da classe que utiliza o método */
+    public static List<Usuario> getAllInner(Context context) {
+        usuarioDAO = new UsuarioDAO(context);
+        return usuarioDAO.getAllInner();
+    }
+
+    /**
      * Deleta todos os registros na tabela usuário
      * @param context contexto da classe que utiliza o método */
     public static void deleteTabUsuario(Context context) {

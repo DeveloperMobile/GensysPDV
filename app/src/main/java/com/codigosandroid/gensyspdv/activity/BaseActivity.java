@@ -1,5 +1,7 @@
 package com.codigosandroid.gensyspdv.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
@@ -31,6 +33,12 @@ public class BaseActivity extends com.codigosandroid.utils.activity.BaseActivity
 
     protected void replaceFragment(int container, android.app.Fragment fragment) {
         getFragmentManager().beginTransaction().replace(container, fragment).commit();
+    }
+
+    protected void startMainScreen(Context context, Class c) {
+        Intent intent = new Intent(context, c);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 }
