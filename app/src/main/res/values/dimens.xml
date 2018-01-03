@@ -9,4 +9,11 @@
     <!-- TEXT VIEW -->
     <dimen name="label_margin">10dp</dimen>
     <dimen name="image_margin">10dp</dimen>
+    <!-- CARD VIEW -->
+    <dimen name="card_margin_min">5dp</dimen>
+    <dimen name="card_margin_default">10dp</dimen>
+    <!-- NAV DRAWER -->
+    <dimen name="nav_header_vertical_spacing">10dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="smallest_text_size">10sp</dimen>
 </resources>

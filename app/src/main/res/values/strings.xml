@@ -18,6 +18,10 @@
 <b>Fone:</b><br>(71)3503-1999
 	]]></string>
     <string name="about_dialog_title">Sobre</string>
+    <!-- B -->
+    <string name="btn_yes">Sim</string>
+    <string name="btn_no">Não</string>
+    <string name="btn_confirmar">CONFIRMAR</string>
     <!-- C -->
     <string name="category_host_key">servidor</string>
     <string name="category_print_key">impressao</string>
@@ -25,9 +29,13 @@
     <string name="category_print">Configurações de Impressão</string>
     <string name="config_desktop">DESKTOP</string>
     <string name="config_cloud">CLOUD</string>
+    <!-- D -->
+    <string name="description_produt">Sem produtos</string>
     <!-- H -->
     <string name="hint_usuario">Usuário</string>
     <string name="hint_senha">Senha</string>
+    <!-- L -->
+    <string name="lb_hint_observation">Observação</string>
     <!-- M -->
     <string name="menu_sync">Sincronizar</string>
     <string name="menu_settings">Configurações</string>
@@ -38,6 +46,15 @@
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
     <string name="msg_error_usuario">Informe o usuário!</string>
     <string name="msg_error_senha">Informe a senha!</string>
+    <!-- N -->
+    <string name="nav_item_vendas">Vendas</string>
+    <string name="nav_item_sair">Sair</string>
+    <string name="nav_item_finalizar">Finalizar Venda</string>
+    <string name="nav_drawer_reverse">Estornar</string>
+    <string name="nav_drawer_reprint">Reimprimir</string>
+    <string name="nav_drawer_report">Relatório</string>
+    <string name="nav_drawer_username">Tiago Vieira Silva</string>
+    <string name="nav_drawer_email">tiago.pereira.vieira@gmail.com</string>
     <!-- O -->
     <string name="ok">OK</string>
     <!-- P -->
@@ -82,6 +99,8 @@
     <string name="pref_print_nfce_cloud">Imprimir NFC-e</string>
     <string name="pref_print_nfce_resume_cloud">Imprimir NFC-e resumido</string>
     <string name="pref_print_note_cloud">Imprimir Cupom</string>
+    <string name="pref_cloud_key">cloud</string>
+    <string name="pref_desktop_key">desktop</string>
     <!-- S -->
     <string name="search_item_salesman">Vendedor</string>
     <string name="search_item_client">Cliente</string>
@@ -97,4 +116,6 @@
     <string name="sobre_site_value">http://www.geniusbrasil.com.br</string>
     <string name="sobre_politica_privacidade_value">http://www.geniusbrasil.com.br/politica-de-privacidade-genius-poynt/</string>
     <string name="sobre_fone_value">(71)3503-1999</string>
+    <!-- T -->
+    <string name="total">0</string>
 </resources>

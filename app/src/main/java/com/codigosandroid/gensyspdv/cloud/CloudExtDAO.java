@@ -24,7 +24,7 @@ public class CloudExtDAO {
     private ResultSet rs;
     AcessoDB acessoDB = new AcessoDB();
 
-    public Cloud getCloud(String host, String db, String user, String pass, String loginEmail) throws SQLException {
+    public Cloud getCloud(String host, String db, String user, String pass, String loginEmail) {
 
         Cloud cloud = new Cloud();
 
@@ -56,7 +56,7 @@ public class CloudExtDAO {
         }
     }
 
-    public GeniusWeb getGeniusWeb(String host, String db, String login, String senha, String empresa)  {
+    public GeniusWeb getGeniusWeb(String host, String db, String login, String senha, String empresa) {
 
         GeniusWeb geniusWeb = new GeniusWeb();
 

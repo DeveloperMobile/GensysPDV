@@ -86,7 +86,7 @@ public class EmpresaDAO extends BaseDAO {
         try {
 
             open();
-            Cursor cursor = db.query(TABLE_EMPRESA, null, DESCRICAO + "=?", new String[]{ descricao },
+            Cursor cursor = db.query(TABLE_EMPRESA, null, "UPPER(" + DESCRICAO + ")=?" , new String[]{ descricao.toUpperCase() },
                     null, null, null);
             if (cursor.moveToFirst()) {
                 empresa = cursorToEmpresa(cursor);

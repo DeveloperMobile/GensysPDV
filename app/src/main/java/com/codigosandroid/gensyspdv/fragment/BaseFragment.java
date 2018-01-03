@@ -24,7 +24,7 @@ import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
 import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
 import com.codigosandroid.gensyspdv.precohora.PrecoHora;
 import com.codigosandroid.gensyspdv.precohora.ServicePrecoHora;
-import com.codigosandroid.gensyspdv.precohora.ServicePromocoes;
+import com.codigosandroid.gensyspdv.promocoes.ServicePromocoes;
 import com.codigosandroid.gensyspdv.promocoes.Promocoes;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
@@ -32,7 +32,6 @@ import com.codigosandroid.gensyspdv.utils.AsyncListener;
 import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.utils.utils.AlertUtil;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

@@ -7,6 +7,9 @@ import android.database.Cursor;
 import com.codigosandroid.gensyspdv.db.BaseDAO;
 import com.codigosandroid.utils.utils.LogUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
@@ -78,6 +81,31 @@ public class ClienteDAO extends BaseDAO {
             db.execSQL(CREATE_CLIENTE);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public List<Cliente> getAll() {
+        List<Cliente> clientes = new ArrayList<>();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_CLIENTE, null, null, null,
+                    null, null, null);
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+                Cliente cliente = cursorToCliente(cursor);
+                clientes.add(cliente);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+            return clientes;
+
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new ArrayList<Cliente>();
         } finally {
             close();
         }

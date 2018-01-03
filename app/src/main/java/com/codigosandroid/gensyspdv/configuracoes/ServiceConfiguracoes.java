@@ -3,7 +3,10 @@ package com.codigosandroid.gensyspdv.configuracoes;
 import android.content.Context;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.cloud.GeniusWeb;
+import com.codigosandroid.gensyspdv.usuario.Operador;
+import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.FileUtil;
@@ -77,28 +80,70 @@ public class ServiceConfiguracoes {
 
     }
 
-    /* Carrega o arquivo .json de configurações */
-    public static GeniusWeb getJsonToGeniusWeb(Context context) {
-
-        try {
-
-            File file = FileUtil.getFile(context, Constantes.FILE_GW_JSON);
-
-            if (file.exists()) {
-
-                Gson gson = new Gson();
-
-                BufferedReader br = IOUtil.readJson(file);
-                GeniusWeb geniusWeb = gson.fromJson(br, GeniusWeb.class);
-                return geniusWeb;
-
-            }
-
-        } catch (FileNotFoundException e) {
-            return null;
+    public static Cloud loadCloudFromJSON(Context context) throws FileNotFoundException {
+        File file = FileUtil.getFile(context, Constantes.FILE_CLOUD_JSON);
+        if (file.exists()) {
+            Gson gson = new Gson();
+            BufferedReader br = IOUtil.readJson(file);
+            return gson.fromJson(br, Cloud.class);
         }
+        return new Cloud();
+    }
 
-        return null;
+    public static Usuario loadOperadorFromJSON(Context context) throws FileNotFoundException {
+        File file = FileUtil.getFile(context, Constantes.FILE_OPERADOR_JSON);
+        if (file.exists()) {
+            Gson gson = new Gson();
+            BufferedReader br = IOUtil.readJson(file);
+            return gson.fromJson(br, Usuario.class);
+        }
+        return new Usuario();
+    }
+
+    public static GeniusWeb loadGeniusWebFromJSON(Context context) throws FileNotFoundException {
+       File file = FileUtil.getFile(context, Constantes.FILE_GW_JSON);
+       if (file.exists()) {
+           Gson gson = new Gson();
+           BufferedReader br = IOUtil.readJson(file);
+           return gson.fromJson(br, GeniusWeb.class);
+       }
+       return new GeniusWeb();
+    }
+
+    public static String toJson(GeniusWeb geniusWeb) {
+        Gson gson = new Gson();
+        return gson.toJson(geniusWeb);
+    }
+
+    public static String toJson(Cloud cloud) {
+        Gson gson = new Gson();
+        return gson.toJson(cloud);
+    }
+
+    public static String toJson(Usuario operador) {
+        Gson gson = new Gson();
+        return gson.toJson(operador);
+    }
+
+    public static void saveJson(Context context, String fileName, GeniusWeb geniusWeb) {
+        File file = FileUtil.getFile(context, fileName);
+        if (!file.exists()) {
+            IOUtil.writeString(file, toJson(geniusWeb));
+        }
+    }
+
+    public static void saveJson(Context context, String fileName, Cloud cloud) {
+        File file = FileUtil.getFile(context, fileName);
+        if (!file.exists()) {
+            IOUtil.writeString(file, toJson(cloud));
+        }
+    }
+
+    public static void saveJson(Context context, String fileName, Usuario operador) {
+        File file = FileUtil.getFile(context, fileName);
+        if (!file.exists()) {
+            IOUtil.writeString(file, toJson(operador));
+        }
     }
 
 }

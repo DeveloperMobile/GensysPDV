@@ -2,9 +2,15 @@ package com.codigosandroid.gensyspdv.cliente;
 
 import android.content.Context;
 
+import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
+import com.codigosandroid.gensyspdv.utils.SharedUtils;
+import com.codigosandroid.utils.utils.LogUtil;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +29,14 @@ public class ServiceCliente {
     public static long insert(Context context, Cliente cliente) {
         clienteDAO = new ClienteDAO(context);
         return clienteDAO.insert(cliente);
+    }
+
+    /**
+     * Busca todos os registros na tabela cliente
+     * @param context contexto da classe que utiliza o método */
+    public static List<Cliente> getAll(Context context) {
+        clienteDAO = new ClienteDAO(context);
+        return clienteDAO.getAll();
     }
 
     /**
@@ -54,9 +68,22 @@ public class ServiceCliente {
      * @param context contexto da classe que utiliza o método */
     public static List<Cliente> getAllExt(Context context) {
         clienteExtDAO = new ClienteExtDAO();
-        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-        return clienteExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
-                configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
+        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+            return clienteExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
+                    configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
+        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            try {
+                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+                return clienteExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
+                        cloud.getMysqlUser(), cloud.getMysqlPass(),
+                        SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+            } catch (FileNotFoundException e) {
+                LogUtil.error("ERROR: ", e.getMessage(), e);
+                return new ArrayList<Cliente>();
+            }
+        }
+        return new ArrayList<Cliente>();
     }
 
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:shrinkColumns="1"
+    android:stretchColumns="1"
+    android:padding="5dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/rounded_border_button_on"
+    android:gravity="center_vertical">
+
+    <TableRow android:layout_margin="6dp">
+
+        <TextView
+            android:id="@+id/label_nome_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="Vendedor 1"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+    </TableRow>
+
+</TableLayout>

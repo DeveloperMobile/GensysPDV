@@ -8,6 +8,7 @@ import com.codigosandroid.gensyspdv.db.BaseDAO;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 import com.codigosandroid.utils.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -177,6 +178,28 @@ public class EstoqueDAO extends BaseDAO {
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
             return new Estoque();
+        } finally {
+            close();
+        }
+    }
+
+    public List<Estoque> getAll() {
+        List<Estoque> estoques = new ArrayList<>();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_ESTOQUE, null, null, null,
+                    null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                Estoque estoque = cursorToEstoque(cursor);
+                estoques.add(estoque);
+                cursor.moveToNext();
+            }
+            cursor.close();
+            return estoques;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new ArrayList<Estoque>();
         } finally {
             close();
         }

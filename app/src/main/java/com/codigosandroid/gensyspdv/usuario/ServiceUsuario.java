@@ -2,10 +2,18 @@ package com.codigosandroid.gensyspdv.usuario;
 
 import android.content.Context;
 
+import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cliente.Cliente;
+import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
+import com.codigosandroid.gensyspdv.utils.SharedUtils;
+import com.codigosandroid.utils.utils.LogUtil;
+import com.codigosandroid.utils.utils.PrefsUtil;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -106,8 +114,13 @@ public class ServiceUsuario {
      * @param nome nome do usuario a ser pesquisado no db */
     public static TipoUsuario getByName(Context context, String nome) {
         tipoUsuarioDAO = new TipoUsuarioDAO(context);
-        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-        return tipoUsuarioDAO.getByName(configuracoes.getCompany().toUpperCase());
+        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+            return tipoUsuarioDAO.getByName(configuracoes.getCompany().toUpperCase());
+        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            return tipoUsuarioDAO.getByName(SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+        }
+        return new TipoUsuario();
     }
 
     /**
@@ -116,8 +129,22 @@ public class ServiceUsuario {
      * @param nome nome do usuario a ser pesquisado no db */
     public static Usuario getByNameExt(Context context, String nome) {
         usuarioExtDAO = new UsuarioExtDAO();
-        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-        return usuarioExtDAO.getByName(configuracoes.getHost(), configuracoes.getDb(), configuracoes.getUserDb(), configuracoes.getPassDb(), nome, configuracoes.getCompany());
+        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+            return usuarioExtDAO.getByName(configuracoes.getHost(), configuracoes.getDb(), configuracoes.getUserDb(),
+                    configuracoes.getPassDb(), nome, configuracoes.getCompany());
+        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            try {
+                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+                return usuarioExtDAO.getByName(cloud.getHostWeb(), cloud.getMysqlDb(),
+                        cloud.getMysqlUser(), cloud.getMysqlPass(), nome,
+                        SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+            } catch (FileNotFoundException e) {
+                LogUtil.error("ERROR: ", e.getMessage(), e);
+                return new Usuario();
+            }
+        }
+       return new Usuario();
     }
 
     /**
@@ -125,8 +152,22 @@ public class ServiceUsuario {
      * @param context contexto da classe que utiliza o método */
     public static List<Usuario> getAllExt(Context context) {
         usuarioExtDAO = new UsuarioExtDAO();
-        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-        return usuarioExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(), configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
+        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+            return usuarioExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
+                    configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
+        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            try {
+                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+                return usuarioExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
+                        cloud.getMysqlUser(), cloud.getMysqlPass(),
+                        SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+            } catch (FileNotFoundException e) {
+                LogUtil.error("ERROR: ", e.getMessage(), e);
+                return new ArrayList<Usuario>();
+            }
+        }
+        return new ArrayList<Usuario>();
     }
 
 }

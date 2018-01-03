@@ -134,8 +134,6 @@ public class BaseDAO {
                     + "NUMERO_SERVIDOR TEXT, "
                     + "TOTAL REAL, "
                     + "CAPTURA TEXT, "
-                    + "OBSERVACAO TEXT, "
-                    + "STATUS INTEGER, "
                     + "NOTA_FISCAL TEXT, "
                     + "FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTE (_ID), "
                     + "FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO (_ID), "

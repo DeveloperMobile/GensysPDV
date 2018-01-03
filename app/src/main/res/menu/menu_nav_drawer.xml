@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/menu_drawer_top"
+        android:checkableBehavior="single">
+        <!-- Vendas -->
+        <item android:id="@+id/nav_item_vendas"
+            android:icon="@drawable/ic_file_chart"
+            android:title="@string/nav_item_vendas"
+            android:checkable="true"/>
+    </group>
+
+    <group android:id="@+id/menu_drawer_center"
+        android:checkableBehavior="single">
+        <!-- Estornar Venda -->
+        <item android:id="@+id/nav_item_reverse"
+            android:icon="@drawable/ic_undo"
+            android:title="@string/nav_drawer_reverse"
+            android:checkable="true"/>
+        <!-- Reimprimir Comprovante -->
+        <item android:id="@+id/nav_item_reprint"
+            android:icon="@drawable/ic_printer"
+            android:title="@string/nav_drawer_reprint"
+            android:checkable="true"/>
+        <!-- Relatório de Transações -->
+        <item android:id="@+id/nav_item_report"
+            android:icon="@drawable/ic_file_chart"
+            android:title="@string/nav_drawer_report"/>
+    </group>
+
+    <group android:id="@+id/menu_drawer_bottom"
+        android:checkableBehavior="single">
+        <!-- Sair -->
+        <item android:id="@+id/nav_item_sair"
+            android:icon="@drawable/ic_exit_to_app_black"
+            android:title="@string/nav_item_sair"/>
+    </group>
+
+</menu>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:shrinkColumns="1"
+    android:stretchColumns="1"
+    android:padding="5dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/rounded_border_button_on"
+    android:gravity="center_vertical">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/label_fantasia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/colorAccent"
+            android:layout_marginEnd="5dp"
+            android:text="Fantasia:"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/label_fantasia_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consumidor"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/label_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"
+            android:text="Nome:" />
+
+        <TextView
+            android:id="@+id/label_nome_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="Cliente 1"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/label_cpf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/colorAccent"
+            android:layout_marginEnd="5dp"
+            android:text="CPF:"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/label_cpf_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="111.111.111-11"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent"/>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/label_cgc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/colorAccent"
+            android:layout_marginEnd="5dp"
+            android:text="CGC:"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/label_cgc_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11.111.111/1111-11"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/colorAccent" />
+    </TableRow>
+
+</TableLayout>

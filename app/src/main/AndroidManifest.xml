@@ -31,6 +31,10 @@
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.ConfigDesktopActivity"
             android:label="@string/activity_label_configuracoes_desktop"/>
+        <activity android:name=".activity.ConfigCloudActivity"
+            android:label="@string/activity_label_configuracoes_cloud"/>
+        <activity android:name=".activity.VendaActivity"
+            android:label="@string/activity_label_venda"/>
     </application>
 
 </manifest>

@@ -29,6 +29,8 @@ public class Constantes {
     public static final String PROMOCOES = "promocoes";
     public static final String CFBLOB = "cfblob";
     public static final String USUARIO = "usuario";
+    public static final String CLOUD = "cloud";
+    public static final String G_WEB = "gweb";
     // Acesso Sevidor Genius
     public static final String LOCAL = "192.168.0.254";
     public static final String EXTERNO = "177.135.200.98";
@@ -38,5 +40,8 @@ public class Constantes {
     // Nome dos arquivos Json
     public static final String FILE_CLOUD_JSON = "cloud.json";
     public static final String FILE_GW_JSON = "genius_web.json";
+    public static final String FILE_OPERADOR_JSON = "operador.json";
+    // Preferences values
+    public static final String DESKTOP = "desktop";
 
 }

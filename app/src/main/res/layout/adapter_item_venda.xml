@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/rounded_border_button_on"
+    android:gravity="center_vertical"
+    android:stretchColumns="0"
+    android:shrinkColumns="0">
+
+    <TableRow>
+        <TextView
+            android:id="@+id/lb_descricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="Produto 1"
+            android:textStyle="bold"
+            android:textSize="@dimen/smallest_text_size"/>
+
+        <TextView
+            android:id="@+id/lb_qtde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:text="x1"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/lb_preco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:text="R$ 0,00"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <ImageButton
+            android:id="@+id/btnDeleteItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_delete"
+            android:gravity="end"
+            android:tint="@color/colorAccent"/>
+    </TableRow>
+
+</TableLayout>

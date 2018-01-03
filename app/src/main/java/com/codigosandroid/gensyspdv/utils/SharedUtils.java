@@ -24,4 +24,18 @@ public class SharedUtils {
 
     }
 
+    // Temporário até atualização de biblioteca utilitária
+    public static void setBoolean(Context context, String flag, boolean on) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(flag, on);
+        editor.apply();
+    }
+
+    // Temporário até atualização de biblioteca utilitária
+    public static boolean getBoolean(Context context, String flag) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(flag, false);
+    }
+
 }

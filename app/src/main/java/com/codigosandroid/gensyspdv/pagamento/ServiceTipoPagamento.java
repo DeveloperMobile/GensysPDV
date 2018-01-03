@@ -2,9 +2,17 @@ package com.codigosandroid.gensyspdv.pagamento;
 
 import android.content.Context;
 
+import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.cliente.Cliente;
+import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
+import com.codigosandroid.gensyspdv.utils.SharedUtils;
+import com.codigosandroid.utils.utils.LogUtil;
+import com.codigosandroid.utils.utils.PrefsUtil;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,9 +62,21 @@ public class ServiceTipoPagamento {
      * @param context contexto da classe que utiliza o método */
     public static List<TipoPagamento> getAllExt(Context context) {
         tipoPagamentoExtDAO = new TipoPagamentoExtDAO();
-        Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-        return tipoPagamentoExtDAO.getAll(configuracoes.getHost(), configuracoes.getDb(),
-                configuracoes.getUserDb(), configuracoes.getPassDb());
+        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
+            return tipoPagamentoExtDAO.getAll(configuracoes.getHost(), configuracoes.getDb(),
+                    configuracoes.getUserDb(), configuracoes.getPassDb());
+        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            try {
+                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+                return tipoPagamentoExtDAO.getAll(cloud.getHostWeb(), cloud.getMysqlDb(),
+                        cloud.getMysqlUser(), cloud.getMysqlPass());
+            } catch (FileNotFoundException e) {
+                LogUtil.error("ERROR: ", e.getMessage(), e);
+                return new ArrayList<TipoPagamento>();
+            }
+        }
+        return new ArrayList<TipoPagamento>();
     }
 
 }
