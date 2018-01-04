@@ -5,13 +5,11 @@ import android.content.Context;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.cloud.GeniusWeb;
-import com.codigosandroid.gensyspdv.usuario.Operador;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.Constantes;
-import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.FileUtil;
 import com.codigosandroid.utils.utils.IOUtil;
-import com.codigosandroid.utils.utils.LogUtil;
+import com.codigosandroid.utils.utils.SharedUtil;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -28,24 +26,24 @@ public class ServiceConfiguracoes {
 
     public static Configuracoes getConfiguracoes(Context context) {
         Configuracoes configuracoes = new Configuracoes();
-        configuracoes.setHost(SharedUtils.getString(context, context.getString(R.string.pref_host_key)));
-        configuracoes.setCompany(SharedUtils.getString(context, context.getString(R.string.pref_company_key)));
-        configuracoes.setDb(SharedUtils.getString(context, context.getString(R.string.pref_db_key)));
-        configuracoes.setUserDb(SharedUtils.getString(context, context.getString(R.string.pref_user_key)));
-        configuracoes.setPassDb(SharedUtils.getString(context, context.getString(R.string.pref_pass_key)));
-        configuracoes.setNfce(SharedUtils.isBoolean(context, context.getString(R.string.pref_print_nfce_key)));
-        configuracoes.setNfceResume(SharedUtils.isBoolean(context, context.getString(R.string.pref_print_nfce_resume_key)));
-        configuracoes.setNota(SharedUtils.isBoolean(context, context.getString(R.string.pref_print_note_key)));
+        configuracoes.setHost(SharedUtil.getString(context, context.getString(R.string.pref_host_key)));
+        configuracoes.setCompany(SharedUtil.getString(context, context.getString(R.string.pref_company_key)));
+        configuracoes.setDb(SharedUtil.getString(context, context.getString(R.string.pref_db_key)));
+        configuracoes.setUserDb(SharedUtil.getString(context, context.getString(R.string.pref_user_key)));
+        configuracoes.setPassDb(SharedUtil.getString(context, context.getString(R.string.pref_pass_key)));
+        configuracoes.setNfce(SharedUtil.isBoolean(context, context.getString(R.string.pref_print_nfce_key)));
+        configuracoes.setNfceResume(SharedUtil.isBoolean(context, context.getString(R.string.pref_print_nfce_resume_key)));
+        configuracoes.setNota(SharedUtil.isBoolean(context, context.getString(R.string.pref_print_note_key)));
         return configuracoes;
     }
 
     public static boolean isPreferencesDesktop(Context context) {
 
         try {
-            String home = SharedUtils.getString(context, context.getString(R.string.pref_host_key));
-            String company = SharedUtils.getString(context, context.getString(R.string.pref_company_key));
-            String user = SharedUtils.getString(context, context.getString(R.string.pref_user_key));
-            String db = SharedUtils.getString(context, context.getString(R.string.pref_db_key));
+            String home = SharedUtil.getString(context, context.getString(R.string.pref_host_key));
+            String company = SharedUtil.getString(context, context.getString(R.string.pref_company_key));
+            String user = SharedUtil.getString(context, context.getString(R.string.pref_user_key));
+            String db = SharedUtil.getString(context, context.getString(R.string.pref_db_key));
             if (!home.equals("") && !company.equals("") && !user.equals("") && !db.equals("")) {
                 return true;
             }

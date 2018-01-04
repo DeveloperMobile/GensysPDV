@@ -19,7 +19,7 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.codigosandroid.gensyspdv.R;
-import com.codigosandroid.gensyspdv.utils.AndroidUtils;
+import com.codigosandroid.gensyspdv.utils.Utils;
 import com.codigosandroid.utils.utils.AndroidUtil;
 
 /**
@@ -59,7 +59,7 @@ public class AboutDialog extends DialogFragment {
         // Cria o HTML com o texto de about
         SpannableStringBuilder aboutBody = new SpannableStringBuilder();
         String versionName = AndroidUtil.getVersionName(getActivity());
-        String serial = AndroidUtils.getSerial(getActivity());
+        String serial = AndroidUtil.getSerial(getActivity());
 
         if (AndroidUtil.isAndroid7Nougat()) {
 

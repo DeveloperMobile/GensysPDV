@@ -20,6 +20,7 @@ import com.codigosandroid.gensyspdv.utils.DialogCallback;
 import com.codigosandroid.gensyspdv.venda.ItemVendaAdapter;
 import com.codigosandroid.gensyspdv.venda.PyDetalhe;
 import com.codigosandroid.gensyspdv.venda.dialog.ClienteDialog;
+import com.codigosandroid.gensyspdv.venda.dialog.DialogDesconto;
 import com.codigosandroid.gensyspdv.venda.dialog.EstoqueDialog;
 import com.codigosandroid.gensyspdv.venda.dialog.QuantidadeDialog;
 import com.codigosandroid.gensyspdv.venda.dialog.UsuarioDialog;
@@ -109,12 +110,10 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
 
                     @Override
                     public void getObject(Cliente cliente) {
-
                         VendaFragment.cliente = cliente;
                         btnSearchCliente.setText(cliente.getFantasia());
                         ClienteDialog.closeDialog(getActivity().getSupportFragmentManager());
                         btnCancelaCliente.setVisibility(View.VISIBLE);
-
                     }
 
                 });
@@ -193,20 +192,16 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                         detalhes.remove(id);
 
                         if (detalhes.isEmpty()) {
-
                             lbDescricaoProduto.setText(R.string.description_produt);
                             lbValorProduto.setText(numberFormat.format(0));
                             lbTotalProdutos.setText(String.valueOf(detalhes.size()));
-
                         } else {
-
                             lbDescricaoProduto.setText(pyDetalhe.getEstoque().getDescricao());
                             lbValorProduto.setText(numberFormat.format(pyDetalhe.getEstoque().getPrecoVenda()));
                             lbTotalProdutos.setText(String.valueOf(detalhes.size()));
-
                         }
 
-                        total -= pyDetalhe.getEstoque().getPrecoVenda();
+                        total -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade());
                         lbTotal.setText(decimalFormat.format(total));
                         recyclerUp();
 
@@ -219,16 +214,32 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
             }
 
             @Override
+            public void onDescontoItem(RecyclerView.ViewHolder holder, int id) {
+                PyDetalhe pyDetalhe = detalhes.get(id);
+                DialogDesconto.showItem(getActivity().getSupportFragmentManager(), pyDetalhe, new DialogCallback<PyDetalhe>() {
+                    @Override
+                    public void getObject(PyDetalhe pyDetalhe) {
+                        AlertUtil.alert(getActivity(), "Info", "Desconto: " + pyDetalhe.getDesconto()
+                                + "\nValor desconto: " + decimalFormat.format(pyDetalhe.getVlDesconto()));
+                    }
+                });
+            }
+
+            @Override
             public void onSelectedItem(RecyclerView.ViewHolder holder, final int id) {
 
-                PyDetalhe pyDetalhe = detalhes.get(id);
-                QuantidadeDialog.showDialog(getActivity().getSupportFragmentManager(), pyDetalhe, new DialogCallback<PyDetalhe>() {
+                PyDetalhe detalhe = detalhes.get(id);
+                QuantidadeDialog.showDialog(getActivity().getSupportFragmentManager(), detalhe, new DialogCallback<PyDetalhe>() {
 
                     @Override
                     public void getObject(PyDetalhe pyDetalhe) {
 
                         if (pyDetalhe != null) {
-                            pyDetalhe.setQuantidade(pyDetalhe.getQuantidade());
+                            detalhes.get(id).setQuantidade(pyDetalhe.getQuantidade());
+                            total = 0;
+                            for (int i = 0; i < detalhes.size(); i++) {
+                                total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade());
+                            }
                             lbTotal.setText(decimalFormat.format(total));
                             recyclerUp();
 

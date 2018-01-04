@@ -30,6 +30,7 @@ public class ItemVendaAdapter extends RecyclerView.Adapter<ItemVendaAdapter.Prod
     public interface OnClickRecyclerItem {
 
         void onDeleteItem(RecyclerView.ViewHolder holder, int id);
+        void onDescontoItem(RecyclerView.ViewHolder holder, int id);
         void onSelectedItem(RecyclerView.ViewHolder holder, int id);
 
     }
@@ -53,10 +54,20 @@ public class ItemVendaAdapter extends RecyclerView.Adapter<ItemVendaAdapter.Prod
 
         PyDetalhe pyDetalhe = pyDetalhes.get(position);
         holder.label_descricao_valor.setText(pyDetalhe.getEstoque().getDescricao());
+        holder.label_desconto_valor.setText(numberFormat.format(pyDetalhe.getVlDesconto()));
         holder.lb_qtde_valor.setText("x" + pyDetalhe.getQuantidade());
         holder.label_preco_valor.setText(numberFormat.format((pyDetalhe.getQuantidade() * pyDetalhe.getEstoque().getPrecoVenda())));
 
         if (onClickRecyclerItem != null) {
+
+            holder.btnDescontoItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    onClickRecyclerItem.onDescontoItem(holder, position);
+
+                }
+            });
 
             holder.btnDeleteItem.setOnClickListener(new View.OnClickListener() {
 
@@ -93,16 +104,18 @@ public class ItemVendaAdapter extends RecyclerView.Adapter<ItemVendaAdapter.Prod
 
     public class ProdutoVendaViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView label_descricao_valor, label_preco_valor, lb_qtde_valor;
-        private ImageButton btnDeleteItem;
+        private TextView label_descricao_valor, label_desconto_valor, label_preco_valor, lb_qtde_valor;
+        private ImageButton btnDeleteItem, btnDescontoItem;
 
        public ProdutoVendaViewHolder(View itemView) {
 
            super(itemView);
            label_descricao_valor = (TextView) itemView.findViewById(R.id.lb_descricao);
            label_preco_valor = (TextView) itemView.findViewById(R.id.lb_preco);
+           label_desconto_valor = (TextView) itemView.findViewById(R.id.lb_vl_desconto);
            lb_qtde_valor = (TextView) itemView.findViewById(R.id.lb_qtde);
-           btnDeleteItem = (ImageButton) itemView.findViewById(R.id.btnDeleteItem);
+           btnDeleteItem = (ImageButton) itemView.findViewById(R.id.btn_delete_item);
+           btnDescontoItem = (ImageButton) itemView.findViewById(R.id.btn_desconto_item);
 
        }
 

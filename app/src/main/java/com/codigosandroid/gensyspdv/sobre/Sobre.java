@@ -3,7 +3,7 @@ package com.codigosandroid.gensyspdv.sobre;
 import android.app.Activity;
 
 import com.codigosandroid.gensyspdv.R;
-import com.codigosandroid.gensyspdv.utils.AndroidUtils;
+import com.codigosandroid.gensyspdv.utils.Utils;
 import com.codigosandroid.utils.utils.AndroidUtil;
 
 import java.io.Serializable;
@@ -46,7 +46,7 @@ public class Sobre implements Serializable {
 
         List<Sobre> sobreList = new ArrayList<>();
         sobreList.add(new Sobre(activity.getString(R.string.sobre_versao), AndroidUtil.getVersionName(activity)));
-        sobreList.add(new Sobre(activity.getString(R.string.sobre_serial), AndroidUtils.getSerial(activity)));
+        sobreList.add(new Sobre(activity.getString(R.string.sobre_serial), AndroidUtil.getSerial(activity)));
         sobreList.add(new Sobre(activity.getString(R.string.sobre_email), activity.getString(R.string.sobre_email_value)));
         sobreList.add(new Sobre(activity.getString(R.string.sobre_site), activity.getString(R.string.sobre_site_value)));
         sobreList.add(new Sobre(activity.getString(R.string.sobre_politica_privacidade), activity.getString(R.string.sobre_politica_privacidade_value)));

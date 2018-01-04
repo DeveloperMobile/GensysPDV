@@ -31,11 +31,17 @@
     <string name="config_cloud">CLOUD</string>
     <!-- D -->
     <string name="description_produt">Sem produtos</string>
+    <string name="dialog_button_confirm">CONFIRMAR</string>
+    <string name="dialog_button_cancel">CANCELAR</string>
     <!-- H -->
     <string name="hint_usuario">Usuário</string>
     <string name="hint_senha">Senha</string>
     <!-- L -->
     <string name="lb_hint_observation">Observação</string>
+    <string name="lb_tipo_desconto">Tipo do desconto</string>
+    <string name="lb_valor">VALOR</string>
+    <string name="lb_desc">%</string>
+    <string name="lb_tipo_desc">R$</string>
     <!-- M -->
     <string name="menu_sync">Sincronizar</string>
     <string name="menu_settings">Configurações</string>

@@ -3,13 +3,12 @@ package com.codigosandroid.gensyspdv.empresa;
 import android.content.Context;
 
 import com.codigosandroid.gensyspdv.R;
-import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
-import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.LogUtil;
 import com.codigosandroid.utils.utils.PrefsUtil;
+import com.codigosandroid.utils.utils.SharedUtil;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -62,11 +61,11 @@ public class ServiceEmpresa {
      * @param context contexto da classe que utiliza o método */
     public static Empresa getByName(Context context) {
         empresaDAO = new EmpresaDAO(context);
-        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+        if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
             Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
             return empresaDAO.getByName(configuracoes.getCompany().toUpperCase());
-        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            return empresaDAO.getByName(SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+        } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+            return empresaDAO.getByName(SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
         }
         return new Empresa();
     }
@@ -76,11 +75,11 @@ public class ServiceEmpresa {
      * @param context contexto da classe que utiliza o método */
     public static List<Empresa> getAllExt(Context context) {
         empresaExcDAO = new EmpresaExtDAO();
-        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+        if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
             Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
             return empresaExcDAO.getAll(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb());
-        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+        } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
             try {
                 Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
                 return empresaExcDAO.getAll(cloud.getHostWeb(), cloud.getMysqlDb(),

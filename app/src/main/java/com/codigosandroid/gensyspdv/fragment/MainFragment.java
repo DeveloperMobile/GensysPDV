@@ -42,12 +42,12 @@ import com.codigosandroid.gensyspdv.promocoes.Promocoes;
 import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.TipoUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
-import com.codigosandroid.gensyspdv.utils.AndroidUtils;
+import com.codigosandroid.gensyspdv.utils.Utils;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
 import com.codigosandroid.gensyspdv.utils.Constantes;
-import com.codigosandroid.gensyspdv.utils.KeyboardUtil;
 import com.codigosandroid.utils.utils.AlertUtil;
 import com.codigosandroid.utils.utils.AndroidUtil;
+import com.codigosandroid.utils.utils.KeyboardUtil;
 import com.codigosandroid.utils.utils.LogUtil;
 import com.codigosandroid.utils.utils.PermissionUtil;
 import com.codigosandroid.utils.utils.PrefsUtil;
@@ -115,7 +115,7 @@ public class MainFragment extends BaseFragment {
                 startActivity(new Intent(getAppCompatActivity(), ConfigActivity.class));
                 break;
             case R.id.menu_info:
-                if (AndroidUtils.isTablet(getActivity())) {
+                if (AndroidUtil.isTablet(getActivity())) {
                     startActivity(new Intent(getActivity(), SobreActivity.class));
                 } else {
                     AboutDialog.showAbout(getActivity().getSupportFragmentManager());

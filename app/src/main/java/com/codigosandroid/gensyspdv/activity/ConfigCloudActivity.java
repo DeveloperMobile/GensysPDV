@@ -10,9 +10,8 @@ import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
 import com.codigosandroid.gensyspdv.fragment.ConfigCloudFragment;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
 import com.codigosandroid.gensyspdv.utils.Constantes;
-import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.AlertUtil;
-import com.codigosandroid.utils.utils.PrefsUtil;
+import com.codigosandroid.utils.utils.SharedUtil;
 
 public class ConfigCloudActivity extends BaseActivity {
 
@@ -52,7 +51,7 @@ public class ConfigCloudActivity extends BaseActivity {
                 for (int i = 0; i < syncList.length; i++) {
                     if (syncList[i].equals(Constantes.CLOUD)) {
                         cloud = syncCloud("Sincronizando configurações na nuvem...",
-                                SharedUtils.getString(ConfigCloudActivity.this, getString(R.string.pref_email_key)));
+                                SharedUtil.getString(ConfigCloudActivity.this, getString(R.string.pref_email_key)));
                         ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_CLOUD_JSON, cloud);
                     } else if (syncList[i].equals(Constantes.G_WEB)) {
                         geniusWeb = syncGeniusWeb("Validando configurações web...");
@@ -75,7 +74,7 @@ public class ConfigCloudActivity extends BaseActivity {
 
     private boolean verificaConfiguracoes() {
 
-        String email = SharedUtils.getString(this, getString(R.string.pref_email_key));
+        String email = SharedUtil.getString(this, getString(R.string.pref_email_key));
         return email.equals("");
 
     }
@@ -84,7 +83,7 @@ public class ConfigCloudActivity extends BaseActivity {
         if (!verificaConfiguracoes()) {
             try {
                 cloud = ServiceConfiguracoes.loadCloudFromJSON(this);
-                if (!SharedUtils.getString(this, getString(R.string.pref_email_key)).equals(cloud.getLoginEmail())) {
+                if (!SharedUtil.getString(this, getString(R.string.pref_email_key)).equals(cloud.getLoginEmail())) {
                     sync();
                 } else {
                     returnToMain();

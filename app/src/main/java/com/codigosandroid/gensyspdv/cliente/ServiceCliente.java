@@ -6,8 +6,9 @@ import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
-import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.LogUtil;
+import com.codigosandroid.utils.utils.PrefsUtil;
+import com.codigosandroid.utils.utils.SharedUtil;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -68,16 +69,16 @@ public class ServiceCliente {
      * @param context contexto da classe que utiliza o método */
     public static List<Cliente> getAllExt(Context context) {
         clienteExtDAO = new ClienteExtDAO();
-        if (SharedUtils.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
+        if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
             Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
             return clienteExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
-        } else if (SharedUtils.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
+        } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
             try {
                 Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
                 return clienteExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
                         cloud.getMysqlUser(), cloud.getMysqlPass(),
-                        SharedUtils.getString(context, context.getString(R.string.pref_company_cloud_key)));
+                        SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
             } catch (FileNotFoundException e) {
                 LogUtil.error("ERROR: ", e.getMessage(), e);
                 return new ArrayList<Cliente>();

@@ -12,8 +12,6 @@ import android.widget.LinearLayout;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.activity.ConfigCloudActivity;
 import com.codigosandroid.gensyspdv.activity.ConfigDesktopActivity;
-import com.codigosandroid.gensyspdv.utils.Constantes;
-import com.codigosandroid.gensyspdv.utils.SharedUtils;
 import com.codigosandroid.utils.utils.PrefsUtil;
 
 /**
@@ -32,8 +30,8 @@ public class ConfigFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_config, container, false);
-        desktop = SharedUtils.getBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key));
-        cloud = SharedUtils.getBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key));
+        desktop = PrefsUtil.getBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key));
+        cloud = PrefsUtil.getBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key));
         inicializar(view);
         return view;
     }
@@ -60,9 +58,9 @@ public class ConfigFragment extends BaseFragment {
         cardDesktop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedUtils.setBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key), true);
+                PrefsUtil.setBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key), true);
                 if (desktop) {
-                    SharedUtils.setBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key), false);
+                    PrefsUtil.setBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key), false);
                     desktopView.setBackgroundResource(R.drawable.rounded_border_cardview_pressed);
                     cloudView.setBackgroundResource(R.drawable.rounded_border_cardview);
                 }
@@ -73,9 +71,9 @@ public class ConfigFragment extends BaseFragment {
         cardCloud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedUtils.setBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key), true);
+                PrefsUtil.setBoolean(getActivity(), getActivity().getString(R.string.pref_cloud_key), true);
                 if (cloud) {
-                    SharedUtils.setBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key), false);
+                    PrefsUtil.setBoolean(getActivity(), getActivity().getString(R.string.pref_desktop_key), false);
                     cloudView.setBackgroundResource(R.drawable.rounded_border_cardview_pressed);
                     desktopView.setBackgroundResource(R.drawable.rounded_border_cardview);
                 }

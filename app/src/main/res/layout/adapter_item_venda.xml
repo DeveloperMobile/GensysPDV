@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
+    android:layout_marginBottom="@dimen/table_margin_bottom"
     android:foreground="?attr/selectableItemBackground"
     android:background="@drawable/rounded_border_button_on"
     android:gravity="center_vertical"
     android:stretchColumns="0"
     android:shrinkColumns="0">
 
-    <TableRow>
+    <TableRow android:gravity="center_vertical">
         <TextView
             android:id="@+id/lb_descricao"
             android:layout_width="wrap_content"
@@ -19,6 +20,28 @@
             android:text="Produto 1"
             android:textStyle="bold"
             android:textSize="@dimen/smallest_text_size"/>
+
+        <ImageButton
+            android:id="@+id/btn_desconto_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_ticket_percent"
+            android:gravity="end"
+            android:layout_marginEnd="3dp"
+            android:tint="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/lb_vl_desconto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:text="0,00"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/lb_qtde"
@@ -45,7 +68,7 @@
             android:textSize="12sp"/>
 
         <ImageButton
-            android:id="@+id/btnDeleteItem"
+            android:id="@+id/btn_delete_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
