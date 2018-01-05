@@ -14,18 +14,29 @@ import android.widget.TextView;
 
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cliente.Cliente;
+import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
+import com.codigosandroid.gensyspdv.empresa.ServiceEmpresa;
 import com.codigosandroid.gensyspdv.estoque.Estoque;
+import com.codigosandroid.gensyspdv.pagamento.FormaPagamento;
+import com.codigosandroid.gensyspdv.pagamento.dialog.DialogFormaPagamento;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.DialogCallback;
+import com.codigosandroid.gensyspdv.utils.Utils;
 import com.codigosandroid.gensyspdv.venda.ItemVendaAdapter;
 import com.codigosandroid.gensyspdv.venda.PyDetalhe;
+import com.codigosandroid.gensyspdv.venda.PyRecPag;
+import com.codigosandroid.gensyspdv.venda.PyVenda;
+import com.codigosandroid.gensyspdv.venda.ServicePyVenda;
 import com.codigosandroid.gensyspdv.venda.dialog.ClienteDialog;
 import com.codigosandroid.gensyspdv.venda.dialog.DialogDesconto;
 import com.codigosandroid.gensyspdv.venda.dialog.EstoqueDialog;
 import com.codigosandroid.gensyspdv.venda.dialog.QuantidadeDialog;
 import com.codigosandroid.gensyspdv.venda.dialog.UsuarioDialog;
 import com.codigosandroid.utils.utils.AlertUtil;
+import com.codigosandroid.utils.utils.AndroidUtil;
+import com.codigosandroid.utils.utils.LogUtil;
 
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -49,6 +60,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
     /* Lista de produdtos */
     private List<Estoque> estoqueList = new ArrayList<>();
     private List<PyDetalhe> detalhes = new ArrayList<>();
+    private List<PyRecPag> recPags = new ArrayList<>();
     /* Adapter */
     private ItemVendaAdapter adapter;
     /* Formato Numérico */
@@ -88,6 +100,8 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
         /* Cancela Vendedor */
         btnCancelaUsuario = (ImageButton) view.findViewById(R.id.btnCancelSalesMan);
         btnCancelaUsuario.setOnClickListener(this);
+        /* Finalizar Venda */
+        view.findViewById(R.id.btnFinalizar).setOnClickListener(this);
         /* Lista de Produtos */
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -119,9 +133,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                 });
                 break;
             case R.id.btnCancelClient:
-                cliente = null;
-                btnSearchCliente.setText(R.string.search_item_client);
-                btnCancelaCliente.setVisibility(View.GONE);
+                cancelClient();
                 break;
             case R.id.btnSearchSalesman:
                 UsuarioDialog.showDialog(getActivity().getSupportFragmentManager(), new DialogCallback<Usuario>() {
@@ -137,9 +149,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                 });
                 break;
             case R.id.btnCancelSalesMan:
-                usuario = null;
-                btnSearchSalesman.setText(R.string.search_item_salesman);
-                btnCancelaUsuario.setVisibility(View.GONE);
+                cancelSalesMan();
                 break;
             case R.id.btnSearchProd:
                 EstoqueDialog.showDialog(getActivity().getSupportFragmentManager(), new DialogCallback<Estoque>() {
@@ -171,6 +181,53 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
 
                 });
                 break;
+            case R.id.btnFinalizar:
+                if (detalhes.isEmpty()) {
+                    AlertUtil.alert(getActivity(), "Aviso", "Inclua pelo menos um item na venda!");
+                } else {
+                    DialogFormaPagamento.showDialog(getActivity().getSupportFragmentManager(),
+                            total, new DialogCallback<List<FormaPagamento>>() {
+                                @Override
+                                public void getObject(List<FormaPagamento> formaPagamentos) {
+                                    try {
+                                        Usuario operador = ServiceConfiguracoes.loadOperadorFromJSON(getActivity());
+                                        PyVenda pyVenda = new PyVenda();
+                                        pyVenda.setIdentificador(AndroidUtil.getSerial(getActivity()));
+                                        pyVenda.setTipo("V");
+                                        pyVenda.setDataEmissao(Utils.getDataAtual());
+                                        pyVenda.setCliente(cliente);
+                                        pyVenda.setUsuario(usuario);
+                                        pyVenda.setIdOperador(operador.getId());
+                                        pyVenda.setEmpresa(ServiceEmpresa.getByName(getActivity()));
+                                        pyVenda.setTotal(total);
+                                        pyVenda.setPyDetalhes(detalhes);
+                                        for (int i = 0; i < formaPagamentos.size(); i++) {
+                                            PyRecPag pyRecPag = new PyRecPag();
+                                            pyRecPag.setPyVenda(pyVenda);
+                                            pyRecPag.setTipoPagamento(formaPagamentos.get(i).getTipoPagamento());
+                                            pyRecPag.setValor(formaPagamentos.get(i).getValor());
+                                            recPags.add(pyRecPag);
+                                        }
+                                        pyVenda.setPyRecPags(recPags);
+                                        if (ServicePyVenda.insert(getActivity(), pyVenda)) {
+                                            AlertUtil.alert(getActivity(), "Venda", "Venda realizada com sucesso!", 0, new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    clear();
+                                                }
+                                            });
+                                        } else {
+                                            AlertUtil.alert(getActivity(), "Erro", "Erro ao gerar venda");
+                                        }
+                                        DialogFormaPagamento.closeDialog(getActivity().getSupportFragmentManager());
+                                    } catch (Exception e) {
+                                        LogUtil.error(TAG, e.getMessage(), e);
+                                    }
+
+                                }
+                            });
+                }
+                break;
         }
 
     }
@@ -201,7 +258,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                             lbTotalProdutos.setText(String.valueOf(detalhes.size()));
                         }
 
-                        total -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade());
+                        total -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade()) - pyDetalhe.getVlDesconto();
                         lbTotal.setText(decimalFormat.format(total));
                         recyclerUp();
 
@@ -214,13 +271,19 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
             }
 
             @Override
-            public void onDescontoItem(RecyclerView.ViewHolder holder, int id) {
+            public void onDescontoItem(RecyclerView.ViewHolder holder, final int id) {
                 PyDetalhe pyDetalhe = detalhes.get(id);
                 DialogDesconto.showItem(getActivity().getSupportFragmentManager(), pyDetalhe, new DialogCallback<PyDetalhe>() {
                     @Override
                     public void getObject(PyDetalhe pyDetalhe) {
-                        AlertUtil.alert(getActivity(), "Info", "Desconto: " + pyDetalhe.getDesconto()
-                                + "\nValor desconto: " + decimalFormat.format(pyDetalhe.getVlDesconto()));
+                        detalhes.get(id).setVlDesconto(pyDetalhe.getVlDesconto());
+                        detalhes.get(id).setDesconto(pyDetalhe.getDesconto());
+                        total = 0;
+                        for (int i = 0; i < detalhes.size(); i++) {
+                            total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
+                        }
+                        lbTotal.setText(decimalFormat.format(total));
+                        recyclerUp();
                     }
                 });
             }
@@ -238,7 +301,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                             detalhes.get(id).setQuantidade(pyDetalhe.getQuantidade());
                             total = 0;
                             for (int i = 0; i < detalhes.size(); i++) {
-                                total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade());
+                                total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
                             }
                             lbTotal.setText(decimalFormat.format(total));
                             recyclerUp();
@@ -254,6 +317,30 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
         });
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private void clear() {
+        detalhes.clear();
+        lbDescricaoProduto.setText(getString(R.string.description_produt));
+        lbValorProduto.setText(numberFormat.format(0.0));
+        lbTotalProdutos.setText(String.valueOf(detalhes.size()));
+        cancelSalesMan();
+        cancelClient();
+        total = 0;
+        lbTotal.setText(decimalFormat.format(total));
+        recyclerUp();
+    }
+
+    private void cancelSalesMan() {
+        usuario = null;
+        btnSearchSalesman.setText(R.string.search_item_salesman);
+        btnCancelaUsuario.setVisibility(View.GONE);
+    }
+
+    private void cancelClient() {
+        cliente = null;
+        btnSearchCliente.setText(R.string.search_item_client);
+        btnCancelaCliente.setVisibility(View.GONE);
     }
 
 }

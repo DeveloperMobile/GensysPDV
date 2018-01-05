@@ -147,7 +147,8 @@ public class BaseDAO {
                     + "DESCONTO REAL, "
                     + "VALOR REAL, "
                     + "TOTAL REAL, "
-                    + "FOREIGN KEY (ID_ESTOQUE) REFERENCES ESTOQUE (_ID));",
+                    + "FOREIGN KEY (ID_ESTOQUE) REFERENCES ESTOQUE (_ID)"
+                    + "FOREIGN KEY (ID_PYVENDA) REFERENCES PYVENDA (_ID));",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_TIPO_PAGAMENTO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "DESCRICAO TEXT, "

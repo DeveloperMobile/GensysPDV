@@ -33,6 +33,7 @@
     <string name="description_produt">Sem produtos</string>
     <string name="dialog_button_confirm">CONFIRMAR</string>
     <string name="dialog_button_cancel">CANCELAR</string>
+    <string name="description_forma_pagamento_tela">Sair da tela de formas de pagamento</string>
     <!-- H -->
     <string name="hint_usuario">Usuário</string>
     <string name="hint_senha">Senha</string>
@@ -52,6 +53,7 @@
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
     <string name="msg_error_usuario">Informe o usuário!</string>
     <string name="msg_error_senha">Informe a senha!</string>
+    <string name="msg_add_pagamentos">Nenhum pagamento adicionado</string>
     <!-- N -->
     <string name="nav_item_vendas">Vendas</string>
     <string name="nav_item_sair">Sair</string>

@@ -43,6 +43,14 @@ public class ServiceUsuario {
     }
 
     /**
+     * Busca um registro na tabela usuário
+     * @param context contexto da classe que utiliza o método */
+    public static Usuario getByApelido(Context context, String apelido) {
+        usuarioDAO = new UsuarioDAO(context);
+        return usuarioDAO.getByName(apelido);
+    }
+
+    /**
      * Busca todos os registros na tabela usuário
      * @param context contexto da classe que utiliza o método */
     public static List<Usuario> getAll(Context context) {

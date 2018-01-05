@@ -43,5 +43,11 @@ public class Constantes {
     public static final String FILE_OPERADOR_JSON = "operador.json";
     // Preferences values
     public static final String DESKTOP = "desktop";
+    // Formas de pagamento
+    public static final String DINHEIRO = "DINHEIRO";
+    public static final String CREDITO = "CRÉDITO";
+    public static final String CREDITO_PARCELA = "CRÉDITO_PARCELA";
+    public static final String DEBITO = "DÉBITO";
+    public static final String VOUCHER = "VOUCHER";
 
 }

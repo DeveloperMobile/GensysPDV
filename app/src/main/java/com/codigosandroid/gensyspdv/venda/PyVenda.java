@@ -2,8 +2,9 @@ package com.codigosandroid.gensyspdv.venda;
 
 import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
-import com.codigosandroid.gensyspdv.usuario.Operador;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
+
+import java.util.List;
 
 /**
  * Created by Tiago on 03/01/2018.
@@ -17,12 +18,14 @@ public class PyVenda {
     private String dataEmissao;
     private Cliente cliente;
     private Usuario usuario;
-    private Operador operador;
+    private long idOperador;
     private Empresa empresa;
     private String numeroServidor;
     private double total;
     private String captura;
     private String notaFiscal;
+    private List<PyDetalhe> pyDetalhes;
+    private List<PyRecPag> pyRecPags;
 
     public long getId() {
         return id;
@@ -72,12 +75,12 @@ public class PyVenda {
         this.usuario = usuario;
     }
 
-    public Operador getOperador() {
-        return operador;
+    public long getIdOperador() {
+        return idOperador;
     }
 
-    public void setOperador(Operador operador) {
-        this.operador = operador;
+    public void setIdOperador(long idOperador) {
+        this.idOperador = idOperador;
     }
 
     public Empresa getEmpresa() {
@@ -118,6 +121,22 @@ public class PyVenda {
 
     public void setNotaFiscal(String notaFiscal) {
         this.notaFiscal = notaFiscal;
+    }
+
+    public List<PyDetalhe> getPyDetalhes() {
+        return pyDetalhes;
+    }
+
+    public void setPyDetalhes(List<PyDetalhe> pyDetalhes) {
+        this.pyDetalhes = pyDetalhes;
+    }
+
+    public List<PyRecPag> getPyRecPags() {
+        return pyRecPags;
+    }
+
+    public void setPyRecPags(List<PyRecPag> pyRecPags) {
+        this.pyRecPags = pyRecPags;
     }
 
 }

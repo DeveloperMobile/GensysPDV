@@ -7,6 +7,9 @@ import android.database.Cursor;
 import com.codigosandroid.gensyspdv.db.BaseDAO;
 import com.codigosandroid.utils.utils.LogUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Tiago on 29/12/2017.
  */
@@ -71,6 +74,28 @@ public class TipoPagamentoDAO extends BaseDAO {
             db.execSQL(CREATE);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
+        } finally {
+            close();
+        }
+    }
+
+    public List<TipoPagamento> getAll() {
+        List<TipoPagamento> tipoPagamentos = new ArrayList<>();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_TIPO_PAGAMENTO, null, null, null,
+                    null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                TipoPagamento tipoPagamento = cursorToTipoPagamento(cursor);
+                tipoPagamentos.add(tipoPagamento);
+                cursor.moveToNext();
+            }
+            cursor.close();
+            return tipoPagamentos;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new ArrayList<TipoPagamento>();
         } finally {
             close();
         }

@@ -175,7 +175,7 @@ public class MainFragment extends BaseFragment {
 
     private void login() {
 
-        List<Usuario> usuarioList = ServiceUsuario.getAll(getAppCompatActivity());
+        final List<Usuario> usuarioList = ServiceUsuario.getAll(getAppCompatActivity());
 
         if (AndroidUtil.isNetworkAvaliable(getActivity())) {
 
@@ -202,7 +202,8 @@ public class MainFragment extends BaseFragment {
                                 if (usuario.getApelido().toUpperCase().equals(actUsuario.getText().toString().trim().toUpperCase())
                                         && usuario.getSenha().equals(etSenha.getText().toString().trim())) {
 
-                                    ServiceConfiguracoes.saveJson(getActivity(), Constantes.FILE_OPERADOR_JSON, usuario);
+                                    ServiceConfiguracoes.saveJson(getActivity(), Constantes.FILE_OPERADOR_JSON,
+                                            ServiceUsuario.getByApelido(getActivity(), usuario.getApelido()));
                                     startActivity(new Intent(getActivity(), VendaActivity.class));
 
                                 } else {

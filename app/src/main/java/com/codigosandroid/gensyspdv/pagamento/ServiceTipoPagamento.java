@@ -56,6 +56,14 @@ public class ServiceTipoPagamento {
     }
 
     /**
+     * Busca todos os registros na tabela tipo_pagamento(formapag)
+     * @param context contexto da classe que utiliza o método */
+    public static List<TipoPagamento> getAll(Context context) {
+        tipoPagamentoDAO = new TipoPagamentoDAO(context);
+        return tipoPagamentoDAO.getAll();
+    }
+
+    /**
      * Busca todos os registros na tabela tipo_pagamento(formapag) externa
      * @param context contexto da classe que utiliza o método */
     public static List<TipoPagamento> getAllExt(Context context) {

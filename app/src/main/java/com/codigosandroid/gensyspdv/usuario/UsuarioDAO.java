@@ -60,7 +60,24 @@ public class UsuarioDAO extends BaseDAO {
         }
     }
 
-
+    public Usuario getByName(String aplido) {
+        Usuario usuario = new Usuario();
+        try {
+            open();
+            Cursor cursor = db.query(TABLE_USUARIO, null, APELIDO + "=?", new String[]{ aplido },
+                    null, null, null);
+            if (cursor.moveToFirst()) {
+                usuario = cursorToUsuario(cursor);
+            }
+            cursor.close();
+            return usuario;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new Usuario();
+        } finally {
+            close();
+        }
+    }
 
     /** Busca dados na tabela usuario */
     public List<Usuario> getAll() {
