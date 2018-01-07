@@ -140,15 +140,11 @@ public class ServiceUsuario {
             return usuarioExtDAO.getByName(configuracoes.getHost(), configuracoes.getDb(), configuracoes.getUserDb(),
                     configuracoes.getPassDb(), nome, configuracoes.getCompany());
         } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            try {
-                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-                return usuarioExtDAO.getByName(cloud.getHostWeb(), cloud.getMysqlDb(),
-                        cloud.getMysqlUser(), cloud.getMysqlPass(), nome,
-                        SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
-            } catch (FileNotFoundException e) {
-                LogUtil.error("ERROR: ", e.getMessage(), e);
-                return new Usuario();
-            }
+            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+            return usuarioExtDAO.getByName(cloud.getHostWeb(), cloud.getMysqlDb(),
+                    cloud.getMysqlUser(), cloud.getMysqlPass(), nome,
+                    SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
+
         }
        return new Usuario();
     }
@@ -163,15 +159,11 @@ public class ServiceUsuario {
             return usuarioExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
         } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            try {
-                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-                return usuarioExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
-                        cloud.getMysqlUser(), cloud.getMysqlPass(),
-                        SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
-            } catch (FileNotFoundException e) {
-                LogUtil.error("ERROR: ", e.getMessage(), e);
-                return new ArrayList<Usuario>();
-            }
+            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+            return usuarioExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
+                    cloud.getMysqlUser(), cloud.getMysqlPass(),
+                    SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
+
         }
         return new ArrayList<Usuario>();
     }

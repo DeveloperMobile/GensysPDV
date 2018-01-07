@@ -80,14 +80,10 @@ public class ServiceEmpresa {
             return empresaExcDAO.getAll(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb());
         } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            try {
-                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-                return empresaExcDAO.getAll(cloud.getHostWeb(), cloud.getMysqlDb(),
-                        cloud.getMysqlUser(), cloud.getMysqlPass());
-            } catch (FileNotFoundException e) {
-                LogUtil.error("ERROR: ", e.getMessage(), e);
-                return new ArrayList<Empresa>();
-            }
+            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+            return empresaExcDAO.getAll(cloud.getHostWeb(), cloud.getMysqlDb(),
+                    cloud.getMysqlUser(), cloud.getMysqlPass());
+
         }
        return new ArrayList<Empresa>();
     }

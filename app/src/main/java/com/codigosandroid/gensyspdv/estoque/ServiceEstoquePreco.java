@@ -66,15 +66,11 @@ public class ServiceEstoquePreco {
             return estoquePrecoExcDAO.getByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
         } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            try {
-                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-                return estoquePrecoExcDAO.getByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
-                        cloud.getMysqlUser(), cloud.getMysqlPass(),
-                        SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
-            } catch (FileNotFoundException e) {
-                LogUtil.error("ERROR: ", e.getMessage(), e);
-                return new ArrayList<EstoquePreco>();
-            }
+            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+            return estoquePrecoExcDAO.getByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
+                    cloud.getMysqlUser(), cloud.getMysqlPass(),
+                    SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
+
         }
        return new ArrayList<EstoquePreco>();
     }

@@ -66,15 +66,11 @@ public class ServicePromocoes {
             return promocoesExtDAO.getAllByEmpresa(configuracoes.getHost(), configuracoes.getDb(),
                     configuracoes.getUserDb(), configuracoes.getPassDb(), configuracoes.getCompany());
         } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            try {
-                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-                return promocoesExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
-                        cloud.getMysqlUser(), cloud.getMysqlPass(),
-                        SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
-            } catch (FileNotFoundException e) {
-                LogUtil.error("ERROR: ", e.getMessage(), e);
-                return new ArrayList<Promocoes>();
-            }
+            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
+            return promocoesExtDAO.getAllByEmpresa(cloud.getHostWeb(), cloud.getMysqlDb(),
+                    cloud.getMysqlUser(), cloud.getMysqlPass(),
+                    SharedUtil.getString(context, context.getString(R.string.pref_company_cloud_key)));
+
         }
        return new ArrayList<Promocoes>();
     }
