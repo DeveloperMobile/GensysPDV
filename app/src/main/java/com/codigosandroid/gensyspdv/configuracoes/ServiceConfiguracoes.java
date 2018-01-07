@@ -9,6 +9,7 @@ import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.utils.utils.FileUtil;
 import com.codigosandroid.utils.utils.IOUtil;
+import com.codigosandroid.utils.utils.LogUtil;
 import com.codigosandroid.utils.utils.SharedUtil;
 import com.google.gson.Gson;
 
@@ -78,12 +79,17 @@ public class ServiceConfiguracoes {
 
     }
 
-    public static Cloud loadCloudFromJSON(Context context) throws FileNotFoundException {
-        File file = FileUtil.getFile(context, Constantes.FILE_CLOUD_JSON);
-        if (file.exists()) {
-            Gson gson = new Gson();
-            BufferedReader br = IOUtil.readJson(file);
-            return gson.fromJson(br, Cloud.class);
+    public static Cloud loadCloudFromJSON(Context context) {
+        try {
+            File file = FileUtil.getFile(context, Constantes.FILE_CLOUD_JSON);
+            if (file.exists()) {
+                Gson gson = new Gson();
+                BufferedReader br = IOUtil.readJson(file);
+                return gson.fromJson(br, Cloud.class);
+            }
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new Cloud();
         }
         return new Cloud();
     }
@@ -134,6 +140,13 @@ public class ServiceConfiguracoes {
         File file = FileUtil.getFile(context, fileName);
         if (!file.exists()) {
             IOUtil.writeString(file, toJson(cloud));
+        }
+    }
+
+    public static void deleteJson(Context context, String fileName) {
+        File file = FileUtil.getFile(context, fileName);
+        if (file.exists()) {
+            file.delete();
         }
     }
 

@@ -6,11 +6,14 @@ import android.view.MenuItem;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.cloud.GeniusWeb;
+import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
 import com.codigosandroid.gensyspdv.fragment.ConfigCloudFragment;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
 import com.codigosandroid.gensyspdv.utils.Constantes;
 import com.codigosandroid.utils.utils.AlertUtil;
+import com.codigosandroid.utils.utils.FileUtil;
+import com.codigosandroid.utils.utils.IOUtil;
 import com.codigosandroid.utils.utils.SharedUtil;
 
 public class ConfigCloudActivity extends BaseActivity {
@@ -52,17 +55,29 @@ public class ConfigCloudActivity extends BaseActivity {
                     if (syncList[i].equals(Constantes.CLOUD)) {
                         cloud = syncCloud("Sincronizando configurações na nuvem...",
                                 SharedUtil.getString(ConfigCloudActivity.this, getString(R.string.pref_email_key)));
-                        ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_CLOUD_JSON, cloud);
+                        if (ServiceConfiguracoes.isPreferencesCloud(ConfigCloudActivity.this)) {
+                            ServiceConfiguracoes.deleteJson(ConfigCloudActivity.this, Constantes.FILE_CLOUD_JSON);
+                            ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_CLOUD_JSON, cloud);
+                        } else  {
+                            ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_CLOUD_JSON, cloud);
+                        }
                     } else if (syncList[i].equals(Constantes.G_WEB)) {
-                        geniusWeb = syncGeniusWeb("Validando configurações web...");
-                        ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_GW_JSON, geniusWeb);
+                            geniusWeb = syncGeniusWeb("Validando configurações web...");
+                            ServiceConfiguracoes.saveJson(ConfigCloudActivity.this, Constantes.FILE_GW_JSON, geniusWeb);
                     }
                 }
             }
 
             @Override
             public void syncPostExecute() {
-                returnToMain();
+
+                Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(ConfigCloudActivity.this);
+                if (ServiceConfiguracoes.isPreferencesCloud(ConfigCloudActivity.this) && cloud != null) {
+                    returnToMain();
+                } else {
+                    AlertUtil.alert(ConfigCloudActivity.this, "Aviso",
+                            "Erro ao sincronizar configurações da nuvem!");
+                }
             }
         }).execute(syncList);
     }
