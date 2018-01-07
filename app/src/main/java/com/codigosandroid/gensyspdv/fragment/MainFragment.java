@@ -244,7 +244,9 @@ public class MainFragment extends BaseFragment {
                                 if (usuario.getApelido().toUpperCase().equals(actUsuario.getText().toString().trim().toUpperCase())
                                         && usuario.getSenha().equals(etSenha.getText().toString().trim())) {
 
-                                    AlertUtil.alert(getActivity(), "Informativo", "Login efetuado com sucesso!!");
+                                    ServiceConfiguracoes.saveJson(getActivity(), Constantes.FILE_OPERADOR_JSON,
+                                            ServiceUsuario.getByApelido(getActivity(), usuario.getApelido()));
+                                    startActivity(new Intent(getActivity(), VendaActivity.class));
 
                                 } else {
 
