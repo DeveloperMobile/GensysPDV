@@ -29,7 +29,8 @@ public class TipoUsuarioDAO extends BaseDAO {
 
     /** Insere dados na tabela tipo_usuario
      * @param tipoUsuario objeto a ser inserido na tabela tipo_usuario */
-    public long insert(TipoUsuario tipoUsuario) {long id = 0;
+    public long insert(TipoUsuario tipoUsuario) {
+        long id = 0;
         try {
             open();
             ContentValues values = tipoUsuarioToValues(tipoUsuario);

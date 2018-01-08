@@ -164,10 +164,10 @@ public class BaseDAO {
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_PYRECPAG + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_PYVENDA INTEGER, "
-                    + "ID_TIPO_PAGAMENTO INTEGER, "
+                    + "ID_FORMA_PAGAMENTO INTEGER, "
                     + "VALOR REAL, "
                     + "FOREIGN KEY (ID_PYVENDA) REFERENCES PYVENDA (_ID), "
-                    + "FOREIGN KEY (ID_TIPO_PAGAMENTO) REFERENCES TIPO_PAGAMENTO (_ID));",
+                    + "FOREIGN KEY (ID_FORMA_PAGAMENTO) REFERENCES FORMA_PAGAMENTO (_ID));",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_PRECO_HORA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "ID_ESTOQUE INTEGER, "

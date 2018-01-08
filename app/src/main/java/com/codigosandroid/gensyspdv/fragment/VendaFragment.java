@@ -18,6 +18,7 @@ import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
 import com.codigosandroid.gensyspdv.empresa.ServiceEmpresa;
 import com.codigosandroid.gensyspdv.estoque.Estoque;
 import com.codigosandroid.gensyspdv.pagamento.FormaPagamento;
+import com.codigosandroid.gensyspdv.pagamento.ServiceFormaPagamento;
 import com.codigosandroid.gensyspdv.pagamento.dialog.DialogFormaPagamento;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.DialogCallback;
@@ -202,9 +203,10 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                                         pyVenda.setTotal(total);
                                         pyVenda.setPyDetalhes(detalhes);
                                         for (int i = 0; i < formaPagamentos.size(); i++) {
+                                            formaPagamentos.get(i).setId(ServiceFormaPagamento.insert(getActivity(), formaPagamentos.get(i)));
                                             PyRecPag pyRecPag = new PyRecPag();
                                             pyRecPag.setPyVenda(pyVenda);
-                                            pyRecPag.setTipoPagamento(formaPagamentos.get(i).getTipoPagamento());
+                                            pyRecPag.setFormaPagamentoPagamento(formaPagamentos.get(i));
                                             pyRecPag.setValor(formaPagamentos.get(i).getValor());
                                             recPags.add(pyRecPag);
                                         }

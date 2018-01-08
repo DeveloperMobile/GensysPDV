@@ -2,6 +2,8 @@ package com.codigosandroid.gensyspdv.venda;
 
 import android.content.Context;
 
+import java.util.List;
+
 /**
  * Created by Tiago on 05/01/2018.
  */
@@ -17,6 +19,12 @@ public class ServicePyVenda {
     public static boolean insert(Context context, PyVenda pyVenda) {
         pyVendaDAO = new PyVendaDAO(context);
         return pyVendaDAO.insert(pyVenda);
+    }
+
+    /** Busca todos os dados na tabela usuario */
+    public static List<PyVenda> getAllInner(Context context) {
+        pyVendaDAO = new PyVendaDAO(context);
+        return pyVendaDAO.getAllInner();
     }
 
 }

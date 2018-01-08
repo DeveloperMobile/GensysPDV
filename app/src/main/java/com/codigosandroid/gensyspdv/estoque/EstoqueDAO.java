@@ -246,6 +246,7 @@ public class EstoqueDAO extends BaseDAO {
         return values;
 
     }
+
     private Estoque cursorToEstoque(Cursor cursor) {
 
         Estoque estoque = new Estoque();

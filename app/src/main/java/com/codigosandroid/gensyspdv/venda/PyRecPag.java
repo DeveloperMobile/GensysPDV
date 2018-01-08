@@ -1,6 +1,6 @@
 package com.codigosandroid.gensyspdv.venda;
 
-import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
+import com.codigosandroid.gensyspdv.pagamento.FormaPagamento;
 
 /**
  * Created by Tiago on 05/01/2018.
@@ -10,7 +10,7 @@ public class PyRecPag {
 
     private long id;
     private PyVenda pyVenda;
-    private TipoPagamento tipoPagamento;
+    private FormaPagamento formaPagamento;
     private double valor;
 
     public long getId() {
@@ -29,12 +29,12 @@ public class PyRecPag {
         this.pyVenda = pyVenda;
     }
 
-    public TipoPagamento getTipoPagamento() {
-        return tipoPagamento;
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
     }
 
-    public void setTipoPagamento(TipoPagamento tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public double getValor() {

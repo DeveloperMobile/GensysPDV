@@ -197,7 +197,7 @@ public class UsuarioDAO extends BaseDAO {
         return usuario;
     }
 
-    private Usuario cursorToInnerUsuario(Cursor cursor) {
+    public Usuario cursorToInnerUsuario(Cursor cursor) {
         Usuario usuario = new Usuario();
         usuario.setId(cursor.getLong(cursor.getColumnIndexOrThrow("U." + ID)));
         usuario.setTipoUsuario(cursorToTipoUsuario(cursor));
