@@ -206,7 +206,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                                             formaPagamentos.get(i).setId(ServiceFormaPagamento.insert(getActivity(), formaPagamentos.get(i)));
                                             PyRecPag pyRecPag = new PyRecPag();
                                             pyRecPag.setPyVenda(pyVenda);
-                                            pyRecPag.setFormaPagamentoPagamento(formaPagamentos.get(i));
+                                            pyRecPag.setFormaPagamento(formaPagamentos.get(i));
                                             pyRecPag.setValor(formaPagamentos.get(i).getValor());
                                             recPags.add(pyRecPag);
                                         }
