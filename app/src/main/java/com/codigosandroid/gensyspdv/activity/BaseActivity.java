@@ -104,7 +104,7 @@ public class BaseActivity extends com.codigosandroid.utils.activity.BaseActivity
                 if (ServicePyVenda.getAllInner(this).isEmpty()) {
                     AlertUtil.alert(this, "Aviso", "Nenhuma venda registrada!");
                 } else {
-
+                    startActivity(new Intent(this, VendasActivity.class));
                 }
                 break;
             case R.id.nav_item_reverse: break;

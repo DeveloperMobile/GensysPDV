@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.Locale;
 public class Utils {
 
     private static final String TAG = Utils.class.getSimpleName();
+    private static DecimalFormat formato = new DecimalFormat();
 
     public static boolean localizaHost(String host, int port) {
         SocketAddress sockaddr = new InetSocketAddress(host, port);
@@ -75,6 +77,14 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("pt", "BR"));
         LogUtil.debug(TAG, sdf.format(data));
         return sdf.format(data);
+
+    }
+
+    /* Gera documento venda(VN) */
+    public static String getDocumento(long id) {
+
+        formato.applyPattern("00000000");
+        return formato.format(id);
 
     }
 

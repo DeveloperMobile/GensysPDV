@@ -28,8 +28,8 @@ public class UsuarioDAO extends BaseDAO {
     private static final String TIPO = "TIPO";
     private static final String ID_VENDEDOR = "ID_VENDEDOR";
 
-    private static final String INNER_USUARIO = "SELECT U.*, TU.* FROM USUARIO U " +
-            "INNER JOIN TIPO_USUARIO TU ON U.ID_TIPO_USUARIO = TU._ID";
+    private static final String INNER_USUARIO = "SELECT U.*, TU.* FROM " + TABLE_USUARIO + " U " +
+            "INNER JOIN " + TABLE_TIPO_USUARIO + " TU ON U.ID_TIPO_USUARIO = TU._ID;";
 
     private static final String CREATE_USUARIO =  "CREATE TABLE IF NOT EXISTS " + TABLE_USUARIO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "ID_TIPO_USUARIO INTEGER, "

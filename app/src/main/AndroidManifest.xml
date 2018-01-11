@@ -35,6 +35,8 @@
             android:label="@string/activity_label_configuracoes_cloud"/>
         <activity android:name=".activity.VendaActivity"
             android:label="@string/activity_label_venda"/>
+        <activity android:name=".activity.VendasActivity"
+            android:label="@string/activity_label_vendas"/>
     </application>
 
 </manifest>
