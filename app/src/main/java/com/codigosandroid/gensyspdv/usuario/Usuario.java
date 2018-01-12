@@ -1,10 +1,12 @@
 package com.codigosandroid.gensyspdv.usuario;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 26/12/2017.
  */
 
-public class Usuario {
+public class Usuario implements Serializable {
 
     private long id;
     private TipoUsuario tipoUsuario;

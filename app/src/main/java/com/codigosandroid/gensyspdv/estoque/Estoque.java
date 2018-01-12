@@ -2,11 +2,13 @@ package com.codigosandroid.gensyspdv.estoque;
 
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
 
-public class Estoque {
+public class Estoque implements Serializable {
 
     private long id;
     private int recno;

@@ -1,10 +1,12 @@
 package com.codigosandroid.gensyspdv.empresa;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
 
-public class Empresa {
+public class Empresa implements Serializable {
 
     private long id;
     private String descricao;

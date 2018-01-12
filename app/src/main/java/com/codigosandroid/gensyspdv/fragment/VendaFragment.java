@@ -73,11 +73,9 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_venda, container, false);
         inicializar(view);
         return view;
-
     }
 
     private void inicializar(View view) {

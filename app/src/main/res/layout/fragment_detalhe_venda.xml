@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1"
+    android:layout_margin="@dimen/card_margin_default">
+
+    <TableRow>
+        <TextView android:id="@+id/data_emissao"
+            android:text="12/01/2018 14:56"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/search_item_client"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/cliente"
+            android:text="Cliente não informado"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/search_item_salesman"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/vendedor"
+            android:text="Vendedor não informado"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/lb_valor_bruto"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/valor_bruto"
+            android:text="R$10,00"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/lb_desconto"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/desconto"
+            android:text="R$0,00"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/lb_valor_liquido"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/valor_liquido"
+            android:text="R$10,00"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_gravity="end"
+            android:textSize="16sp"/>
+    </TableRow>
+
+    <view android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginTop="@dimen/card_margin_min"
+        android:layout_marginBottom="@dimen/card_margin_min"/>
+
+    <TableRow>
+        <TextView android:text="@string/lb_itens_venda"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+    </TableRow>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerItensVenda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <view android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginTop="@dimen/card_margin_min"
+        android:layout_marginBottom="@dimen/card_margin_min"/>
+
+    <TableRow>
+        <TextView android:text="@string/lb_itens_pagamento"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+    </TableRow>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerPagamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TableRow>
+        <TextView android:text="@string/lb_valor_troco"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+
+        <TextView android:id="@+id/troco"
+            android:text="R$0,00"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:textColor="@android:color/holo_red_dark"/>
+    </TableRow>
+
+</TableLayout>

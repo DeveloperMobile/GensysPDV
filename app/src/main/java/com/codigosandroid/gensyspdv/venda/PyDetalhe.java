@@ -2,11 +2,13 @@ package com.codigosandroid.gensyspdv.venda;
 
 import com.codigosandroid.gensyspdv.estoque.Estoque;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 03/01/2018.
  */
 
-public class PyDetalhe {
+public class PyDetalhe implements Serializable {
 
     private long id;
     private PyVenda pyVenda;

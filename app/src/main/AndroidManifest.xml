@@ -34,9 +34,10 @@
         <activity android:name=".activity.ConfigCloudActivity"
             android:label="@string/activity_label_configuracoes_cloud"/>
         <activity android:name=".activity.VendaActivity"
-            android:label="@string/activity_label_venda"/>
+            android:label="@string/activity_label_venda" android:theme="@style/AppTheme.NoActionBar.NavDrawer"/>
         <activity android:name=".activity.VendasActivity"
             android:label="@string/activity_label_vendas"/>
+        <activity android:name=".activity.DetalheVendaActivity" android:label="@string/activity_label_detalhe"/>
     </application>
 
 </manifest>

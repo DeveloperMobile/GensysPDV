@@ -4,13 +4,14 @@ import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Tiago on 03/01/2018.
  */
 
-public class PyVenda {
+public class PyVenda implements Serializable {
 
     private long id;
     private String identificador;

@@ -1,10 +1,12 @@
 package com.codigosandroid.gensyspdv.cliente;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 28/12/2017.
  */
 
-public class Cliente {
+public class Cliente implements Serializable {
 
     private long id;
     private String nome;

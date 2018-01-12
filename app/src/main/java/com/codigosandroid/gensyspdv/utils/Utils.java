@@ -74,7 +74,7 @@ public class Utils {
 
         Calendar calendar = Calendar.getInstance();
         Date data = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("pt", "BR"));
         LogUtil.debug(TAG, sdf.format(data));
         return sdf.format(data);
 

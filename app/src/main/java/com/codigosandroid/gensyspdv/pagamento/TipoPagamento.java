@@ -1,10 +1,12 @@
 package com.codigosandroid.gensyspdv.pagamento;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 29/12/2017.
  */
 
-public class TipoPagamento {
+public class TipoPagamento implements Serializable {
 
     private long id;
     private String descricao;

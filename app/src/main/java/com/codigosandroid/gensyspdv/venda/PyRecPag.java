@@ -2,11 +2,13 @@ package com.codigosandroid.gensyspdv.venda;
 
 import com.codigosandroid.gensyspdv.pagamento.FormaPagamento;
 
+import java.io.Serializable;
+
 /**
  * Created by Tiago on 05/01/2018.
  */
 
-public class PyRecPag {
+public class PyRecPag implements Serializable {
 
     private long id;
     private PyVenda pyVenda;

@@ -2,6 +2,7 @@
     <!-- A -->
     <string name="app_name">GensysPDV</string>
     <string name="activity_label_venda">Venda</string>
+    <string name="activity_label_detalhe">Detalhe</string>
     <string name="activity_label_cliente">Cliente</string>
     <string name="activity_label_Estoque">Estoque</string>
     <string name="activity_label_vendas">Vendas</string>
@@ -41,6 +42,12 @@
     <string name="lb_hint_observation">Observação</string>
     <string name="lb_tipo_desconto">Tipo do desconto</string>
     <string name="lb_valor">VALOR</string>
+    <string name="lb_valor_bruto">Valor bruto</string>
+    <string name="lb_desconto">Desconto</string>
+    <string name="lb_valor_liquido">Valor líquido</string>
+    <string name="lb_valor_troco">Valor troco</string>
+    <string name="lb_itens_venda">Itens da venda</string>
+    <string name="lb_itens_pagamento">Pagamento</string>
     <string name="lb_desc">%</string>
     <string name="lb_tipo_desc">R$</string>
     <!-- M -->
@@ -58,6 +65,7 @@
     <string name="nav_item_vendas">Vendas</string>
     <string name="nav_item_sair">Sair</string>
     <string name="nav_item_finalizar">Finalizar Venda</string>
+    <string name="nav_item_total">Valor total</string>
     <string name="nav_drawer_reverse">Estornar</string>
     <string name="nav_drawer_reprint">Reimprimir</string>
     <string name="nav_drawer_report">Relatório</string>
