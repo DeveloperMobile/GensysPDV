@@ -21,10 +21,22 @@ public class ServicePyVenda {
         return pyVendaDAO.insert(pyVenda);
     }
 
-    /** Busca todos os dados na tabela usuario */
-    public static List<PyVenda> getAllInner(Context context) {
+    /** Busca todos os dados na tabela pyvenda */
+    public static List<PyVenda> getAllInnerPyVenda(Context context) {
         pyVendaDAO = new PyVendaDAO(context);
-        return pyVendaDAO.getAllInner();
+        return pyVendaDAO.getAllInnerPyVenda();
+    }
+
+    /** Busca todos os dados na tabela pydetalhe */
+    public static List<PyDetalhe> getAllInnerDetalhe(Context context, long id) {
+        pyVendaDAO = new PyVendaDAO(context);
+        return pyVendaDAO.getAllInnerPyDetalhe(id);
+    }
+
+    /** Busca todos os dados na tabela pyrecpag */
+    public static List<PyRecPag> getAllInnerRecPag(Context context, long id) {
+        pyVendaDAO = new PyVendaDAO(context);
+        return pyVendaDAO.getAllInnerPyRecPag(id);
     }
 
 }

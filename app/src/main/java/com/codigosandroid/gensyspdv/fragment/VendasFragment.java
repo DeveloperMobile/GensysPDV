@@ -51,11 +51,15 @@ public class VendasFragment extends BaseFragment {
     }
 
     private void recyclerUp() {
-        final List<PyVenda> pyVendas = ServicePyVenda.getAllInner(getActivity());
+        final List<PyVenda> pyVendas = ServicePyVenda.getAllInnerPyVenda(getActivity());
 
         if (!pyVendas.isEmpty()) {
-            for (PyVenda pyVenda : pyVendas) {
-                total += pyVenda.getTotal();
+            for (int i = 0; i < pyVendas.size(); i++) {
+                toast("TAMANHO: " + pyVendas.size());
+                toast("ID: " + pyVendas.get(i).getId());
+                for (int l = 0; l < pyVendas.get(i).getPyDetalhes().size(); l++) {
+                    total += pyVendas.get(i).getPyDetalhes().get(l).getTotal();
+                }
             }
             lb_total.setText(format.format(total));
         }
@@ -64,9 +68,9 @@ public class VendasFragment extends BaseFragment {
             @Override
             public void onDetalheItem(RecyclerView.ViewHolder holder, int id) {
                 PyVenda pyVenda = pyVendas.get(id);
-                //Intent intent = new Intent(getActivity(), DetalheVendaActivity.class);
-                //intent.putExtra("item", pyVenda);
-                startActivity(new Intent(getActivity(), DetalheVendaActivity.class));
+                Intent intent = new Intent(getActivity(), DetalheVendaActivity.class);
+                intent.putExtra("item", pyVenda);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);

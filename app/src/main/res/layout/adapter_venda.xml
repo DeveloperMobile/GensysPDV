@@ -2,7 +2,8 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/card_venda">
+    android:id="@+id/card_venda"
+    android:layout_margin="@dimen/card_margin_min">
 
     <TableLayout
         android:layout_width="match_parent"

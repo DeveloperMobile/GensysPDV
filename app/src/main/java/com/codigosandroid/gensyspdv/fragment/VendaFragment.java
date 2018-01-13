@@ -68,7 +68,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
     private NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
     private DecimalFormat decimalFormat;
     /* Total */
-    private double total = 0.0;
+    private double total = 0.0, totalAux;
 
     @Nullable
     @Override
@@ -169,9 +169,9 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                         lbValorProduto.setText(numberFormat.format(pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade()));
                         lbTotalProdutos.setText(String.valueOf(detalhes.size()));
 
-                        total += (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade());
+                        totalAux += (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade());
 
-                        lbTotal.setText(decimalFormat.format(total));
+                        lbTotal.setText(decimalFormat.format(totalAux));
                         recyclerUp();
                         EstoqueDialog.closeDialog(getActivity().getSupportFragmentManager());
 
@@ -258,8 +258,9 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                             lbTotalProdutos.setText(String.valueOf(detalhes.size()));
                         }
 
-                        total -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade()) - pyDetalhe.getVlDesconto();
-                        lbTotal.setText(decimalFormat.format(total));
+                        total -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade());
+                        totalAux -= (pyDetalhe.getEstoque().getPrecoVenda() * pyDetalhe.getQuantidade()) - pyDetalhe.getVlDesconto();
+                        lbTotal.setText(decimalFormat.format(totalAux));
                         recyclerUp();
 
                     }
@@ -280,9 +281,10 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                         detalhes.get(id).setDesconto(pyDetalhe.getDesconto());
                         total = 0;
                         for (int i = 0; i < detalhes.size(); i++) {
-                            total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
+                            total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade());
+                            totalAux += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
                         }
-                        lbTotal.setText(decimalFormat.format(total));
+                        lbTotal.setText(decimalFormat.format(totalAux));
                         recyclerUp();
                     }
                 });
@@ -301,9 +303,10 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                             detalhes.get(id).setQuantidade(pyDetalhe.getQuantidade());
                             total = 0;
                             for (int i = 0; i < detalhes.size(); i++) {
-                                total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
+                                total += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade());
+                                totalAux += (detalhes.get(i).getEstoque().getPrecoVenda() * detalhes.get(i).getQuantidade()) - detalhes.get(i).getVlDesconto();
                             }
-                            lbTotal.setText(decimalFormat.format(total));
+                            lbTotal.setText(decimalFormat.format(totalAux));
                             recyclerUp();
 
                         }
@@ -327,7 +330,8 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
         cancelSalesMan();
         cancelClient();
         total = 0;
-        lbTotal.setText(decimalFormat.format(total));
+        totalAux = 0;
+        lbTotal.setText(decimalFormat.format(totalAux));
         recyclerUp();
     }
 

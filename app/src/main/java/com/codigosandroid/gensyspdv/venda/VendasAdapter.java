@@ -25,6 +25,7 @@ public class VendasAdapter extends RecyclerView.Adapter<VendasAdapter.VendasView
     private List<PyVenda> pyVendas;
     private OnClickRecyclerItem onClickRecyclerItem;
     private NumberFormat format = NumberFormat.getCurrencyInstance();
+    private double total = 0;
 
     public interface OnClickRecyclerItem {
 
@@ -52,7 +53,7 @@ public class VendasAdapter extends RecyclerView.Adapter<VendasAdapter.VendasView
         holder.lb_data_hora.setText(pyVenda.getDataEmissao());
         holder.lb_cliente_nome.setText(pyVenda.getCliente().getFantasia());
         holder.lb_vendedor_nome.setText(pyVenda.getUsuario().getApelido());
-        holder.lb_valor_total.setText(format.format(pyVenda.getTotal()));
+        holder.lb_valor_total.setText(format.format(getTotal(pyVenda)));
         if (onClickRecyclerItem != null) {
             holder.card_venda.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +86,13 @@ public class VendasAdapter extends RecyclerView.Adapter<VendasAdapter.VendasView
 
         }
 
+    }
+
+    private double getTotal(PyVenda pyVenda) {
+        for (int i = 0; i < pyVenda.getPyDetalhes().size(); i++) {
+            total += pyVenda.getPyDetalhes().get(i).getTotal();
+        }
+        return total;
     }
 
 }

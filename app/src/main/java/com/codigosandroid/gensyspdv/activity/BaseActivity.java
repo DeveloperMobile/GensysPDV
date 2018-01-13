@@ -101,7 +101,7 @@ public class BaseActivity extends com.codigosandroid.utils.activity.BaseActivity
     private void onNavDrawerItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_item_vendas:
-                if (ServicePyVenda.getAllInner(this).isEmpty()) {
+                if (ServicePyVenda.getAllInnerPyVenda(this).isEmpty()) {
                     AlertUtil.alert(this, "Aviso", "Nenhuma venda registrada!");
                 } else {
                     startActivity(new Intent(this, VendasActivity.class));
