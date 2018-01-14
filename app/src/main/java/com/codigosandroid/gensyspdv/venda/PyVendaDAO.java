@@ -53,22 +53,19 @@ public class PyVendaDAO extends BaseDAO {
     private static final String LAST_INSERT_ID = "SELECT last_insert_rowid() AS _ID;";
 
     /* Inner pyvenda */
-    private static final String INNER_PYVENDA = "SELECT PV.*, U.*, TU.*, C.*, EP.* FROM PYVENDA PV " +
-            "INNER JOIN USUARIO U ON PV.ID_USUARIO = U._ID " +
-            "INNER JOIN TIPO_USUARIO TU ON U.ID_TIPO_USUARIO = TU._ID " +
-            "INNER JOIN CLIENTE C ON PV.ID_CLIENTE = C._ID " +
-            "INNER JOIN EMPRESA EP ON PV.ID_EMPRESA = EP._ID;";
+    private static final String INNER_PYVENDA = "SELECT * FROM PYVENDA V " +
+            "INNER JOIN CLIENTE C ON V.ID_CLIENTE = C._ID " +
+            "INNER JOIN USUARIO U ON V.ID_USUARIO = U._ID " +
+            "INNER JOIN EMPRESA EP ON V.ID_EMPRESA = EP._ID;";
 
     /* Inner pydetalhe */
-    private static final String INNER_PYDETALHE = "SELECT PD.*, E.*, EMP.* FROM PYDETALHE PD " +
+    private static final String INNER_PYDETALHE = "SELECT PD.*, E.* FROM PYDETALHE PD " +
             "INNER JOIN ESTOQUE E ON PD.ID_ESTOQUE = E._ID " +
-            "INNER JOIN EMPRESA EMP ON E.ID_EMPRESA = EMP._ID " +
             "WHERE PD.ID_PYVENDA=?;";
 
     /* Inner pyrecpag */
-    private static final String INNER_PYRECPAG = "SELECT PR.*, FP.*, TP.* FROM PYRECPAG PR " +
+    private static final String INNER_PYRECPAG = "SELECT PR.*, FP.* FROM PYRECPAG PR " +
             "INNER JOIN FORMA_PAGAMENTO FP ON PR.ID_FORMA_PAGAMENTO = FP._ID " +
-            "INNER JOIN TIPO_PAGAMENTO TP ON  FP.ID_TIPO_PAGAMENTO = TP._ID " +
             "WHERE PR.ID_PYVENDA=?;";
 
     private static final String GET_PYDETALHE = "SELECT * FROM PYDETALHE WHERE ID_PYVENDA=?";
@@ -121,7 +118,7 @@ public class PyVendaDAO extends BaseDAO {
             cursor1.moveToFirst();
             while (!cursor1.isAfterLast()) {
                 PyVenda pyVenda = cursorToPyVendaInner(cursor1);
-                //Toast.makeText(context, "ID: " + pyVenda.getId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "ID: " + pyVenda.getId(), Toast.LENGTH_SHORT).show();
                 cursor2 = db.rawQuery(INNER_PYDETALHE, new String[]{ String.valueOf(pyVenda.getId()) });
                 cursor2.moveToFirst();
 
@@ -256,18 +253,18 @@ public class PyVendaDAO extends BaseDAO {
 
     private PyVenda cursorToPyVendaInner(Cursor cursor) {
         PyVenda pyVenda = new PyVenda();
-        pyVenda.setId(cursor.getLong(cursor.getColumnIndexOrThrow("PV."+ID)));
-        pyVenda.setIdentificador(cursor.getString(cursor.getColumnIndexOrThrow("PV."+IDENTIFICADOR)));
-        pyVenda.setTipo(cursor.getString(cursor.getColumnIndexOrThrow("PV."+TIPO)));
-        pyVenda.setDataEmissao(cursor.getString(cursor.getColumnIndexOrThrow("PV."+DATA_EMISSAO)));
+        pyVenda.setId(cursor.getLong(cursor.getColumnIndexOrThrow("V."+ID)));
+        pyVenda.setIdentificador(cursor.getString(cursor.getColumnIndexOrThrow("V."+IDENTIFICADOR)));
+        pyVenda.setTipo(cursor.getString(cursor.getColumnIndexOrThrow("V."+TIPO)));
+        pyVenda.setDataEmissao(cursor.getString(cursor.getColumnIndexOrThrow("V."+DATA_EMISSAO)));
         pyVenda.setCliente(cursorToClienteInner(cursor));
         pyVenda.setUsuario(cursorToInnerUsuario(cursor));
-        pyVenda.setIdOperador(cursor.getLong(cursor.getColumnIndexOrThrow("PV."+ID_OPERADOR)));
+        pyVenda.setIdOperador(cursor.getLong(cursor.getColumnIndexOrThrow("V."+ID_OPERADOR)));
         pyVenda.setEmpresa(cursorToEmpresaInner(cursor));
-        pyVenda.setNumeroServidor(cursor.getString(cursor.getColumnIndexOrThrow("PV."+NUMERO_SERVIDOR)));
-        pyVenda.setTotal(cursor.getDouble(cursor.getColumnIndexOrThrow("PV."+TOTAL)));
-        pyVenda.setCaptura(cursor.getString(cursor.getColumnIndexOrThrow("PV."+CAPTURA)));
-        pyVenda.setNotaFiscal(cursor.getString(cursor.getColumnIndexOrThrow("PV."+NOTA_FISCAL)));
+        pyVenda.setNumeroServidor(cursor.getString(cursor.getColumnIndexOrThrow("V."+NUMERO_SERVIDOR)));
+        pyVenda.setTotal(cursor.getDouble(cursor.getColumnIndexOrThrow("V."+TOTAL)));
+        pyVenda.setCaptura(cursor.getString(cursor.getColumnIndexOrThrow("V."+CAPTURA)));
+        pyVenda.setNotaFiscal(cursor.getString(cursor.getColumnIndexOrThrow("V."+NOTA_FISCAL)));
         return pyVenda;
     }
 
