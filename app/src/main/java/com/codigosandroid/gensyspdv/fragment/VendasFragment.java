@@ -17,6 +17,7 @@ import com.codigosandroid.gensyspdv.venda.PyDetalhe;
 import com.codigosandroid.gensyspdv.venda.PyVenda;
 import com.codigosandroid.gensyspdv.venda.ServicePyVenda;
 import com.codigosandroid.gensyspdv.venda.VendasAdapter;
+import com.codigosandroid.utils.utils.LogUtil;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -55,11 +56,9 @@ public class VendasFragment extends BaseFragment {
 
         if (!pyVendas.isEmpty()) {
             for (int i = 0; i < pyVendas.size(); i++) {
-                toast("TAMANHO: " + pyVendas.size());
-                toast("ID: " + pyVendas.get(i).getId());
-                for (int l = 0; l < pyVendas.get(i).getPyDetalhes().size(); l++) {
-                    total += pyVendas.get(i).getPyDetalhes().get(l).getTotal();
-                }
+
+                total += pyVendas.get(i).getPyDetalhes().get(i).getTotal();
+
             }
             lb_total.setText(format.format(total));
         }

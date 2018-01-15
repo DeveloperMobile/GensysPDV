@@ -185,9 +185,9 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                     AlertUtil.alert(getActivity(), "Aviso", "Inclua pelo menos um item na venda!");
                 } else {
                     DialogFormaPagamento.showDialog(getActivity().getSupportFragmentManager(),
-                            total, new DialogCallback<List<FormaPagamento>>() {
+                            totalAux, new DialogCallback<List<FormaPagamento>>() {
                                 @Override
-                                public void getObject(List<FormaPagamento> formaPagamentos) {
+                                public void getObject(final List<FormaPagamento> formaPagamentos) {
                                     try {
                                         Usuario operador = ServiceConfiguracoes.loadOperadorFromJSON(getActivity());
                                         PyVenda pyVenda = new PyVenda();
@@ -201,7 +201,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                                         pyVenda.setTotal(total);
                                         pyVenda.setPyDetalhes(detalhes);
                                         for (int i = 0; i < formaPagamentos.size(); i++) {
-                                            formaPagamentos.get(i).setId(ServiceFormaPagamento.insert(getActivity(), formaPagamentos.get(i)));
+
                                             PyRecPag pyRecPag = new PyRecPag();
                                             pyRecPag.setPyVenda(pyVenda);
                                             pyRecPag.setFormaPagamento(formaPagamentos.get(i));
@@ -213,6 +213,7 @@ public class VendaFragment extends BaseFragment implements View.OnClickListener 
                                             AlertUtil.alert(getActivity(), "Venda", "Venda realizada com sucesso!", 0, new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    formaPagamentos.clear();
                                                     clear();
                                                 }
                                             });

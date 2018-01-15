@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.pagamento.FormaPagamento;
 import com.codigosandroid.gensyspdv.pagamento.FormaPagamentoAdapter;
+import com.codigosandroid.gensyspdv.pagamento.ServiceFormaPagamento;
 import com.codigosandroid.gensyspdv.pagamento.ServiceTipoPagamento;
 import com.codigosandroid.gensyspdv.pagamento.TipoPagamento;
 import com.codigosandroid.gensyspdv.pagamento.TipoPagamentoAdapter;
@@ -208,7 +209,7 @@ public class DialogFormaPagamento extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (dialogCallBack != null) {
-                    dialogCallBack.getObject(formaPagamentos);
+                    dialogCallBack.getObject(ServiceFormaPagamento.getAll(getActivity()));
                 }
             }
         });
@@ -357,13 +358,20 @@ public class DialogFormaPagamento extends DialogFragment {
                     for (int i = 0; i < formaPagamentos.size(); i++) {
                         if (formaPagamentos.get(i).getTipoPagamento().equals(Constantes.DINHEIRO)) {
                             formaPagamentos.get(i).setValor(formaPagamentos.get(i).getValor() + formaPagamento.getValor());
+                            ServiceFormaPagamento.insert(getActivity(), formaPagamentos.get(i));
                         }
                     }
                 } else {
                     formaPagamentos.add(p);
+                    for (FormaPagamento formaPagamento1 : formaPagamentos) {
+                        ServiceFormaPagamento.insert(getActivity(), formaPagamento1);
+                    }
                 }
             } else {
                 formaPagamentos.add(p);
+                for (FormaPagamento formaPagamento1 : formaPagamentos) {
+                    ServiceFormaPagamento.insert(getActivity(), formaPagamento1);
+                }
             }
             calculoPagamento(formaPagamentos);
         } catch (NullPointerException e) {

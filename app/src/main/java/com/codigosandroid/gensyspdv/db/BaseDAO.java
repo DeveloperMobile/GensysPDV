@@ -74,7 +74,6 @@ public class BaseDAO {
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "RECNO INTEGER, "
-                    + "ID_EMPRESA INTEGER, "
                     + "CODIGO TEXT, "
                     + "CODIGO_FORNECEDOR TEXT, "
                     + "EMPRESA TEXT, "
@@ -107,12 +106,10 @@ public class BaseDAO {
                     + "INDIC_PRODUCAO TEXT, "
                     + "PROMOCAO_INICIO TEXT, "
                     + "PROMOCAO_FIM TEXT, "
-                    + "PRECO_MINIMO REAL, "
-                    + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
+                    + "PRECO_MINIMO REAL);",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_ESTOQUE_PRECO + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "TABELA_CODIGO INTEGER, "
-                    + "ID_EMPRESA INTEGER, "
                     + "CODIGO TEXT, "
                     + "DESCRICAO TEXT, "
                     + "PRECO REAL, "
@@ -120,8 +117,7 @@ public class BaseDAO {
                     + "MENOR_PRECO REAL, "
                     + "AJUSTE_PERCENTUAL REAL, "
                     + "MARGEM_LUCRO REAL, "
-                    + "ATUALIZADO TEXT, "
-                    + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
+                    + "ATUALIZADO TEXT);",
 
             "CREATE TABLE IF NOT EXISTS " + TABLE_PYVENDA + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "IDENTIFICADOR TEXT, "
@@ -139,7 +135,7 @@ public class BaseDAO {
                     + "FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO (_ID), "
                     + "FOREIGN KEY (ID_EMPRESA) REFERENCES EMPRESA (_ID));",
 
-            "CREATE TABLE IF NOT EXISTS " + TABLE_PYDETALHE + " (_ID INTEGER PRIMARY KEY NOT NULL, "
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PYDETALHE + " (_ID INTEGER PRIMARY KEY , "
                     + "ID_PYVENDA INTEGER, "
                     + "ID_ESTOQUE INTEGER, "
                     + "QTDE REAL, "

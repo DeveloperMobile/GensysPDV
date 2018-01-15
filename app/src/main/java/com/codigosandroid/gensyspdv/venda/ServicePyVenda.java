@@ -27,6 +27,12 @@ public class ServicePyVenda {
         return pyVendaDAO.getAllInnerPyVenda();
     }
 
+    /** Busca todos os dados na tabela pyvenda */
+    public static List<PyVenda> getAllPyVenda(Context context) {
+        pyVendaDAO = new PyVendaDAO(context);
+        return pyVendaDAO.getAllPyVenda();
+    }
+
     /** Busca todos os dados na tabela pydetalhe */
     public static List<PyDetalhe> getAllInnerDetalhe(Context context, long id) {
         pyVendaDAO = new PyVendaDAO(context);

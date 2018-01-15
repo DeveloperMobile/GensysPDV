@@ -21,6 +21,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreing_keys=ON;");
+        }
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
 
         for (int i = 0; i < CREATE_SCRIPT.length; i++) {

@@ -73,4 +73,12 @@ public class FormaPagamento implements Serializable {
         this.valorLong = valorLong;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this.tipoPagamento.equals(((FormaPagamento) obj).getTipoPagamento())) {
+            return true;
+        }
+        return false;
+    }
+
 }

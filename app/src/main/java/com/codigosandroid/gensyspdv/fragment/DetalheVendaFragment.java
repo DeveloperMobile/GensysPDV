@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.venda.ItemAdapter;
 import com.codigosandroid.gensyspdv.venda.PyDetalhe;
 import com.codigosandroid.gensyspdv.venda.PyVenda;
 import com.codigosandroid.gensyspdv.venda.ServicePyVenda;
@@ -18,6 +19,7 @@ import com.codigosandroid.gensyspdv.venda.ServicePyVenda;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by Tiago on 12/01/2018.
@@ -31,15 +33,18 @@ public class DetalheVendaFragment extends BaseFragment {
     private RecyclerView recyclerItensVenda, recyclerPagamento;
 
     private PyVenda pyVenda;
+    private List<PyDetalhe> pyDetalhes = new ArrayList<>();
 
     private NumberFormat format = NumberFormat.getCurrencyInstance();
     private double desc = 0, totalLiq = 0, totalBru = 0;
+    private ItemAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalhe_venda, container, false);
         pyVenda = (PyVenda) getArguments().getSerializable("item");
+        pyDetalhes = ServicePyVenda.getAllInnerDetalhe(getActivity(), pyVenda.getId());
         inicializar(view);
         return view;
     }
@@ -66,6 +71,7 @@ public class DetalheVendaFragment extends BaseFragment {
         recyclerItensVenda = (RecyclerView) view.findViewById(R.id.recyclerItensVenda);
         recyclerItensVenda.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerItensVenda.setItemAnimator(new DefaultItemAnimator());
+        recyclerUpItensVenda();
 
         recyclerPagamento = (RecyclerView) view.findViewById(R.id.recyclerPagamento);
         recyclerPagamento.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -73,28 +79,29 @@ public class DetalheVendaFragment extends BaseFragment {
     }
 
     private double desconto() {
-        for (int i = 0; i < pyVenda.getPyDetalhes().size(); i++) {
-            desc += pyVenda.getPyDetalhes().get(i).getVlDesconto();
+        for (int i = 0; i < pyDetalhes.size(); i++) {
+            desc += pyDetalhes.get(i).getVlDesconto();
         }
         return desc;
     }
 
     private double valorLiquido() {
-        for (int i = 0; i < pyVenda.getPyDetalhes().size(); i++) {
-            totalLiq += pyVenda.getPyDetalhes().get(i).getTotal() - pyVenda.getPyDetalhes().get(i).getVlDesconto();
+        for (int i = 0; i < pyDetalhes.size(); i++) {
+            totalLiq += pyDetalhes.get(i).getTotal() - pyDetalhes.get(i).getVlDesconto();
         }
         return totalLiq;
     }
 
     public double valorBruto() {
-        for (int i = 0; i < pyVenda.getPyDetalhes().size(); i++) {
-            totalBru += pyVenda.getPyDetalhes().get(i).getTotal();
+        for (int i = 0; i < pyDetalhes.size(); i++) {
+            totalBru += pyDetalhes.get(i).getTotal();
         }
         return totalBru;
     }
 
     private void recyclerUpItensVenda() {
-
+        adapter = new ItemAdapter(getActivity(), pyDetalhes);
+        recyclerItensVenda.setAdapter(adapter);
     }
 
 

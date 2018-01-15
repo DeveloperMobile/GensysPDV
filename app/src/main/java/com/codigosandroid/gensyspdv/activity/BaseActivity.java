@@ -22,6 +22,7 @@ import com.codigosandroid.gensyspdv.fragment.dialog.DialogSyncFragment;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.utils.AsyncListener;
 import com.codigosandroid.gensyspdv.utils.Constantes;
+import com.codigosandroid.gensyspdv.venda.PyVenda;
 import com.codigosandroid.gensyspdv.venda.ServicePyVenda;
 import com.codigosandroid.utils.activity.DebugActivity;
 import com.codigosandroid.utils.utils.AlertUtil;
@@ -29,6 +30,7 @@ import com.codigosandroid.utils.utils.LogUtil;
 import com.codigosandroid.utils.utils.NavDrawerUtil;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * Created by Tiago on 26/12/2017.
@@ -101,7 +103,8 @@ public class BaseActivity extends com.codigosandroid.utils.activity.BaseActivity
     private void onNavDrawerItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_item_vendas:
-                if (ServicePyVenda.getAllInnerPyVenda(this).isEmpty()) {
+                List<PyVenda> pyVendas = ServicePyVenda.getAllPyVenda(this);
+                if (pyVendas.isEmpty()) {
                     AlertUtil.alert(this, "Aviso", "Nenhuma venda registrada!");
                 } else {
                     startActivity(new Intent(this, VendasActivity.class));

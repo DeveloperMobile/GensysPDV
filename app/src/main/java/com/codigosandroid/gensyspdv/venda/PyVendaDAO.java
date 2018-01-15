@@ -3,6 +3,7 @@ package com.codigosandroid.gensyspdv.venda;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.widget.Toast;
 
 import com.codigosandroid.gensyspdv.cliente.Cliente;
@@ -53,10 +54,9 @@ public class PyVendaDAO extends BaseDAO {
     private static final String LAST_INSERT_ID = "SELECT last_insert_rowid() AS _ID;";
 
     /* Inner pyvenda */
-    private static final String INNER_PYVENDA = "SELECT * FROM PYVENDA V " +
-            "INNER JOIN CLIENTE C ON V.ID_CLIENTE = C._ID " +
-            "INNER JOIN USUARIO U ON V.ID_USUARIO = U._ID " +
-            "INNER JOIN EMPRESA EP ON V.ID_EMPRESA = EP._ID;";
+    private static final String INNER_PYVENDA = "SELECT PV.*, C.*, U.* FROM PYVENDA PV " +
+            "INNER JOIN CLIENTE C ON PV.ID_CLIENTE = C._ID " +
+            "INNER JOIN USUARIO U ON PV.ID_USUARIO = U._ID;";
 
     /* Inner pydetalhe */
     private static final String INNER_PYDETALHE = "SELECT PD.*, E.* FROM PYDETALHE PD " +
@@ -64,14 +64,17 @@ public class PyVendaDAO extends BaseDAO {
             "WHERE PD.ID_PYVENDA=?;";
 
     /* Inner pyrecpag */
-    private static final String INNER_PYRECPAG = "SELECT PR.*, FP.* FROM PYRECPAG PR " +
+    private static final String INNER_PYRECPAG = "SELECT PR.*, FP.*, TP.* FROM PYRECPAG PR " +
             "INNER JOIN FORMA_PAGAMENTO FP ON PR.ID_FORMA_PAGAMENTO = FP._ID " +
+            "INNER JOIN TIPO_PAGAMENTO TP ON FP.ID_TIPO_PAGAMENTO = TP._ID " +
             "WHERE PR.ID_PYVENDA=?;";
 
     private static final String GET_PYDETALHE = "SELECT * FROM PYDETALHE WHERE ID_PYVENDA=?";
     private static final String GET_PYRECPAG = "SELECT * FROM PYRECPAG WHERE ID_PYVENDA=?";
 
-    private Cursor cursor1, cursor2, cursor3;
+    List<PyVenda> pyVendas = new ArrayList<>();
+    List<PyDetalhe> pyDetalhes = new ArrayList<>();
+    List<PyRecPag> pyRecPags = new ArrayList<>();
 
     public PyVendaDAO(Context context) {
         super(context);
@@ -89,16 +92,12 @@ public class PyVendaDAO extends BaseDAO {
             pyVenda.setId(id);
             // Insere pyDetalhe
             for (int i = 0; i < pyVenda.getPyDetalhes().size(); i++) {
-                PyDetalhe pyDetalhe = pyVenda.getPyDetalhes().get(i);
-                pyDetalhe.setPyVenda(pyVenda);
-                ContentValues valuesDetalhe = pyDetalheToValues(pyDetalhe);
+                ContentValues valuesDetalhe = pyDetalheToValues(pyVenda, i);
                 db.insert(TABLE_PYDETALHE, null, valuesDetalhe);
             }
             // Insere pyRecPag
             for (int i = 0; i < pyVenda.getPyRecPags().size(); i++) {
-                PyRecPag pyRecPag = pyVenda.getPyRecPags().get(i);
-                pyRecPag.setPyVenda(pyVenda);
-                ContentValues valuesRecPag = pyRecPagToValues(pyRecPag);
+                ContentValues valuesRecPag = pyRecPagToValues(pyVenda, i);
                 db.insert(TABLE_PYRECPAG, null, valuesRecPag);
             }
             return true;
@@ -111,18 +110,16 @@ public class PyVendaDAO extends BaseDAO {
     }
 
     public List<PyVenda> getAllInnerPyVenda() {
-        List<PyVenda> pyVendas = new ArrayList<>();
         try {
             open();
-            cursor1 = db.rawQuery(INNER_PYVENDA, null);
+            Cursor cursor1 = db.rawQuery(INNER_PYVENDA, null);
             cursor1.moveToFirst();
             while (!cursor1.isAfterLast()) {
                 PyVenda pyVenda = cursorToPyVendaInner(cursor1);
-                Toast.makeText(context, "ID: " + pyVenda.getId(), Toast.LENGTH_SHORT).show();
-                cursor2 = db.rawQuery(INNER_PYDETALHE, new String[]{ String.valueOf(pyVenda.getId()) });
-                cursor2.moveToFirst();
+                LogUtil.debug("INNER_PYVENDA ", ""+pyVenda.getId());
 
-                List<PyDetalhe> pyDetalhes = new ArrayList<>();
+                Cursor cursor2 = db.rawQuery(INNER_PYDETALHE, new String[]{ String.valueOf(pyVenda.getId()) });
+                cursor2.moveToFirst();
 
                 while (!cursor2.isAfterLast()) {
                     PyDetalhe pyDetalhe = cursorToPyDetalheInner(cursor2);
@@ -130,23 +127,36 @@ public class PyVendaDAO extends BaseDAO {
                     cursor2.moveToNext();
                 }
 
+                cursor2.close();
                 pyVenda.setPyDetalhes(pyDetalhes);
 
-                cursor3 = db.rawQuery(INNER_PYRECPAG, new String[]{ String.valueOf(pyVenda.getId()) });
-                cursor3.moveToFirst();
-
-                List<PyRecPag> pyRecPags = new ArrayList<>();
-
-                while (!cursor3.isAfterLast()) {
-                    PyRecPag pyRecPag = cursorToPyRecPagInner(cursor3);
-                    pyRecPags.add(pyRecPag);
-                    cursor3.moveToNext();
-                }
-
-                pyVenda.setPyRecPags(pyRecPags);
                 pyVendas.add(pyVenda);
                 cursor1.moveToNext();
             }
+            cursor1.close();
+            return pyVendas;
+        } catch (Exception e) {
+            LogUtil.error(TAG, e.getMessage(), e);
+            return new ArrayList<PyVenda>();
+        } finally {
+            close();
+        }
+    }
+
+    public List<PyVenda> getAllPyVenda() {
+        List<PyVenda> pyVendas = new ArrayList<>();
+        try {
+            open();
+            //Cursor cursor = db.rawQuery(INNER_PYVENDA, null);
+            Cursor cursor = db.query(TABLE_PYVENDA, null, null, null,
+                    null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                PyVenda pyVenda = cursorToPyVenda(cursor);
+                pyVendas.add(pyVenda);
+                cursor.moveToNext();
+            }
+            cursor.close();
             return pyVendas;
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
@@ -203,7 +213,7 @@ public class PyVendaDAO extends BaseDAO {
         values.put(IDENTIFICADOR, pyVenda.getIdentificador());
         values.put(TIPO, pyVenda.getTipo());
         values.put(DATA_EMISSAO, pyVenda.getDataEmissao());
-        values.put(ID_CLIENTE, pyVenda.getCliente().getIdCliente());
+        values.put(ID_CLIENTE, pyVenda.getCliente().getId());
         values.put(ID_USUARIO, pyVenda.getUsuario().getId());
         values.put(ID_OPERADOR, pyVenda.getIdOperador());
         values.put(ID_EMPRESA, pyVenda.getEmpresa().getId());
@@ -214,23 +224,23 @@ public class PyVendaDAO extends BaseDAO {
         return values;
     }
 
-    private ContentValues pyDetalheToValues(PyDetalhe pyDetalhe) {
+    private ContentValues pyDetalheToValues(PyVenda pyVenda, int i) {
         ContentValues values = new ContentValues();
-        values.put(ID_PYVENDA, pyDetalhe.getPyVenda().getId());
-        values.put(ID_ESTOQUE, pyDetalhe.getEstoque().getId());
-        values.put(QTDE, pyDetalhe.getQuantidade());
-        values.put(VLDESCONTO, pyDetalhe.getVlDesconto());
-        values.put(DESCONTO, pyDetalhe.getDesconto());
-        values.put(VALOR, pyDetalhe.getValor());
-        values.put(TOTAL, pyDetalhe.getTotal());
+        values.put(ID_PYVENDA, pyVenda.getId());
+        values.put(ID_ESTOQUE, pyVenda.getPyDetalhes().get(i).getEstoque().getId());
+        values.put(QTDE, pyVenda.getPyDetalhes().get(i).getQuantidade());
+        values.put(VLDESCONTO, pyVenda.getPyDetalhes().get(i).getVlDesconto());
+        values.put(DESCONTO, pyVenda.getPyDetalhes().get(i).getDesconto());
+        values.put(VALOR, pyVenda.getPyDetalhes().get(i).getValor());
+        values.put(TOTAL, pyVenda.getPyDetalhes().get(i).getTotal());
         return values;
     }
 
-    private ContentValues pyRecPagToValues(PyRecPag pyRecPag) {
+    private ContentValues pyRecPagToValues(PyVenda pyVenda, int i) {
         ContentValues values = new ContentValues();
-        values.put(ID_PYVENDA, pyRecPag.getPyVenda().getId());
-        values.put(ID_FORMA_PAGAMENTO, pyRecPag.getFormaPagamento().getId());
-        values.put(VALOR, pyRecPag.getValor());
+        values.put(ID_PYVENDA, pyVenda.getId());
+        values.put(ID_FORMA_PAGAMENTO, pyVenda.getPyRecPags().get(i).getFormaPagamento().getId());
+        values.put(VALOR, pyVenda.getPyRecPags().get(i).getValor());
         return values;
     }
 
@@ -240,10 +250,10 @@ public class PyVendaDAO extends BaseDAO {
         pyVenda.setIdentificador(cursor.getString(cursor.getColumnIndexOrThrow(IDENTIFICADOR)));
         pyVenda.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(TIPO)));
         pyVenda.setDataEmissao(cursor.getString(cursor.getColumnIndexOrThrow(DATA_EMISSAO)));
-        pyVenda.setCliente(cursorToClienteInner(cursor));
-        pyVenda.setUsuario(cursorToInnerUsuario(cursor));
+        //pyVenda.setCliente(cursorToClienteInner(cursor));
+        //pyVenda.setUsuario(cursorToInnerUsuario(cursor));
         pyVenda.setIdOperador(cursor.getLong(cursor.getColumnIndexOrThrow(ID_OPERADOR)));
-        pyVenda.setEmpresa(cursorToEmpresaInner(cursor));
+        //pyVenda.setEmpresa(cursorToEmpresaInner(cursor));
         pyVenda.setNumeroServidor(cursor.getString(cursor.getColumnIndexOrThrow(NUMERO_SERVIDOR)));
         pyVenda.setTotal(cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL)));
         pyVenda.setCaptura(cursor.getString(cursor.getColumnIndexOrThrow(CAPTURA)));
@@ -253,18 +263,18 @@ public class PyVendaDAO extends BaseDAO {
 
     private PyVenda cursorToPyVendaInner(Cursor cursor) {
         PyVenda pyVenda = new PyVenda();
-        pyVenda.setId(cursor.getLong(cursor.getColumnIndexOrThrow("V."+ID)));
-        pyVenda.setIdentificador(cursor.getString(cursor.getColumnIndexOrThrow("V."+IDENTIFICADOR)));
-        pyVenda.setTipo(cursor.getString(cursor.getColumnIndexOrThrow("V."+TIPO)));
-        pyVenda.setDataEmissao(cursor.getString(cursor.getColumnIndexOrThrow("V."+DATA_EMISSAO)));
+        pyVenda.setId(cursor.getLong(cursor.getColumnIndexOrThrow("PV."+ID)));
+        pyVenda.setIdentificador(cursor.getString(cursor.getColumnIndexOrThrow("PV."+IDENTIFICADOR)));
+        pyVenda.setTipo(cursor.getString(cursor.getColumnIndexOrThrow("PV."+TIPO)));
+        pyVenda.setDataEmissao(cursor.getString(cursor.getColumnIndexOrThrow("PV."+DATA_EMISSAO)));
         pyVenda.setCliente(cursorToClienteInner(cursor));
         pyVenda.setUsuario(cursorToInnerUsuario(cursor));
-        pyVenda.setIdOperador(cursor.getLong(cursor.getColumnIndexOrThrow("V."+ID_OPERADOR)));
-        pyVenda.setEmpresa(cursorToEmpresaInner(cursor));
-        pyVenda.setNumeroServidor(cursor.getString(cursor.getColumnIndexOrThrow("V."+NUMERO_SERVIDOR)));
-        pyVenda.setTotal(cursor.getDouble(cursor.getColumnIndexOrThrow("V."+TOTAL)));
-        pyVenda.setCaptura(cursor.getString(cursor.getColumnIndexOrThrow("V."+CAPTURA)));
-        pyVenda.setNotaFiscal(cursor.getString(cursor.getColumnIndexOrThrow("V."+NOTA_FISCAL)));
+        pyVenda.setIdOperador(cursor.getLong(cursor.getColumnIndexOrThrow("PV."+ID_OPERADOR)));
+        //pyVenda.setEmpresa(cursorToEmpresaInner(cursor));
+        pyVenda.setNumeroServidor(cursor.getString(cursor.getColumnIndexOrThrow("PV."+NUMERO_SERVIDOR)));
+        pyVenda.setTotal(cursor.getDouble(cursor.getColumnIndexOrThrow("PV."+TOTAL)));
+        pyVenda.setCaptura(cursor.getString(cursor.getColumnIndexOrThrow("PV."+CAPTURA)));
+        pyVenda.setNotaFiscal(cursor.getString(cursor.getColumnIndexOrThrow("PV."+NOTA_FISCAL)));
         return pyVenda;
     }
 
@@ -284,7 +294,7 @@ public class PyVendaDAO extends BaseDAO {
     public Usuario cursorToInnerUsuario(Cursor cursor) {
         Usuario usuario = new Usuario();
         usuario.setId(cursor.getLong(cursor.getColumnIndexOrThrow("U." + ID)));
-        usuario.setTipoUsuario(cursorToTipoUsuario(cursor));
+        //usuario.setTipoUsuario(cursorToTipoUsuario(cursor));
         usuario.setNome(cursor.getString(cursor.getColumnIndexOrThrow("U.NOME" )));
         usuario.setApelido(cursor.getString(cursor.getColumnIndexOrThrow("U.APELIDO")));
         usuario.setSenha(cursor.getString(cursor.getColumnIndexOrThrow("U.SENHA")));
@@ -295,11 +305,11 @@ public class PyVendaDAO extends BaseDAO {
 
     private Empresa cursorToEmpresaInner(Cursor cursor) {
         Empresa empresa = new Empresa();
-        empresa.setId(cursor.getLong(cursor.getColumnIndexOrThrow("EP."+ID)));
-        empresa.setDescricao(cursor.getString(cursor.getColumnIndexOrThrow("EP.DESCRICAO")));
-        empresa.setNfceToken(cursor.getString(cursor.getColumnIndexOrThrow("EP.NFCE_TOKEN")));
-        empresa.setNfceCsc(cursor.getString(cursor.getColumnIndexOrThrow("EP.NFCE_CSC")));
-        empresa.setIdEmpresa(cursor.getInt(cursor.getColumnIndexOrThrow("EP."+ID_EMPRESA)));
+        empresa.setId(cursor.getLong(cursor.getColumnIndexOrThrow("EMP."+ID)));
+        empresa.setDescricao(cursor.getString(cursor.getColumnIndexOrThrow("EMP.DESCRICAO")));
+        empresa.setNfceToken(cursor.getString(cursor.getColumnIndexOrThrow("EMP.NFCE_TOKEN")));
+        empresa.setNfceCsc(cursor.getString(cursor.getColumnIndexOrThrow("EMP.NFCE_CSC")));
+        empresa.setIdEmpresa(cursor.getInt(cursor.getColumnIndexOrThrow("EMP."+ID_EMPRESA)));
         return empresa;
     }
 
@@ -354,7 +364,7 @@ public class PyVendaDAO extends BaseDAO {
         Estoque estoque = new Estoque();
         estoque.setId(cursor.getLong(cursor.getColumnIndexOrThrow("E."+ID)));
         estoque.setRecno(cursor.getInt(cursor.getColumnIndexOrThrow("E.RECNO")));
-        estoque.setEmp(cursorToEmpresaInner(cursor));
+        //estoque.setEmp(cursorToEmpresaInner(cursor));
         estoque.setCodigo(cursor.getString(cursor.getColumnIndexOrThrow("E.CODIGO")));
         estoque.setCodigoFornecedor(cursor.getString(cursor.getColumnIndexOrThrow("E.CODIGO_FORNECEDOR")));
         estoque.setEmpresa(cursor.getString(cursor.getColumnIndexOrThrow("E.EMPRESA")));
