@@ -8,6 +8,7 @@ import android.view.ViewGroup;;
 import android.widget.TextView;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.utils.OnClickRecyclerItem;
 
 import java.util.List;
 
@@ -19,15 +20,9 @@ public class SobreAdapter extends RecyclerView.Adapter<SobreAdapter.SobreViewHol
 
     private Context context;
     private List<Sobre> sobreList;
-    private OnClickHyperlinkItem onClickRecyclerItem;
+    private OnClickRecyclerItem onClickRecyclerItem;
 
-    public interface OnClickHyperlinkItem {
-
-        void onClickItem(SobreViewHolder holder, int id);
-
-    }
-
-    public SobreAdapter(Context context, List<Sobre> sobreList, OnClickHyperlinkItem onClickRecyclerItem) {
+    public SobreAdapter(Context context, List<Sobre> sobreList, OnClickRecyclerItem onClickRecyclerItem) {
 
         this.context = context;
         this.sobreList = sobreList;

@@ -10,6 +10,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.codigosandroid.gensyspdv.R;
+import com.codigosandroid.gensyspdv.utils.OnClickRecyclerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,6 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     private List<Usuario> usuarioListFilter;
     private CustomFilter mFilter;
     private OnClickRecyclerItem onClickRecyclerItem;
-
-    public interface OnClickRecyclerItem {
-
-        void onClickItem(RecyclerView.ViewHolder holder, int id);
-
-    }
 
     public UsuarioAdapter() {
 

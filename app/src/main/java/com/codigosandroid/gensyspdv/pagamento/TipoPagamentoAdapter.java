@@ -23,9 +23,9 @@ public class TipoPagamentoAdapter extends RecyclerView.Adapter<TipoPagamentoAdap
 
     private Context context;
     private List<TipoPagamento> tipoPagamentos;
-    private OnClickRecyclerItem<TipoPagamentoViewHolder> onClickRecyclerItem;
+    private OnClickRecyclerItem onClickRecyclerItem;
 
-    public TipoPagamentoAdapter(Context context, List<TipoPagamento> tipoPagamentos, OnClickRecyclerItem<TipoPagamentoViewHolder> onClickRecyclerItem) {
+    public TipoPagamentoAdapter(Context context, List<TipoPagamento> tipoPagamentos, OnClickRecyclerItem onClickRecyclerItem) {
         this.tipoPagamentos = tipoPagamentos;
         this.context = context;
         this.onClickRecyclerItem = onClickRecyclerItem;

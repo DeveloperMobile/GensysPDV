@@ -24,10 +24,10 @@ public class FormaPagamentoAdapter extends RecyclerView.Adapter<FormaPagamentoAd
 
     private Context context;
     private List<FormaPagamento> formaPagamentos;
-    private OnClickRecyclerItem<FormaPagamentoViewHolder> onClickRecyclerItem;
+    private OnClickRecyclerItem onClickRecyclerItem;
     private DecimalFormat format;
 
-    public FormaPagamentoAdapter(Context context, List<FormaPagamento> formaPagamentos, OnClickRecyclerItem<FormaPagamentoViewHolder> onClickRecyclerItem) {
+    public FormaPagamentoAdapter(Context context, List<FormaPagamento> formaPagamentos, OnClickRecyclerItem onClickRecyclerItem) {
         this.formaPagamentos = formaPagamentos;
         this.context = context;
         this.onClickRecyclerItem = onClickRecyclerItem;
