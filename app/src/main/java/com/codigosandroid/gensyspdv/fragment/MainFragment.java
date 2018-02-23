@@ -23,6 +23,7 @@ import com.codigosandroid.gensyspdv.activity.SobreActivity;
 import com.codigosandroid.gensyspdv.activity.VendaActivity;
 import com.codigosandroid.gensyspdv.cfblob.CfBlob;
 import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlob;
+import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlobExt;
 import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
@@ -576,8 +577,8 @@ public class MainFragment extends BaseFragment {
 
     private void cacheCfBlobs(List<CfBlob> cfBlobs) {
 
-        ServiceCfBlob.dropTab(getActivity());
-        ServiceCfBlob.createTab(getActivity());
+        serviceCfBlob.dropTab(getActivity());
+        serviceCfBlob.createTab(getActivity());
 
         if (cfBlobs.isEmpty()) {
 
@@ -587,7 +588,7 @@ public class MainFragment extends BaseFragment {
 
             for (CfBlob cfBlob : cfBlobs) {
 
-                ServiceCfBlob.insert(getActivity(), cfBlob);
+                serviceCfBlob.insert(getActivity(), cfBlob);
 
             }
 

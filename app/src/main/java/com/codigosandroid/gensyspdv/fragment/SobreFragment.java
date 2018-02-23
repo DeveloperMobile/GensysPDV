@@ -15,6 +15,7 @@ import com.codigosandroid.gensyspdv.activity.SobreActivity;
 import com.codigosandroid.gensyspdv.activity.WebActivity;
 import com.codigosandroid.gensyspdv.sobre.Sobre;
 import com.codigosandroid.gensyspdv.sobre.SobreAdapter;
+import com.codigosandroid.gensyspdv.utils.OnClickRecyclerItem;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by Tiago on 28/12/2017.
  */
 
-public class SobreFragment extends BaseFragment implements SobreAdapter.OnClickHyperlinkItem {
+public class SobreFragment extends BaseFragment implements OnClickRecyclerItem {
 
     private RecyclerView recyclerView;
     private List<Sobre> sobreList;
@@ -46,7 +47,7 @@ public class SobreFragment extends BaseFragment implements SobreAdapter.OnClickH
     }
 
     @Override
-    public void onClickItem(SobreAdapter.SobreViewHolder holder, int id) {
+    public void onClickItem(RecyclerView.ViewHolder holder, int id) {
         Sobre sobre = sobreList.get(id);
         Intent intent;
         switch (id) {

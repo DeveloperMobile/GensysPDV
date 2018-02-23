@@ -1,6 +1,7 @@
 package com.codigosandroid.gensyspdv.cfblob;
 
 import com.codigosandroid.gensyspdv.db.AcessoDB;
+import com.codigosandroid.gensyspdv.utils.DAO;
 import com.codigosandroid.utils.utils.LogUtil;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by Tiago on 02/01/2018.
  */
 
-public class CfBlobExtDAO {
+public class CfBlobExtDAO implements DAO<CfBlob> {
 
     private static final String TAG = CfBlobExtDAO.class.getSimpleName();
 
@@ -25,6 +26,7 @@ public class CfBlobExtDAO {
 
     private static final String GET_ALL = "SELECT * FROM cfblob WHERE mobile='VM'";
 
+    @Override
     public List<CfBlob> getAll(String ip, String db, String user, String pass) {
 
         List<CfBlob> cfBlobList = new ArrayList<>();
@@ -69,6 +71,51 @@ public class CfBlobExtDAO {
         cfBlob.setTestado(resultSet.getString("testado"));
         cfBlob.setData(resultSet.getDate("data").toString());
         return cfBlob;
+    }
+
+    @Override
+    public long insert(CfBlob cfBlob) {
+        return 0;
+    }
+
+    @Override
+    public long update(CfBlob cfBlob) {
+        return 0;
+    }
+
+    @Override
+    public long delete(CfBlob cfBlob) {
+        return 0;
+    }
+
+    @Override
+    public List<CfBlob> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<CfBlob> getById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<CfBlob> betByName(String name) {
+        return null;
+    }
+
+    @Override
+    public void deleteTab() {
+
+    }
+
+    @Override
+    public void dropTab() {
+
+    }
+
+    @Override
+    public void createTab() {
+
     }
 
 }

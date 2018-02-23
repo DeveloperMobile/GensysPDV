@@ -52,12 +52,9 @@ public class TipoPagamentoAdapter extends RecyclerView.Adapter<TipoPagamentoAdap
             case Constantes.VOUCHER: holder.icon.setImageResource(R.drawable.ic_card); break;
         }
 
-        holder.cardPag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickRecyclerItem != null) {
-                    onClickRecyclerItem.onClickItem(holder, position);
-                }
+        holder.cardPag.setOnClickListener(v -> {
+            if (onClickRecyclerItem != null) {
+                onClickRecyclerItem.onClickItem(holder, position);
             }
         });
 

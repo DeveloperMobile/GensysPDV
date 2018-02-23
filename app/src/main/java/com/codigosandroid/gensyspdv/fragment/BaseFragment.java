@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cfblob.CfBlob;
 import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlob;
+import com.codigosandroid.gensyspdv.cfblob.ServiceCfBlobExt;
 import com.codigosandroid.gensyspdv.cliente.Cliente;
 import com.codigosandroid.gensyspdv.cliente.ServiceCliente;
 import com.codigosandroid.gensyspdv.empresa.Empresa;
@@ -52,6 +53,9 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
             Constantes.CFBLOB,
             Constantes.USUARIO
     };
+
+    ServiceCfBlob serviceCfBlob = new ServiceCfBlob();
+    ServiceCfBlobExt serviceCfBlobExt = new ServiceCfBlobExt();
 
     public class SyncUserTask extends AsyncTask<String, Void, Void> {
 
@@ -157,7 +161,7 @@ public class BaseFragment extends com.codigosandroid.utils.fragment.BaseFragment
     /* Busca CfBlobo */
     protected List<CfBlob> syncCfBlobs(String msg) {
         status(msg);
-        return ServiceCfBlob.getAllExt(getActivity());
+        return serviceCfBlobExt.getAllExt(getActivity());
     }
 
     /* Valida usuário */

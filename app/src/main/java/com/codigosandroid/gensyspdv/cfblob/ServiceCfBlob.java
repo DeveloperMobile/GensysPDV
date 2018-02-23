@@ -6,6 +6,8 @@ import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.cloud.Cloud;
 import com.codigosandroid.gensyspdv.configuracoes.Configuracoes;
 import com.codigosandroid.gensyspdv.configuracoes.ServiceConfiguracoes;
+import com.codigosandroid.gensyspdv.db.ServiceGeneric;
+import com.codigosandroid.gensyspdv.utils.DAO;
 import com.codigosandroid.utils.utils.LogUtil;
 import com.codigosandroid.utils.utils.PrefsUtil;
 
@@ -17,59 +19,45 @@ import java.util.List;
  * Created by Tiago on 02/01/2018.
  */
 
-public class ServiceCfBlob {
+public class ServiceCfBlob extends ServiceGeneric<CfBlob> {
 
-    private static CfBlobDAO cfBlobDAO;
-    private static CfBlobExtDAO cfBlobExtDAO;
+    private static DAO<CfBlob> dao;
+
+    @Override
+    public DAO<CfBlob> getDAO(Context context) {
+        if (dao == null) {
+            dao = new CfBlobDAO(context);
+        }
+        return dao;
+    }
 
     /**
      * Insere um registro na tabela cfblob
      * @param context contexto da classe que utiliza o método
      * @param cfBlob objeto cfblob a ser inserido no db */
-    public static long insert(Context context, CfBlob cfBlob) {
-        cfBlobDAO = new CfBlobDAO(context);
-        return cfBlobDAO.insert(cfBlob);
+    public long insert(Context context, CfBlob cfBlob) {
+        return getDAO(context).insert(cfBlob);
     }
 
     /**
      * Deleta todos os registros na tabela cfblob
      * @param context contexto da classe que utiliza o método */
-    public static void deleteTab(Context context) {
-        cfBlobDAO = new CfBlobDAO(context);
-        cfBlobDAO.deleteTab();
+    public void deleteTab(Context context) {
+        getDAO(context).deleteTab();
     }
 
     /**
      * Deleta a tabela cfblob
      * @param context contexto da classe que utiliza o método */
-    public static void dropTab(Context context) {
-        cfBlobDAO = new CfBlobDAO(context);
-        cfBlobDAO.dropTab();
+    public void dropTab(Context context) {
+        getDAO(context).dropTab();
     }
 
     /**
      * Cria a tabela cfblob
      * @param context contexto da classe que utiliza o método */
-    public static void createTab(Context context) {
-        cfBlobDAO = new CfBlobDAO(context);
-        cfBlobDAO.createTab();
-    }
-
-    /**
-     * Busca todos os registros na tabela cfblob externa
-     * @param context contexto da classe que utiliza o método */
-    public static List<CfBlob> getAllExt(Context context) {
-        cfBlobExtDAO = new CfBlobExtDAO();
-        if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_desktop_key))) {
-            Configuracoes configuracoes = ServiceConfiguracoes.getConfiguracoes(context);
-            return cfBlobExtDAO.getAll(configuracoes.getHost(), configuracoes.getDb(),
-                    configuracoes.getUserDb(), configuracoes.getPassDb());
-        } else if (PrefsUtil.getBoolean(context, context.getString(R.string.pref_cloud_key))) {
-            Cloud cloud = ServiceConfiguracoes.loadCloudFromJSON(context);
-            return cfBlobExtDAO.getAll(cloud.getHostWeb(), cloud.getMysqlDb(),
-                    cloud.getMysqlUser(), cloud.getMysqlPass());
-        }
-        return new ArrayList<CfBlob>();
+    public void createTab(Context context) {
+        getDAO(context).createTab();
     }
 
 }

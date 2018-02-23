@@ -23,6 +23,7 @@ import com.codigosandroid.gensyspdv.usuario.ServiceUsuario;
 import com.codigosandroid.gensyspdv.usuario.Usuario;
 import com.codigosandroid.gensyspdv.usuario.UsuarioAdapter;
 import com.codigosandroid.gensyspdv.utils.DialogCallback;
+import com.codigosandroid.gensyspdv.utils.OnClickRecyclerItem;
 
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class UsuarioDialog extends DialogFragment {
 
         final List<Usuario> usuarios = ServiceUsuario.getAll(getActivity());
         adapterFilter = new UsuarioAdapter();
-        adapter = new UsuarioAdapter(getActivity(), usuarios, new UsuarioAdapter.OnClickRecyclerItem() {
+        adapter = new UsuarioAdapter(getActivity(), usuarios, new OnClickRecyclerItem() {
 
             @Override
             public void onClickItem(RecyclerView.ViewHolder holder, int id) {

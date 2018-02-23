@@ -2,15 +2,20 @@ package com.codigosandroid.gensyspdv.cfblob;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import com.codigosandroid.gensyspdv.db.BaseDAO;
+import com.codigosandroid.gensyspdv.utils.DAO;
 import com.codigosandroid.utils.utils.LogUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tiago on 02/01/2018.
  */
 
-public class CfBlobDAO extends BaseDAO {
+public class CfBlobDAO implements DAO<CfBlob> {
 
     private static final String TAG = CfBlobDAO.class.getSimpleName();
 
@@ -27,7 +32,7 @@ public class CfBlobDAO extends BaseDAO {
     private static final String TESTADO = "TESTADO";
     private static final String DATA = "DATA";
 
-    private static final String CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_CFBLOB + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS " + BaseDAO.TABLE_CFBLOB + " (_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "ID_CFBLOB INTEGER, "
             + "CONFIGURACAO TEXT, "
             + "PRINCIPAL TEXT, "
@@ -40,53 +45,89 @@ public class CfBlobDAO extends BaseDAO {
             + "TESTADO TEXT, "
             + "DATA TEXT);";
 
+    private BaseDAO dao = null;
+
     public CfBlobDAO(Context context) {
-        super(context);
+        dao = new BaseDAO(context);
     }
 
+    @Override
     public long insert(CfBlob cfBlob) {
         try {
-            open();
+            dao.open();
             ContentValues values = cfBlobToValues(cfBlob);
-            return db.insert(TABLE_CFBLOB, null, values);
+            return dao.db.insert(BaseDAO.TABLE_CFBLOB, null, values);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
             return 0;
         } finally {
-            close();
+            dao.close();
         }
     }
 
+    @Override
+    public long update(CfBlob cfBlob) {
+        return 0;
+    }
+
+    @Override
+    public long delete(CfBlob cfBlob) {
+        return 0;
+    }
+
+    @Override
+    public List<CfBlob> getAll() {
+       return null;
+    }
+
+    @Override
+    public List<CfBlob> getAll(String ip, String db, String user, String pass) {
+        return null;
+    }
+
+    @Override
+    public List<CfBlob> getById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<CfBlob> betByName(String name) {
+        return null;
+    }
+
+    @Override
     public void deleteTab() {
         try {
-            open();
-            db.execSQL("DELETE FROM " + TABLE_CFBLOB);
+            dao.open();
+            dao.db.execSQL("DELETE FROM " + BaseDAO.TABLE_CFBLOB);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
         } finally {
-            close();
+            dao.close();
         }
     }
 
+    @Override
     public void dropTab() {
         try {
-            open();
-            db.execSQL("DROP TABLE " + TABLE_CFBLOB);
+            dao.open();
+            dao.db.execSQL("DROP TABLE " + BaseDAO.TABLE_CFBLOB);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
         } finally {
-            close();
+            dao.close();
         }
     }
 
+    @Override
     public void createTab() {
         try {
-            open();
-            db.execSQL(CREATE);
+            dao.open();
+            dao.db.execSQL(CREATE);
         } catch (Exception e) {
             LogUtil.error(TAG, e.getMessage(), e);
         } finally {
-            close();
+            dao.close();
         }
     }
 

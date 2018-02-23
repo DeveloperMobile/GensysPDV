@@ -223,10 +223,10 @@ public class DialogFormaPagamento extends DialogFragment {
         if (!formaPagamentos.isEmpty()) {
             lbMsgPags.setVisibility(View.GONE);
             recyclerPag.setVisibility(View.VISIBLE);
-            recyclerPag.setAdapter(new FormaPagamentoAdapter(getActivity(), formaPagamentos, new OnClickRecyclerItem<FormaPagamentoAdapter.FormaPagamentoViewHolder>() {
+            recyclerPag.setAdapter(new FormaPagamentoAdapter(getActivity(), formaPagamentos, new OnClickRecyclerItem() {
 
                 @Override
-                public void onClickItem(FormaPagamentoAdapter.FormaPagamentoViewHolder formaPagsViewHolder, int id) {
+                public void onClickItem(RecyclerView.ViewHolder formaPagsViewHolder, int id) {
                     formaPagamentos.remove(id);
                     calculoPagamentoExcluirItem(formaPagamentos);
                 }
@@ -244,10 +244,10 @@ public class DialogFormaPagamento extends DialogFragment {
         final List<TipoPagamento> tipoPagamentos = ServiceTipoPagamento.getAll(getActivity());
         recyclerFormaPags.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerFormaPags.setItemAnimator(new DefaultItemAnimator());
-        recyclerFormaPags.setAdapter(new TipoPagamentoAdapter(getActivity(), tipoPagamentos, new OnClickRecyclerItem<TipoPagamentoAdapter.TipoPagamentoViewHolder>() {
+        recyclerFormaPags.setAdapter(new TipoPagamentoAdapter(getActivity(), tipoPagamentos, new OnClickRecyclerItem() {
 
             @Override
-            public void onClickItem(TipoPagamentoAdapter.TipoPagamentoViewHolder formaPagsViewHolder, int id) {
+            public void onClickItem(RecyclerView.ViewHolder formaPagsViewHolder, int id) {
                 final TipoPagamento tipoPagamento = tipoPagamentos.get(id);
 
                 totalValor = totalValor > 0 ? totalValor : total;

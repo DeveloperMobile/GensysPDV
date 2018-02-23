@@ -205,7 +205,7 @@ public class BaseDAO {
     // Instancia DBHelper
     private DBHelper dbHelper;
     // Instancia SQLite
-    protected SQLiteDatabase db;
+    public SQLiteDatabase db;
     // Context
     protected Context context;
     // Contador
@@ -215,7 +215,7 @@ public class BaseDAO {
         this.context = context;
     }
 
-    protected synchronized void open() {
+    public synchronized void open() {
         if (db == null || (db != null && !db.isOpen())) {
             dbHelper = new DBHelper(context, DB_NAME, CREATE_SCRIPT, DB_VERSION);
             db = dbHelper.getWritableDatabase();
@@ -223,7 +223,7 @@ public class BaseDAO {
         }
     }
 
-    protected synchronized void close() {
+    public synchronized void close() {
         if (db != null && db.isOpen() && (numeroConexoes(0) == 1)) {
             dbHelper.close();
             db.close();
@@ -231,7 +231,7 @@ public class BaseDAO {
         }
     }
 
-    private synchronized static int numeroConexoes(int i) {
+    public synchronized static int numeroConexoes(int i) {
         contador = contador + i;
         return contador;
     }
