@@ -1,9 +1,6 @@
 package com.codigosandroid.gensyspdv.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.gensyspdv.fragment.MainFragment;

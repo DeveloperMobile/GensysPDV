@@ -1,6 +1,6 @@
 package com.codigosandroid.gensyspdv.utils;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Tiago Vieira on 29/03/2017.

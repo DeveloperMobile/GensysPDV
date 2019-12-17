@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.codigosandroid.gensyspdv.R;
 import com.codigosandroid.utils.utils.LogUtil;

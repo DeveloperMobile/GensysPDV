@@ -2,16 +2,16 @@ package com.codigosandroid.gensyspdv.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.codigosandroid.gensyspdv.R;
-import com.codigosandroid.gensyspdv.activity.SobreActivity;
 import com.codigosandroid.gensyspdv.activity.WebActivity;
 import com.codigosandroid.gensyspdv.sobre.Sobre;
 import com.codigosandroid.gensyspdv.sobre.SobreAdapter;
